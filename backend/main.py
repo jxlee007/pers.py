@@ -21,13 +21,18 @@ import networkx as nx
 
 app = FastAPI()
 
+origins = [
+    "http://localhost:5173",
+    "https://probable-barnacle-qjv764vxvxq3xgxg-3000.app.github.dev/",
+]
+
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://probable-barnacle-qjv764vxvxq3xgxg-3000.app.github.dev/"],  # Specify your frontend origin
+    allow_origins=origins,  # Specify your frontend origin
     allow_credentials=True,
-    allow_methods=["GET", "POST", "OPTIONS"],  # Specify allowed methods
-    allow_headers=["Content-Type", "Authorization"],  # Specify allowed headers
+    allow_methods=["*"],  # Specify allowed methods
+    allow_headers=["*"],  # Specify allowed headers
     expose_headers=["Content-Length"],  # Headers that can be exposed to the browser
     max_age=600,  # How long the results of a preflight request can be cached
 )
@@ -56,7 +61,7 @@ async def read_root():
 async def analyze():
     return {"message": "Analyze endpoint is working"}
 
-@app.post("/analyze_pipeline/")
+@app.post("/analyze_pipeline")
 async def analyze_pipeline(pipeline: Pipeline):
     # ### **5. Graph Creation:**
     # - A directed graph (`DiGraph`) is created using **networkx**. This is an in-memory graph data structure.
@@ -107,4 +112,6 @@ In summary, this FastAPI application takes in a graph (pipeline), processes it t
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    # uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
