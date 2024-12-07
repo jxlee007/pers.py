@@ -10,11 +10,34 @@ ReactFlow is a component from react-flow-renderer that provides an interactive c
 addEdge is a utility function used to add a new edge (connection between two nodes).
 Background is used to add a grid background to the canvas.
 */
-import React, { useState } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 // Libraries: react-flow-renderer (for visualizing nodes), axios (for API calls).
-import ReactFlow, { addEdge, Background } from "react-flow-renderer";
+import ReactFlow, { addEdge, Background, applyNodeChanges, applyEdgeChanges } from "react-flow-renderer";
 import axios from "axios";
 
+// ErrorBoundary component to catch errors in the component tree
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error("Error caught by ErrorBoundary:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <h1>Something went wrong.</h1>;
+    }
+
+    return this.props.children; 
+  }
+}
 
 /*
 initialNodes: Defines the starting nodes on the canvas. 
@@ -37,10 +60,25 @@ const App = () => {
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
 
+  const nodeTypes = useMemo(() => ({}), []);
+  const edgeTypes = useMemo(() => ({}), []);
+
   // onConnect: This function is triggered when the user connects two nodes (an edge is added). 
   // It takes a connection object, which contains information about the source and target nodes.
   // The function updates the edges state using addEdge, which adds the new connection to the existing edges.
   const onConnect = (connection) => setEdges((eds) => addEdge(connection, eds));
+
+  // Update onNodesChange to apply changes
+  const onNodesChange = useCallback(
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    []
+  );
+
+  // Update onEdgesChange to apply changes
+  const onEdgesChange = useCallback(
+    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    []
+  );
 
   // analyzePipeline: This function sends a POST request to the FastAPI backend to analyze the pipeline.
   const analyzePipeline = async () => {
@@ -75,21 +113,25 @@ const App = () => {
   };
 
   return (
-    <div style={{ height: "100vh", width: "100vw" }}>
-      <button onClick={analyzePipeline} style={{ position: "absolute", top: 10, left: 10 }}>
-        Submit Pipeline
-      </button>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={setNodes}
-        onEdgesChange={setEdges}
-        onConnect={onConnect}
-        fitView
-      >
-        <Background />
-      </ReactFlow>
-    </div>
+    <ErrorBoundary>
+      <div style={{ height: "100vh", width: "100vw", backgroundColor: "blanchedalmond" }}>
+        <button onClick={analyzePipeline} style={{ position: "absolute", top: 10, left: 10 }}>
+          Submit Pipeline
+        </button>
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          fitView
+        >
+          <Background />
+        </ReactFlow>
+      </div>
+    </ErrorBoundary>
   );
 };
 

@@ -15,10 +15,23 @@
 """
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import networkx as nx
 
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://probable-barnacle-qjv764vxvxq3xgxg-3000.app.github.dev/"],  # Specify your frontend origin
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "OPTIONS"],  # Specify allowed methods
+    allow_headers=["Content-Type", "Authorization"],  # Specify allowed headers
+    expose_headers=["Content-Length"],  # Headers that can be exposed to the browser
+    max_age=600,  # How long the results of a preflight request can be cached
+)
+
 
 """
 ### **3. The `Pipeline` Model:**
@@ -34,6 +47,14 @@ class Pipeline(BaseModel):
 ### **4. Endpoint `/analyze_pipeline/`:**
 - **POST method** at `/analyze_pipeline/` endpoint receives the pipeline data (nodes and edges) and processes it asynchronously (indicated by `async def`).
 """
+
+@app.get("/")
+async def read_root():
+    return {"message": "Welcome to the Pipeline Analyzer API"}
+
+@app.get("/analyze")
+async def analyze():
+    return {"message": "Analyze endpoint is working"}
 
 @app.post("/analyze_pipeline/")
 async def analyze_pipeline(pipeline: Pipeline):
