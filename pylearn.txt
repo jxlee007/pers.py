@@ -1,0 +1,37 @@
+datatypes 
+    (immutable)
+    1. int   = without decimals, for example, 10 or -5.
+    2. float = with a decimal point, for example, 3.14 or -0.5.
+    3. str   = immutable - sequence of characters, enclosed in quotes, 
+    4. bool  = either True or False.
+    5. None  = null or empty value
+    6. range = sequence of numbers, 
+        
+
+    collection of items
+    7. tuple = immutable - () parentheses, 
+        for example, (1, 2, 3) or ('apple', 'banana', 'cherry').
+    8. list  = mutable - [] square brackets, 
+        for example, [1, 2, 3] or ['apple', 'banana', 'cherry'].
+    7. set   = mutable - unique items - {} curly braces, 
+        for example, {1, 2, 3} or {'apple', 'banana', 'cherry'}.
+    8. dict  = mutable - key-value pairs - {} curly braces, 
+        for example, {'name': 'John', 'age': 30}.
+    
+The built-in isinstance() function lets you check if a variable matches a specific data type
+- isinstance('Hello world', str) # True
+
+all datatypes are treated as obj
+
+string
+    - multiline
+    - len(s)
+    - indexing
+    -concatenation
+str() - provides string version of any obj without changing original value
+    - interpolation = f-string
+    - slicing
+
+
+    
+

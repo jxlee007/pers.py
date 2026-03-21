@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux Permissions Master</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: url('https://image.qwenlm.ai/public_source/2611585e-c497-4f70-a729-a8dee6ab7fce/1db09f83c-1613-4010-a664-b9ea33facb09.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="h-screen w-full flex items-center justify-center text-gray-100 overflow-hidden">
+
+    <div class="glass-panel w-full max-w-2xl mx-4 rounded-xl shadow-2xl overflow-hidden flex flex-col h-[80vh]">
+        <!-- Header -->
+        <div class="bg-gray-900/50 p-4 border-b border-gray-700 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
+            <div class="font-mono text-xs text-gray-400">user@linux:~/permissions-game</div>
+            <div class="font-mono text-sm font-bold text-emerald-400">Score: <span id="score">0</span>/10</div>
+        </div>
+
+        <!-- Game Area -->
+        <div class="flex-1 p-6 flex flex-col relative">
+            
+            <!-- Progress Bar -->
+            <div class="w-full bg-gray-700 h-1 mb-6 rounded-full overflow-hidden">
+                <div id="progress-bar" class="bg-emerald-500 h-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+
+            <!-- Question Container -->
+            <div id="game-content" class="flex-1 flex flex-col justify-center">
+                <div class="mb-2 text-emerald-400 font-mono text-sm">Scenario #<span id="q-number">1</span></div>
+                <h2 id="question-text" class="text-xl md:text-2xl font-light leading-relaxed mb-6 text-white">
+                    Loading scenario...
+                </h2>
+                
+                <div class="mb-4 flex items-center gap-2">
+                    <span class="text-xs text-gray-500">Attempts:</span>
+                    <div class="flex gap-1" id="attempts-indicator">
+                        <!-- Dots will be generated here -->
+                    </div>
+                    <span class="text-xs text-gray-500 ml-auto"><span id="attempt-count">0</span>/10</span>
+                </div>
+
+                <div id="feedback-area" class="hidden mb-4 p-3 rounded border text-sm font-mono">
+                    <!-- Feedback goes here -->
+                </div>
+
+                <div class="mt-auto">
+                    <label class="block text-gray-400 text-xs font-mono mb-2">Enter command:</label>
+                    <div class="relative group">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-emerald-500 font-mono font-bold">$</span>
+                        <input type="text" id="command-input" 
+                            class="w-full bg-gray-800/50 border border-gray-600 rounded-lg py-3 pl-8 pr-4 text-gray-100 font-mono focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all placeholder-gray-600"
+                            placeholder="chmod ..." autocomplete="off" autofocus>
+                    </div>
+                    <div class="flex justify-between mt-3">
+                        <button id="skip-btn" class="text-xs text-gray-500 hover:text-gray-300 underline decoration-gray-600 underline-offset-4 transition-colors">Give Up</button>
+                        <button id="submit-btn" class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2 rounded-md font-medium text-sm transition-colors shadow-lg shadow-emerald-900/20">Run Command</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- End Screen (Hidden by default) -->
+            <div id="end-screen" class="hidden absolute inset-0 bg-gray-900/95 z-10 flex flex-col items-center justify-center p-8 text-center fade-in">
+                <div class="text-6xl mb-4">🎉</div>
+                <h2 class="text-3xl font-bold text-white mb-2">Session Complete</h2>
+                <p class="text-gray-400 mb-6">You mastered <span id="final-score" class="text-emerald-400 font-bold">0</span> out of 10 scenarios.</p>
+                <button onclick="location.reload()" class="bg-white text-gray-900 hover:bg-gray-200 px-8 py-3 rounded-full font-bold transition-colors">Restart Terminal</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                scenario: "You created a new script 'deploy.sh'. You want the owner to have full control, but the group and others should only be able to read and execute it.",
+                keywords: ["chmod", "755", "deploy.sh"],
+                hint: "Use the Math Way. Owner needs Read(4)+Write(2)+Exec(1)=7. Group/Others need Read(4)+Exec(1)=5.",
+                answer: "chmod 755 deploy.sh",
+                explanation: "755 gives the owner full access (rwx) and everyone else read/execute access (r-x)."
+            },
+            {
+                id: 2,
+                scenario: "You downloaded a binary file 'app.bin'. It doesn't run. You need to simply make it executable for everyone immediately.",
+                keywords: ["chmod", "+x", "app.bin"],
+                hint: "Use the Letter Way. You want to add (+) execute permission (x) for everyone.",
+                answer: "chmod +x app.bin",
+                explanation: "+x is the quick way to add execute permissions for user, group, and others."
+            },
+            {
+                id: 3,
+                scenario: "A shared config file 'config.txt' is writable by the group, which is risky. Remove write access specifically for the group.",
+                keywords: ["chmod", "g-w", "config.txt"],
+                hint: "Use the Letter Way. Target the group (g), remove (-) write permission (w).",
+                answer: "chmod g-w config.txt",
+                explanation: "g-w specifically targets the group's write bit and turns it off."
+            },
+            {
+                id: 4,
+                scenario: "You are the admin. You need to transfer ownership of 'project_plan.doc' to a user named 'alice'.",
+                keywords: ["chown", "alice", "project_plan.doc"],
+                hint: "Use chown. Syntax is 'chown [new_owner] [file]'.",
+                answer: "chown alice project_plan.doc",
+                explanation: "chown changes the user owner. sudo is often required for this action."
+            },
+            {
+                id: 5,
+                scenario: "You need to assign 'server.log' to user 'bob' AND the group 'devops' simultaneously.",
+                keywords: ["chown", "bob:devops", "server.log"],
+                hint: "Combine user and group with a colon. Syntax: chown user:group file.",
+                answer: "chown bob:devops server.log",
+                explanation: "The colon ':' separates the new owner from the new group."
+            },
+            {
+                id: 6,
+                scenario: "You have a sensitive key file 'id_rsa'. You want ONLY the owner to be able to Read it. No one else should see it.",
+                keywords: ["chmod", "400", "id_rsa"],
+                hint: "Owner gets Read (4). Group gets 0. Others get 0.",
+                answer: "chmod 400 id_rsa",
+                explanation: "400 means Owner: Read, Group: None, Others: None. Maximum security for keys."
+            },
+            {
+                id: 7,
+                scenario: "You are getting 'Permission Denied' when trying to run './install.sh'. What is the standard fix to make it runnable?",
+                keywords: ["chmod", "+x", "install.sh"],
+                hint: "The file lacks execute permission. Add it using the symbolic mode.",
+                answer: "chmod +x install.sh",
+                explanation: "This is the most common fix for scripts that won't run."
+            },
+            {
+                id: 8,
+                scenario: "Calculate the permission number for: Owner (Read+Write), Group (Read), Others (Read).",
+                keywords: ["chmod", "644"],
+                hint: "Owner: 4+2=6. Group: 4. Others: 4. Combine them.",
+                answer: "chmod 644",
+                explanation: "644 is the standard permission for web files (readable by all, writable by owner)."
+            },
+            {
+                id: 9,
+                scenario: "You want to give the Owner full access (Read, Write, Execute) on 'backup.sh'. What number represents full access?",
+                keywords: ["7"],
+                hint: "Read(4) + Write(2) + Execute(1) = ?",
+                answer: "7",
+                explanation: "7 represents full control (rwx) in octal notation."
+            },
+            {
+                id: 10,
+                scenario: "Final Boss: Change owner of 'database.sql' to 'dbadmin' and group to 'db_team', then set permissions to 640.",
+                keywords: ["chown", "dbadmin:db_team", "chmod", "640", "database.sql"],
+                hint: "Two commands needed! chown for ownership, chmod for permissions.",
+                answer: "chown dbadmin:db_team database.sql && chmod 640 database.sql",
+                explanation: "Complex tasks often require chaining chown and chmod together."
+            }
+        ];
+
+        // Command meanings database for feedback
+        const commandMeanings = {
+            "chmod": "Changes file mode bits (permissions)",
+            "chown": "Changes file owner and group",
+            "+x": "Adds execute permission",
+            "-x": "Removes execute permission",
+            "+w": "Adds write permission",
+            "-w": "Removes write permission",
+            "+r": "Adds read permission",
+            "-r": "Removes read permission",
+            "u": "User/Owner",
+            "g": "Group",
+            "o": "Others",
+            "a": "All (user, group, others)",
+            "7": "Read(4) + Write(2) + Execute(1) = Full access",
+            "6": "Read(4) + Write(2) = Read & Write",
+            "5": "Read(4) + Execute(1) = Read & Execute",
+            "4": "Read only",
+            "3": "Write(2) + Execute(1) = Write & Execute",
+            "2": "Write only",
+            "1": "Execute only",
+            "0": "No permissions",
+            "755": "Owner: rwx, Group: r-x, Others: r-x",
+            "744": "Owner: rwx, Group: r--, Others: r--",
+            "644": "Owner: rw-, Group: r--, Others: r--",
+            "640": "Owner: rw-, Group: r--, Others: ---",
+            "600": "Owner: rw-, Group: ---, Others: ---",
+            "400": "Owner: r--, Group: ---, Others: ---"
+        };
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let attempts = 0;
+        const maxAttempts = 10;
+
+        const ui = {
+            questionText: document.getElementById('question-text'),
+            input: document.getElementById('command-input'),
+            submitBtn: document.getElementById('submit-btn'),
+            skipBtn: document.getElementById('skip-btn'),
+            feedback: document.getElementById('feedback-area'),
+            score: document.getElementById('score'),
+            qNumber: document.getElementById('q-number'),
+            progressBar: document.getElementById('progress-bar'),
+            attemptsIndicator: document.getElementById('attempts-indicator'),
+            attemptCount: document.getElementById('attempt-count'),
+            endScreen: document.getElementById('end-screen'),
+            finalScore: document.getElementById('final-score')
+        };
+
+        function updateAttemptsIndicator() {
+            ui.attemptsIndicator.innerHTML = '';
+            for (let i = 0; i < maxAttempts; i++) {
+                const dot = document.createElement('div');
+                dot.className = `w-2 h-2 rounded-full ${i < attempts ? 'bg-red-500' : 'bg-gray-600'}`;
+                ui.attemptsIndicator.appendChild(dot);
+            }
+            ui.attemptCount.textContent = attempts;
+        }
+
+        function parseUserCommand(cmd) {
+            const parts = cmd.toLowerCase().trim().split(/\s+/);
+            const meanings = [];
+            
+            parts.forEach(part => {
+                // Check for exact matches
+                if (commandMeanings[part]) {
+                    meanings.push(`<span class="text-emerald-400">${part}</span>: ${commandMeanings[part]}`);
+                } else {
+                    // Check for partial matches
+                    for (const [key, value] of Object.entries(commandMeanings)) {
+                        if (part.includes(key) && key.length > 1) {
+                            meanings.push(`<span class="text-emerald-400">${key}</span>: ${value}`);
+                            break;
+                        }
+                    }
+                }
+            });
+            
+            return meanings.length > 0 ? meanings : ["Command not recognized. Try using chmod or chown."];
+        }
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                endGame();
+                return;
+            }
+
+            const q = questions[currentQuestionIndex];
+            ui.questionText.textContent = q.scenario;
+            ui.qNumber.textContent = currentQuestionIndex + 1;
+            ui.input.value = '';
+            ui.input.disabled = false;
+            ui.input.focus();
+            ui.feedback.classList.add('hidden');
+            ui.feedback.textContent = '';
+            ui.feedback.className = 'hidden mb-4 p-3 rounded border text-sm font-mono';
+            attempts = 0;
+            updateAttemptsIndicator();
+            
+            // Update progress
+            const progress = (currentQuestionIndex / questions.length) * 100;
+            ui.progressBar.style.width = `${progress}%`;
+        }
+
+        function checkAnswer() {
+            const userVal = ui.input.value.trim();
+            if (!userVal) return;
+            
+            const q = questions[currentQuestionIndex];
+            attempts++;
+            updateAttemptsIndicator();
+            
+            // Check if all keywords exist in the input
+            const allKeywordsPresent = q.keywords.every(keyword => 
+                userVal.toLowerCase().includes(keyword.toLowerCase())
+            );
+
+            if (allKeywordsPresent) {
+                // Correct
+                score++;
+                ui.score.textContent = score;
+                ui.feedback.classList.remove('hidden');
+                ui.feedback.classList.add('bg-emerald-900/30', 'border-emerald-800/50', 'text-emerald-200');
+                ui.feedback.innerHTML = `
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-lg">✓</span>
+                        <strong>Correct!</strong>
+                    </div>
+                    <div class="text-gray-300">${q.explanation}</div>
+                `;
+                ui.input.disabled = true;
+                ui.submitBtn.textContent = 'Next →';
+                ui.submitBtn.onclick = () => {
+                    ui.submitBtn.textContent = 'Run Command';
+                    ui.submitBtn.onclick = checkAnswer;
+                    currentQuestionIndex++;
+                    loadQuestion();
+                };
+            } else {
+                // Wrong - show what their command means
+                const meanings = parseUserCommand(userVal);
+                
+                if (attempts >= maxAttempts) {
+                    // Max attempts reached - show answer
+                    ui.feedback.classList.remove('hidden');
+                    ui.feedback.classList.add('bg-red-900/30', 'border-red-800/50', 'text-red-200');
+                    ui.feedback.innerHTML = `
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-lg">✗</span>
+                            <strong>Max attempts reached!</strong>
+                        </div>
+                        <div class="mb-2 text-gray-300">Your command would do:</div>
+                        <div class="mb-3 text-gray-400">${meanings.join('<br>')}</div>
+                        <div class="border-t border-red-800/50 pt-2 mt-2">
+                            <div class="text-gray-300">Correct answer:</div>
+                            <div class="text-emerald-400 font-bold">$ ${q.answer}</div>
+                            <div class="text-gray-400 text-xs mt-1">${q.explanation}</div>
+                        </div>
+                    `;
+                    ui.input.disabled = true;
+                    ui.submitBtn.textContent = 'Next →';
+                    ui.submitBtn.onclick = () => {
+                        ui.submitBtn.textContent = 'Run Command';
+                        ui.submitBtn.onclick = checkAnswer;
+                        currentQuestionIndex++;
+                        loadQuestion();
+                    };
+                } else {
+                    // Show hint about their command
+                    ui.feedback.classList.remove('hidden');
+                    ui.feedback.classList.add('bg-amber-900/30', 'border-amber-800/50', 'text-amber-200');
+                    ui.feedback.innerHTML = `
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-lg">✗</span>
+                            <strong>Attempt ${attempts}/${maxAttempts}</strong>
+                        </div>
+                        <div class="text-gray-300 mb-2">Your command "${userVal}" would:</div>
+                        <div class="text-gray-400 text-xs">${meanings.join('<br>')}</div>
+                        <div class="mt-2 text-xs text-amber-400">💡 ${q.hint}</div>
+                    `;
+                    ui.input.value = '';
+                    ui.input.focus();
+                }
+            }
+        }
+
+        function giveUp() {
+            const q = questions[currentQuestionIndex];
+            ui.feedback.classList.remove('hidden');
+            ui.feedback.classList.add('bg-gray-800/50', 'border-gray-700', 'text-gray-300');
+            ui.feedback.innerHTML = `
+                <div class="mb-2">Skipped this scenario.</div>
+                <div class="text-emerald-400 font-bold">$ ${q.answer}</div>
+                <div class="text-gray-400 text-xs mt-1">${q.explanation}</div>
+            `;
+            ui.input.disabled = true;
+            ui.submitBtn.textContent = 'Next →';
+            ui.submitBtn.onclick = () => {
+                ui.submitBtn.textContent = 'Run Command';
+                ui.submitBtn.onclick = checkAnswer;
+                currentQuestionIndex++;
+                loadQuestion();
+            };
+        }
+
+        function endGame() {
+            ui.progressBar.style.width = '100%';
+            ui.finalScore.textContent = score;
+            ui.endScreen.classList.remove('hidden');
+        }
+
+        // Event Listeners
+        ui.submitBtn.addEventListener('click', checkAnswer);
+        ui.skipBtn.addEventListener('click', giveUp);
+        
+        ui.input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkAnswer();
+        });
+
+        // Initialize
+        loadQuestion();
+
+    </script>
+</body>
+</html>
+

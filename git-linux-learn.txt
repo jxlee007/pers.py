@@ -1,0 +1,349 @@
+
+
+**1. What is Linux & Why Use It**
+- What is an Operating System
+
+An operating system (OS) is a collection of software that manages a computer's hardware and applications by allocating resources.
+
+- Linux vs Windows vs Mac
+
+Best For	win - Gaming, Business, General Use,	mac - Creative Work, Ecosystem Integration, 	linux-Programming, Servers, Privacy
+
+
+- What is a Terminal / Shell
+
+terminal - UI (cmd, )
+Shell - backend/program/interpreter (bash, zsh, powershell)
+
+win - 
+cmd-shell (old-msdos), 
+powershell (modern - .net)
+linux - gnome-terminal, bash-interpreter
+mac - iterm2, zsh-interpreter
+
+- What is Bash
+ 
+it is a CLI - cmdline interpreter + scripting lang ( .sh ) to interact with OS
+
+zsh - fancier with auto-suggest & theme support
+
+pwsh - in win it uses obj instead of text (built on differ logic)
+
+Logic refers to the "brains" or rules that drive a program, 
+while 
+an Object is the "container" that holds related data and actions together
+
+---
+
+
+**2. Opening & Using the Terminal**
+
+- How to open the terminal
+
+linux - Ctrl + Alt + T 
+
+- What is a command prompt
+
+a program that allows you to interact with the operating system by typing text-based instructions instead of clicking icons in a graphical interface
+
+- How to type and run a command
+
+Almost every command follows this structure:
+command/type + [options/flags] + [target]
+
+- Clearing the screen (`clear`)
+
+---
+
+**3. File System Structure**
+
+- What is a file system
+- Root directory `/`
+- Important folders:
+  - `/home` — your personal files
+  - `/etc` — config files
+  - `/var` — logs and variable data
+  - `/usr` — installed programs
+  - `/tmp` — temporary files
+  - `/bin` — basic commands
+
+---
+
+**4. Navigation Commands**
+- `pwd` — show current location
+- `ls` — list files and folders
+- `ls -l` — detailed list
+- `ls -a` — show hidden files
+- `cd foldername` — go into a folder
+- `cd ..` — go back one level
+- `cd ~` — go to home directory
+- `cd /` — go to root
+
+---
+
+**5. File & Folder Commands**
+- `mkdir foldername` — create a folder
+- `touch filename.txt` — create a file
+- `cp file destination` — copy a file
+- `mv file destination` — move or rename a file
+- `rm filename` — delete a file
+- `rm -r foldername` — delete a folder
+- `cat filename` — read a file
+- `nano filename` — edit a file (simple editor)
+
+In the nano text editor, there is no single "Select All" shortcut like Ctrl + A. Instead, you must use a combination of shortcuts to move to the beginning, set a mark, and jump to the end. [1, 2, 3, 4] 
+3-Step "Select All" Shortcut
+
+   1. Jump to Top: Press Alt + \ (or Ctrl + Home).
+   2. Set Mark: Press Ctrl + 6 (or Alt + A). You will see a "Mark Set" message at the bottom.
+   3. Jump to Bottom: Press Alt + / (or Ctrl + End). [3, 5, 6, 7, 8, 9] 
+
+The entire file will now be highlighted. [10, 11] 
+------------------------------
+Common Actions After Selecting
+Once your text is selected, you can perform these actions:
+
+* Copy: Press Alt + 6.
+* Cut (Delete): Press Ctrl + K.
+* Paste: Press Ctrl + U.
+* Cancel Selection: Press Ctrl + 6 again to remove the highlight. [1, 7, 10, 12, 13, 14, 15] 
+
+Pro Tip: Copying to System Clipboard [14] 
+If you are using nano in a graphical terminal (like on macOS or Windows Terminal) and want to copy to your actual computer's clipboard (to paste into Chrome or Word):
+
+* Hold Shift while using your mouse to highlight the text, then Right-click > Copy or use Ctrl + Shift + C. [8, 13, 16] 
+
+
+In nano, the shortcut Alt + A (often written as M-A in documentation, 
+where M stands for the "Meta" or Alt key) 
+is used to Set a Mark.
+
+Here is how you use it to select text:
+   1. Move your cursor to where you want the selection to start.
+   2. Press Alt + A: You will see a notification at the bottom that says Mark Set.
+   3. Move the cursor (using the arrow keys): All text between the start point and your current cursor position will be highlighted.
+
+What to do after M-A?
+Once your text is highlighted, you usually want to do one of these:
+
+* Copy: Press Alt + 6 (M-6).
+* Cut/Delete: Press Ctrl + K (Kills the line or selection).
+* Paste: Press Ctrl + U (Uncut).
+* Cancel: Press Alt + A again to "Unset" the mark.
+
+Note: On some keyboards, especially on macOS, the Alt key might not work as "Meta." If Alt + A doesn't work, try pressing Esc followed by A.
+Do you want to know the shortcuts for finding specific words within a large file?
+
+
+
+---
+
+**6. Viewing File Content**
+- `cat file` — print all content
+- `less file` — scroll through content
+
+-  to exit less mode - q
+- to find in less mode - /word 
+
+- `head file` — first 10 lines
+- `tail file` — last 10 lines
+- `grep "word" file` — search for a word in a file
+
+---
+
+**7. Permissions**
+- What are file permissions (read, write, execute)
+- `ls -l` — see permissions
+- `chmod` — change permissions
+- `chown` — change file owner
+- Understanding `rwxr-xr-x` format
+
+In the world of Linux and macOS, every file has a "security guard" that checks who you are before letting you touch it. These commands are how you talk to that guard.
+1. Understanding rwxr-xr-xr (The Permission String)
+When you run ls -l, you’ll see a string of 10 characters. Ignore the first one (usually - for file or d for directory). Focus on the next 9 characters, which are split into 3 groups:
+
+| Group | Who it is | Permissions |
+|---|---|---|
+| Owner (1st 3) | The person who created it | rwx (Read, Write, Execute) |
+| Group (2nd 3) | A specific team of users | r-x (Read, Execute, No Write) |
+| Others (3rd 3) | Everyone else on the system | r-x (Read, Execute, No Write) |
+
+What the letters mean:
+
+* r (Read): Can you open and see the content?
+* w (Write): Can you edit or delete it?
+* x (Execute): Can you run it (like a script or app)?
+
+------------------------------
+2. chmod — Change Mode (Permissions)
+This command changes what people can do with the file. There are two ways to use it:
+The Math Way (Numbers):
+Each permission has a value: Read = 4, Write = 2, Execute = 1. You add them up for each group.
+
+* 7 (4+2+1) = Full access (rwx)
+* 5 (4+0+1) = Read & Execute (r-x)
+* 4 (4+0+0) = Read only (r--)
+
+Example: chmod 755 script.sh
+(Owner gets 7, Group gets 5, Others get 5. This makes a script runnable by everyone but editable only by you.)
+
+The Letter Way (Symbols):
+
+* chmod +x file (Make it executable for everyone)
+* chmod g-w file (Remove write access for the group)
+
+------------------------------
+3. chown — Change Owner
+This command changes who owns the file or which team (group) it belongs to. Since this is a big security move, you usually need to use sudo (Admin mode).
+
+* Change Owner: sudo chown bob file.txt (Bob now owns it)
+* Change Owner & Group: sudo chown bob:developers file.txt (Bob owns it; the 'developers' team has group access)
+
+Summary Tip
+If you ever try to run a script and get "Permission Denied," the fix is almost always:
+chmod +x your_script.sh
+Would you like to try a practice exercise to see how changing these numbers affects your ability to open a file?
+
+
+
+---
+
+**8. Users & Sudo**
+- What is a user
+
+ User is an identity that can log in, own files, and run programs
+
+- What is root (superuser)
+- `sudo command` — run as admin
+- `whoami` — see current user
+- `su username` — switch user
+
+In an operating system, a User is an identity that can log in, own files, and run programs. Think of it like a profile or an account that defines what you are allowed to see and do on the computer.
+To keep things secure, OSs use users to separate data so that one person (or one app) can't accidentally delete someone else's files.
+The 3 Main Types of Users
+
+   1. Root / Administrator: The "God mode" account. This user has permission to do anything—delete system files, install software, or change other users' passwords.
+   2. Standard User: Most people use this for daily work. You can create files and run apps, but you usually can't change deep system settings without permission.
+   3. System / Service User: These aren't real people. The OS creates these "invisible" accounts to run specific background tasks (like a "Print Manager" user) so those tasks don't have more power than they need.
+
+Key Concepts
+
+* Username: Your unique name (e.g., bob).
+* UID (User ID): The computer doesn't actually care about your name; it assigns you a number (usually 1000 for the first human user on Linux).
+* Groups: Users are often put into "Groups" (like marketing or developers) so the admin can give 20 people access to the same folder all at once.
+
+Useful Commands
+
+* whoami: Shows the name of the user you are currently logged in as.
+* id: Shows your UID and which groups you belong to.
+* sudo: Short for "SuperUser Do." It lets a standard user temporarily act like the Root user to perform an admin task.
+
+Would you like to know how to create a new user or how to switch between accounts in the terminal?
+
+
+
+---
+
+**9. Package Management (Installing Software)**
+- What is a package manager
+
+A package manager is an automation tool that handles the entire lifecycle of software on your computer—including installing, upgrading, configuring, and removing programs.
+
+- `sudo apt update` — refresh package list
+- `sudo apt upgrade` — upgrade installed packages
+- `sudo apt install packagename` — install software
+- `sudo apt remove packagename` — uninstall software
+
+Environment 	Package Manager(s)
+Windows = WinGet (Built-in), Chocolatey
+macOS =	Homebrew (The "missing" package manager for Mac)
+Linux (Ubuntu/Debian) = APT (Advanced Package Tool)
+Linux (Fedora/RHEL) = DNF (Dandified YUM)
+Python = Pip or Conda
+JavaScript/Node.js = NPM or Yarn
+
+---
+
+**10. Process Management**
+- `ps` — see running processes
+
+In the real world, ps (Process Status) is like the Task Manager or Activity Monitor, but in text form. It gives you a "snapshot" of every program currently running in your computer's brain (the CPU and RAM).
+Who uses it and where?
+
+   1. Developers (The "Why is my app slow?" check):
+   If a coder’s program is lagging or frozen, they use ps to see how much memory or CPU power that specific "process" is eating up.
+   2. System Admins (The "Zombies" hunter):
+   Admins use it to find "Zombie" processes—programs that crashed but didn't fully close and are now just wasting space.
+   3. Regular Power Users (The "Kill" mission):
+   If a program (like Chrome or a specific background tool) won't close normally, you use ps to find its PID (Process ID number) so you can force it to stop using the kill command.
+
+------------------------------
+How to use it (Common "Day-to-Day" Commands)
+The basic ps command only shows processes owned by you in the current terminal window. To see the "real" list, people use these famous variations:
+
+* ps aux (The "See Everything" command):
+* a: Shows processes for all users.
+   * u: Shows the user who owns the process and how much % of CPU/RAM it's using.
+   * x: Shows processes that aren't attached to a terminal (background apps).
+* ps -ef: A cleaner list often used to see the "Parent" of a process (which program started which).
+
+------------------------------
+The "Pro" Workflow: ps + grep
+In a real day-to-day scenario, nobody reads the whole list (it's too long). They "pipe" it into a search tool called grep.
+
+Example: You want to find the ID of your Spotify app to close it:
+ps aux | grep spotify
+The output will show you a number (the PID). You can then type kill 1234 to shut it down.
+
+
+- `top` — live process monitor
+
+An Even Better Alternative: top or htop
+If you want to see the list live (updating every second like a heart monitor), most people type top or htop instead.
+
+
+- `kill processID` — stop a process
+- `Ctrl + C` — stop a running command]
+
+pipe (|) is used to connect cmds
+
+---
+
+**11. Networking Basics**
+- `ping google.com` — test internet connection
+- `ifconfig` or `ip a` — see IP address
+- `curl url` — fetch a webpage
+- `wget url` — download a file
+
+---
+
+**12. Useful Shortcuts & Tips**
+- `Tab` — auto complete
+- `↑ arrow` — previous command
+- `Ctrl + C` — cancel command
+- `Ctrl + Z` — pause command
+- `history` — see past commands
+- `man commandname` — read the manual for any command
+
+---
+
+**Git & GitHub**?
+
+- is a version controlling tool
+- branch early branch often
+- git branch => checkout(old) = switch(new)
+- git switch -b branchname
+
+way 1 - only for public branches
+- merge -> checkout -> merge
+way 2 - work parallel, commit linear - for only private 
+- commit -> checkout to branch -> rebase to main 
+
+- head = *
+
+
+
+
+
+
+

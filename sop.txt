@@ -1,0 +1,32 @@
+template for project planning
+
+What problem does this solve?
+Who will use it?
+What should it do? (Features)
+What should it NOT do? (Out of scope)
+
+
+1. Data layer first    → classes and data structures
+2. Logic layer second  → functions that do the work
+3. Storage layer third → save and load from file
+4. UI layer last       → menu, input, output (what user sees)
+
+1. Understand requirements
+        ↓
+2. Write user stories
+        ↓
+3. Plan your data
+        ↓
+4. Plan folder structure
+        ↓
+5. Break into small tasks
+        ↓
+6. Build layer by layer (data → logic → storage → UI)
+        ↓
+7. Commit to Git after every task
+        ↓
+8. Test every function as you write it
+        ↓
+9. Add error handling
+        ↓
+10. Write README and push to GitHub
