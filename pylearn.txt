@@ -32,6 +32,30 @@ str() - provides string version of any obj without changing original value
     - interpolation = f-string
     - slicing
 
+num--ops
+    - +, -, *, /, 
+    - % = modulo results in remainder 
+    - // = floor division results in integer 
+    - ** = exponentiation = pow(x, y)
+    - fncs = float(), int(), round(), abs(), max(), min(), sum(), prod(), 
 
-    
+    - Augumented Assignnments = concise way todo numops
+    - = +=, -=, *=, /=, %=, //=, **=
 
+bools and conditional
+    compare-ops = ==, !=, <, >, <=, >=  for comparing values
+        - always gives boolean results 
+        - if-elif-else = for branching multiple conditional statements  
+        - > = greater than
+        - < = less than
+
+        Inbuilt bool() function. It explicitly converts a value to its boolean equivalent 
+        and returns True for truthy values and False for falsy values
+        - truthy = non-zero numbers, non-empty strings, non-empty collections, True
+        - falsy = 0, 0.0, '', [], {}, None, False
+
+        - nested if-esle will be in-effecient and hard to read
+    bool-ops (logical) - used in complex conditional statements
+        - and = && , (TTT, TFF, FTF, FFT)
+        - || = or, (short-circuit operator) (TTF , FFF, TFT, FTT)
+        - ! = not, unary = converts bool value to opposite 
