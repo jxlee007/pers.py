@@ -18,7 +18,9 @@ datatypes
     8. dict  = mutable - key-value pairs - {} curly braces, 
         for example, {'name': 'John', 'age': 30}.
     
-The built-in isinstance() function lets you check if a variable matches a specific data type
+
+The built-in isinstance() function 
+lets you check if a variable matches a specific data type
 - isinstance('Hello world', str) # True
 
 all datatypes are treated as obj
@@ -59,3 +61,30 @@ bools and conditional
         - and = && , (TTT, TFF, FTF, FFT)
         - || = or, (short-circuit operator) (TTF , FFF, TFT, FTT)
         - ! = not, unary = converts bool value to opposite 
+
+fncs
+    - print() = print not store value
+    - return() = return value to caller
+    - param : arg = key:value
+    SCOPE
+    - LEGB rule - local, enclosing, global, built-in
+    - enclosing - fnc nested fnc
+        - non-local - allows modifying a variable from an enclosing function
+    - global
+
+in labs
+    - my code - logic understainding was wrong
+    - forgot old thing like - isinstance, tuple()
+    - 
+    - Both of these give the exact same answer, 
+      but the "1 -" version is a "pro" shortcut used by programmers and mathematicians:
+        - The Long Way: price - (price * (discount / 100))
+            (Full Price minus the Discount Amount)
+        - The "1 -" Shortcut: price * (1 - (discount / 100))
+            (Price multiplied by the "Leftover" Percentage)
+
+    - GTK abt GUARD Clause  
+        - checking errs at top - protect fnc from bad data
+        - eg -> if price <= 0 : return ("error)
+    - GTK abt isinstance is used for type-checking
+    - practice dry run 

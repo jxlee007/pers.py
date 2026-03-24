@@ -1,0 +1,34 @@
+Here are 5 beginner-friendly problems to help you practice logic, type checking, and the return keyword. Try to use Guard Clauses (checking for errors at the top) for each one!
+
+The "Temperature Converter" (Celsius to Fahrenheit)
+Rule: Function to_fahrenheit(celsius)
+Check: If celsius is not a number, return "Input must be a number".
+Math: (celsius * 9/5) + 32
+Goal: Practice basic math and type checking.
+
+The "Is It Even?" Checker
+Rule: Function is_even(number)
+Check: If number is not an int, return "Please provide a whole number".
+Logic: Use the modulo operator (%) you learned earlier!
+Goal: Return True if it's even, and False if it's odd.
+
+The "Movie Ticket" Calculator
+Rule: Function get_ticket_price(age)
+Check: If age is less than 0, return "Invalid age".
+Logic:
+If age is 12 or under, return 5.
+If age is 65 or over, return 7.
+Otherwise, return 10.
+Goal: Practice using if/elif/else for ranges.
+
+The "String Repeater"
+Rule: Function repeat_word(word, count)
+Check: If word is not a string OR count is not an int, return "Wrong input types".
+Logic: Return the word repeated count times.
+Goal: Practice validating two different data types at once.
+
+The "Area of a Circle"
+Rule: Function calculate_area(radius)
+Check: If radius is 0 or negative, return "Radius must be positive".
+Math: 3.14 * (radius ** 2)
+Goal: Practice using exponents (**) and guarding against zero/negative values.
