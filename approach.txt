@@ -1,0 +1,165 @@
+problem-solving projects are needed with numbers
+- need to revamp pinterest
+
+In interview process 
+
+In first 60-secs
+    - past - i have done this
+    - present - im doing this
+    - future - i want to do this
+
+for decs challenging projects use star method
+    - situation
+    - task
+    - action
+    - result
+
+if interview ask as any question for me 
+    - "What does a typical day look like on your team?”
+    - "What's the biggest challenge your team is solving right now?"
+    - "What would success Look Like for someone in this role in the first 6 months?”
+
+
+need to choose 5
+- Based on your interest in companies like Odoo (open-source/ERP) and TCS (global scale), here is a curated Core Group of 5–8 product-based companies in India.
+These companies are known for hiring interns through their portals and offering high conversion rates to full-time employment (PPOs).
+    Why this group works:
+* Skill Overlap: Preparing for one (Data Structures, Algorithms, and System Design) prepares you for all of them.
+* Direct Portals: All of these companies have dedicated "Careers" pages where you can apply without a third-party recruiter.
+* PPO Culture: They prefer hiring interns for 6 months and converting them to full-time staff rather than hiring strangers from the market.
+
+
+The "Product-First" Core Group
+
+   1. Zoho Corporation (The "Odoo of India") = Focus: All-in-one business suite (CRM, Mail, Books).
+      * Vibe: Very similar to Odoo; values practical coding skills over college degrees.
+      * Base: Chennai / Tenkasi (Remote/Rural focus).
+   2. Freshworks = Focus: Customer engagement software (SaaS).
+      * Vibe: Fast-paced, modern UI/UX focus, great for those interested in cloud products.
+      * Base: Chennai / Bengaluru.
+   3. BrowserStack = Focus: Software testing platform used by millions of developers globally.
+      * Vibe: Highly technical; great if you love infrastructure and deep engineering challenges.
+      * Base: Mumbai (Remote-friendly).
+   4. Postman = Focus: The world’s leading API platform.
+      * Vibe: Elite engineering culture; perfect if you want to build tools for other developers.
+      * Base: Bengaluru.
+   5. Atlassian India = Focus: Collaboration tools like Jira, Confluence, and Trello.
+      * Vibe: Huge focus on intern-to-grad hiring; known for world-class benefits and "work from anywhere" policies.
+      * Base: Bengaluru (Remote).
+   6. Razorpay = Focus: Payments and financial technology (FinTech) for businesses.
+      * Vibe: High growth; ideal if you want to see how massive financial transactions are handled securely.
+      * Base: Bengaluru.
+   7. Zomato / Blinkit = Focus: B2C Consumer apps (Food tech / Quick commerce).
+      * Vibe: Fast deployment cycles; you will see your code being used by millions of people every day.
+      * Base: Gurugram.
+
+what to Post
+    - built
+    - What problem you faced
+    - how you fixed it
+
+actual - problem solving
+    - open a problem
+        -spend 20 min (draw, psuedocode, wrong approach)
+        - pattern recognition - for each pattern solve - 15 problems
+            ARRAY & STRING PATTERNS
+            1. Sliding Window
+            2. Two Pointers.
+            3. Fast & Slow Pointers
+            4. Merge Intervals
+            5. Cyclic Sort
+            6. Monotonic Stack
+
+            SEARCH & SORT PATTERNS
+            7. Modified Binary Search
+            8. Top K Elements (Heap)
+            6. K-way Merge
+
+            TREE & GRAPH PATTERNS
+            10. BFS (Breadth First Search)
+            11. DFS (Depth First Search)
+
+            12. Topological Sort
+
+            BACKTRACKING & SUBSETS
+            13. Subsets / Backtracking
+            14. Bitwise XOR
+
+            DYNAMIC PROGRAMMING PATTERNS
+            15.DP — 0/1 Knapsack
+            16. DP — Unbounded Knapsack
+            17.DP — LCS/LIS.
+            18. DP — Palindromes
+            15. DP — Matrix Chain / Interval
+
+            ADVANCED PATTERN
+            20. Union Find (Disjoint Set)
+
+camera test
+    - why this approach
+    - why alt wont work
+    - how to handle change
+
+actual system design question
+    - STEP 1: REQUIREMENTS (3-4 min)
+        - Functional: "Kya kya hona chahiye?"
+        - Non-functional: "Kilne users? Kitni speed?"
+        - ASK questions. Dont assume.
+        - Interviewer WANTS you to ask.
+    - STEP 2: HIGH-LEVEL DESIGN (5-7 min)
+        - Draw boxes Client, Server, Database
+        - Identity core APIs (3-4 ondpoints)
+        - Choose database type-SQL vs NoSQL (with reason)
+    - STEP 3: DEEP DIVE (10-12 min)
+        - Pick 2-3 components to go deeper
+        - Add Caching layer (Redis)
+        - Add Load Balancer
+        - Add Message Queue for async tasks
+        - Add CDN for static content
+        - Discuss trade-offs "Maine YE choose kiya kyunki" (THIS impresses interviewers)
+    - STEP 4: BOTTLENECKS & SCALE (3-5 min)
+        - "Agar users 10x ho jayein tch?
+        - Database sharding strategy
+        - horizontal scaling approach
+        - monitoring and failure handling
+
+    learn 
+        - 1. LOAD BALANCER
+            - Traffic distribute karta hai across servers
+            - "Ek counter pe 1000 log nahi 10 counters pe 100-100 log"
+        - 2. CACHING (Redis/Memcached)
+            - Frequently accessed data memory mein rakh
+            - "Baar baar fridge kholne ki jagah table pe rakh le"
+        - 3. CDN (Content Delivery Network)
+            → Static files (images/videos) user ke paas wale server se deliver
+            →"Amazon warehouse har city mein hota hai delivery fast hoti hai"
+        4. MESSAGE QUEUE (Kafka/RabbitMQ)
+            Heavy tasks async mein karo
+            "Restaurant mein order dete ho kitchen apni speed se banata hai"
+        5. DATABASE SQL vs NoSQL
+            →SQL: Structured, relationships, ACID
+            > NoSQL: Flexible, scale, speed
+            →"Ye BIGGEST trade-off hai - isko samajh le"
+        6. API GATEWAY
+            →Single entry point for all requests
+            Rate limiting, auth, routing
+            →→"Building ka security guard-sab iske through aate hain"
+        7. SHARDING/PARTITIONING
+            → Database split karo by user ID, region, etc.
+            >"Ek almaari mein sab mat rakh -10 almaariyaan bana"
+
+        approach 
+
+        1. URL SHORTENER (Beginner) →Hashing, database choice, redirect logic
+        2. TWITTER/FEED SYSTEM (Intermediate) Fan-out, caching, timeline generation
+        3. WHATSAPP/CHAT SYSTEM (Intermediate)
+            →WebSockets, message queue, online/offline status
+        4. INSTAGRAM/PHOTO SHARING (Advanced)
+            →CDN, image processing pipeline, feed ranking
+        5. UBER/LOCATION BASED (Advanced) 
+            → Geospatial indexing, matching algorithm, real-time tracking
+                    
+                        
+
+    
+
