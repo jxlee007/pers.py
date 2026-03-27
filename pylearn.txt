@@ -87,4 +87,5 @@ in labs
         - checking errs at top - protect fnc from bad data
         - eg -> if price <= 0 : return ("error)
     - GTK abt isinstance is used for type-checking
-    - practice dry run 
+    - practice dry run (writing notes)
+    - 
