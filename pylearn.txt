@@ -104,16 +104,18 @@ list [] - mutable
     - unpacking = decounstructing a list
     - slicing = : (slice operator)
         eg. [2:5], [1::2]
+    - * = collect any remaining elements from a list
 
     methods
-    - append - will add type and value as it is
+    - append - will add type and value as it is - at the end of list
     - extend - add values to the list individually
     - insert(index, value)
     - remove()
     - pop()- take value from end of the list
-    - clear
+    - clear - remove all items from list
     - sort() - modify orginal list
     - sorted() - new list with sort - not modifying original
+        - key = eg key=len
 
     error
     - indexerr 
@@ -138,7 +140,8 @@ range
     - Once you get the hang of it, you'll probably find yourself using it a lot in your Python programs.
 
 enumerate and zip fncs
-    - enumerate ([], start) - keep track of index
+    - enumerate ([], start) 
+        - keep track of index
     - zip - work in paralell on mutiple list - resutls in tuple
 
 list comprehentions
@@ -153,4 +156,46 @@ lambda - anoynomous inline fnc to work with high-order fnc
     - avoid creating lambda fncs that are difficult to read or unnecessarily complicated
 
 num-pattern
-    - 
+    - same logic can have differ approach
+
+
+290326
+
+
+dict and sets
+
+dict = { key:value } - aloows fast lookup using keys
+    - pizza['name'] = 'Margherita'
+    - .get() = dictionary.get(key, default)
+    - .keys()
+    - .values 
+    - .items
+    - clear
+    - .pop(key)
+    - .update
+
+
+    loops on dict
+    - for using ,key, .value, .items
+    - enumerte on dict - results in tuples
+
+
+300326
+
+sets = { 1, 2, 3 } - cant have duplicate - unique and unorderd
+    - .add
+    - .remove or .discard (differ is - remove give keyerr if not found - discard doesn't)
+    - .issubset or .issuperset
+    - .isdisjoint - they don't have any elements in common
+    - "|" - union operator - returns a new set with all the elements from both sets
+    - "&" - intersection op - returns a new set with only the elements that the sets have in common
+    - "-" - returns a new set with the elements of the first set that are not in the other sets
+    - "^" - returns a new set with the elements that are either in the first or the second set, but not both.
+    - |= &= -= ^= -  These operators automatically assign the resulting set to the first set in the expression:
+
+modules
+    -math, random, re for regex, datetime
+    - import , from(specific fncs for module)
+    - as = alias
+
+
