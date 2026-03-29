@@ -88,4 +88,69 @@ in labs
         - eg -> if price <= 0 : return ("error)
     - GTK abt isinstance is used for type-checking
     - practice dry run (writing notes)
+
+
+28-03-26
+
+basic Sequence type
+    - list, tuples, range
+    - use list while working with dynamic data
+    - use tuple while working with immutable data
+
+list [] - mutable
+    - index can used to update value of list
+    - nested list = list [1][2]
+    - del, in 
+    - unpacking = decounstructing a list
+    - slicing = : (slice operator)
+        eg. [2:5], [1::2]
+
+    methods
+    - append - will add type and value as it is
+    - extend - add values to the list individually
+    - insert(index, value)
+    - remove()
+    - pop()- take value from end of the list
+    - clear
+    - sort() - modify orginal list
+    - sorted() - new list with sort - not modifying original
+
+    error
+    - indexerr 
+    - valueerr
+
+tuple () - immutable
+    
+    methods
+    - count()
+    - index(value,start,stop)
+    - sorted
+
+loop
+    - for
+    - while - untill condition is False
+    - break-continue
+
+range
+    - start, stop, step
+    - decrementing - can used to print in descending order
+    - The range() function is a very handy way to generate a sequence of integers in Python. 
+    - Once you get the hang of it, you'll probably find yourself using it a lot in your Python programs.
+
+enumerate and zip fncs
+    - enumerate ([], start) - keep track of index
+    - zip - work in paralell on mutiple list - resutls in tuple
+
+list comprehentions
+    high-order fnc
+        - filter( fnc, iterable)
+        - map()
+    - sum(iterable, start)
+    - 
+
+lambda - anoynomous inline fnc to work with high-order fnc
+    - do not ues as variable
+    - avoid creating lambda fncs that are difficult to read or unnecessarily complicated
+
+num-pattern
     - 

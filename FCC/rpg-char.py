@@ -52,5 +52,5 @@ def create_character(name, strength, intelligence, charisma) :
     return f"{name}\nSTR {fill[0]}\nINT {fill[1]}\nCHA {fill[2]}"
 
 
-
+# alway use print to see result - py does not work like js
 print (create_character("ren", 1, 3, 3))
