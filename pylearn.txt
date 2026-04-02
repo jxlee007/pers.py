@@ -198,4 +198,30 @@ modules
     - import , from(specific fncs for module)
     - as = alias
 
+020426
+    - practice med valid fnc
+    - ** operator can be used to unpack the elements in a dict {}
+    - practically used regex module (re) 
+        - GTK abt re.search('value\special-sequence', "key", re.IGNORECASE) = Find it anywhere
+        - GTK abt re.fullmatch = The whole thing must match
+
+        Function          What it does	                                 Result for "cat" in "big cat"
+        re.search()	   -> Scans the whole string for the pattern.     -> Match (finds it at the end)
+        re.fullmatch() -> Checks if the entire string is the pattern. -> None (it's not an exact match)
+
+        - special-sequence = \d = decimal digit
+        - quantifier = way to tell the computer, "Look for this character, but look for it this many times."
+                Instead of typing aaaaa, you can just type a{5}.
+                The 3 Most Common Symbols:
+                    ? (The Optional One): Means "0 or 1 time."
+                        Example: cars? matches both car and cars. (The 's' is optional).
+                    * (The "Whatever" One): Means "0 or more times."
+                        Example: hi* matches h, hi, hii, hiii, etc.
+                    + (The "At Least One" One): Means "1 or more times."
+        - need work on weak area
+            - list-comprehensions 
+            - with for loop
+            - logic building - problem understainding 
+  
+
 
