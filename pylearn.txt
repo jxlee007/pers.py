@@ -222,6 +222,12 @@ modules
             - list-comprehensions 
             - with for loop
             - logic building - problem understainding 
+            
+110426
+  - type() is exam )f explicit data conversion
+  - division math-ops is implicit data conversion
+  
+  
   
 
 
