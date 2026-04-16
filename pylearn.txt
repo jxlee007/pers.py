@@ -144,12 +144,7 @@ enumerate and zip fncs
         - keep track of index
     - zip - work in paralell on mutiple list - resutls in tuple
 
-list comprehentions
-    high-order fnc
-        - filter( fnc, iterable)
-        - map()
-    - sum(iterable, start)
-    - 
+ 
 
 lambda - anoynomous inline fnc to work with high-order fnc
     - do not ues as variable
@@ -166,10 +161,10 @@ dict and sets
 
 dict = { key:value } - aloows fast lookup using keys
     - pizza['name'] = 'Margherita'
-    - .get() = dictionary.get(key, default)
+    - .get() = dictionary.get(key, default) = results in view obj(read-only dict)
     - .keys()
     - .values 
-    - .items
+    - .items - results in list of tuples
     - clear
     - .pop(key)
     - .update
@@ -219,9 +214,38 @@ modules
                         Example: hi* matches h, hi, hii, hiii, etc.
                     + (The "At Least One" One): Means "1 or more times."
         - need work on weak area
-            - list-comprehensions 
+            - list-comprehensions = new_list = [expression for item in iterable if condition]
             - with for loop
             - logic building - problem understainding 
+
+
+060426
+    - list can be made 2 way - list() constructor or lit comprehensions
+    - list comprehensions 
+        = new_list = [expression for item in iterable if condition]
+    high-order fnc
+        - filter( fnc, iterable)
+        - map()
+    - sum(iterable, start)
+
+070426
+    - https://youtube.com/shorts/jaPR7B5jrPQ?si=TZofVYAOAsFk204j
+    - usecase - webdev & automations - python
+
+110426
+    - need practice on dict 
+    - need work on weak area
+            - list-comprehensions = new_list = [expression for item in iterable if condition]
+            - with for loop
+            - logic building - problem understainding 
+
+150426
+    - linear algebra 
+        - patterns
+            - linear
+                - describing patterns
+            - growing
+            - 
   
 
 
