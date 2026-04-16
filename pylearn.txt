@@ -217,8 +217,7 @@ modules
             - list-comprehensions = new_list = [expression for item in iterable if condition]
             - with for loop
             - logic building - problem understainding 
-
-
+  
 060426
     - list can be made 2 way - list() constructor or lit comprehensions
     - list comprehensions 
@@ -238,6 +237,10 @@ modules
             - list-comprehensions = new_list = [expression for item in iterable if condition]
             - with for loop
             - logic building - problem understainding 
+  - type() is example of explicit data conversion
+  - division math-ops is implicit data conversion
+  
+  
 
 150426
     - linear algebra 
@@ -246,6 +249,3 @@ modules
                 - describing patterns
             - growing
             - 
-  
-
-
