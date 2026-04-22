@@ -147,7 +147,7 @@ enumerate and zip fncs
  
 
 lambda - anoynomous inline fnc to work with high-order fnc
-    - do not ues as variable
+    - do not use as variable
     - avoid creating lambda fncs that are difficult to read or unnecessarily complicated
 
 num-pattern
@@ -242,10 +242,77 @@ modules
   
   
 
-150426
+150426 - brilliant
     - linear algebra 
         - patterns
             - linear
-                - describing patterns
+                - describing patterns - how big it is - 3n,4n - 2n represents the number of squares on the nth step,
+                - Building expressions
+                - linear expressions
             - growing
-            - 
+        - constant terms
+            - n + 6 = 6 is constant term
+        
+
+160426
+    - label:"good first issue" language:python state:open
+
+170426
+    - interactive debugging - pdb module   
+    -  pdb.set_trace()
+
+    -  print() statements for quick checks, 
+    - pdb for interactive exploration, and 
+    - IDE debuggers for visual inspection.
+
+    - exception handling
+    -  try, except, else, and finally 
+    - finally: Runs no matter what—whether or not an exception occurred. Useful for clean-up tasks like closing files or releasing resources.
+
+180426
+    - i found 1blue3brown yt channel
+    - linear algebra 
+        - vectors = ordered list = [x,y]
+        - operations
+            - vector addition
+            - scaling of vectors = multiplication = scalar multiplication
+        - xy = coordinate System
+            - basis vector
+                - i hat = unit vector of x
+                - j hat = unit vector of y
+        - span is set of all the linear comboniations of v and w = av + bw = a and b can vary
+        - the basis of vector space is a set of linearly indopendent vectors that span the full space
+    - linear transformations(fnc) 
+        - vector input - vector output
+        2 properties
+            - all lines are lines without getting curved
+            - origin should stay fixed
+        - gird lines remain parallel and evenly spaced
+
+220426
+    - psuedocode learnings
+        p1 - to get squares
+            - to result into list there are 3 solutions
+                - using append method - std
+                eg - take empty list and into the append the result
+
+                -  '' list comprehensions - best approach - faster then lambda 
+                eg - result = [x**2 for x in nums]
+
+                - map - hardway
+                eg - result = (list(map(int,nums))) = output -> [1,2,3,4,5]
+                - result = (list(map(lambda x : x**2, nums)))
+
+        p2 - to get divisible by 10
+            - in list comprehensions
+                - expression / math-ops are declared before loop
+                eg result = [x**2 for x in num]
+
+                - if statements after loop
+                eg result = [x for x in num if (x % 10) == 0]
+
+
+        
+
+
+         
