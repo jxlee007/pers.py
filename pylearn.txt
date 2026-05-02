@@ -309,7 +309,58 @@ modules
                 eg result = [x**2 for x in num]
 
                 - if statements after loop
-                eg result = [x for x in num if (x % 10) == 0]
+                eg result = [x for x in num if (x % 10) == 0] # divisible 10
+
+        p3 - str list
+            - can use split or list-com
+
+        p4 - nested list using list com
+            - parathesis () matter alot - i missed
+                - divisible
+                - nested loop 
+            eg vectors = [(x,y) for x in range(1,3) for y in range(1,4)]
+
+        p5 - Print students with marks > 75 - dict-com
+            - use curly braces { }
+            eg result = {name: marks for name, marks in students.items if marks > 75 }
+
+230426
+    - err-handling
+        - Syntax-err
+        - Name-err - variable not defined
+        - Type-err
+        - Index-err
+        - Attribute-err - method/prop not exist for that obj type
+    - exception-handling
+        - try-except - except = safety net
+        - else-finally - extends try-except
+        - finally - runs even if err occurs
+    - exception obj = used in code "as e" using as keyword
+        - raise - creating err
+    - exception signaling
+        -   Detect -> Signal -> Route -> Resolve
+        eg The code notices a problem (e.g., balance is $0). Use raise MyCustomSignal().The program stops the current function and looks for a try/except block. The except block performs the specific fix for that signal
+        - from keyword is used to chain the exceptions
+
+
+        p6 - list to set - remove duplicates
+            - using set() automatically removes duplicate values
+            - set will always unordered - no specific usecase to sort - if needed import sortedset 
+
+        p7 - two sum
+            - Approach - complement search
+            S1 - hashmap = empty dict - fast even on mil-items on search
+
+    - Note : list act similar to array but are different
+            - array used in numpy
+            - array is mem-effecient - need to import numpy to use
+            - exetremely fast on large data then list
+            - data is of same type
+
+020526
+    - 2-shape patterns
+        -   2n+3n = 5n
+
 
 
         
