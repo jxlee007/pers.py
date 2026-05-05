@@ -1,0 +1,268 @@
+var
+- variable
+- updating variable
+- printing
+- variable self-update
+- variable dependency
+
+conditional logic
+- boolean expression
+- conditional statements
+- branching conditionals
+- setting boolean var
+- testing program
+
+boolean logic
+- combining bool expressions
+- storing bool expression
+- negating bools
+- organizing logic
+- complex logic
+
+
+For loop
+- structuring loops
+- loop variable dependency
+- logic inside loops
+- complex dependency
+
+list
+- list indexing
+- looping through list
+- append to lists
+- consecutive idxs
+
+while loops
+- structuring while loops
+- compound loop conditionals
+- flags as loop conditionals
+- complex while loop logic
+
+str tricks
+- str 
+- str-ops
+- classifying str
+
+nesting conditionals
+- nesting if statements
+- nesting mixed conditionals
+- nesting if-else statements
+- priortizing conditions
+
+Chaining conditionals
+- conditional chains
+- sequencing logic
+- designing chains
+- setting priority in chains
+
+Dicts
+- Accessing dicts
+- updating dicts
+- looping through dicts
+- building dicts
+- dicts of lists
+
+working with data
+- organizing data
+- exploring data
+- shaping data
+- inspecting data
+- analyzing data
+
+advanced looping
+- nesting loops
+- looping in nested structures
+- breaking loops
+- breaking nested loops
+- continuing loops
+- continue vs break
+- controlling nested loop
+
+time complexity
+- counting operations
+- runtime and data
+- best and worst cases
+- time complexity
+- big-o notation
+
+searching algo 
+- searching
+- searching sorted data
+- binary search
+- logarthmic runtime
+- searching a range
+
+---
+
+Algorithmic thinking 
+
+the scheduling problem
+- solving instances
+- describing algos
+- multiple solutions
+- identifying invariants
+- finding counterexamples
+
+priortizing shorter durations
+- adapting to new criteria
+- testing algos
+- modifying an algo
+- controlling order
+- verifying corectness
+- finding an algo's limits
+
+priortizing early starts
+- updating a strategy 
+- proving incorrectness
+- updating an Algorithm
+- reasoning about criteria
+- testing the strategy
+
+optimization
+- optimizing
+- crafting counterexamples
+- greedy optimization
+- optimal sub-structures
+- problem equivalance
+
+---
+com-fundas
+
+storing information
+- manipulating numbers
+- puzzles with input
+- arrays
+- repititions and arrays
+
+array algos
+- searching an array
+- binary search
+- compare and swap
+- sorting an array
+- insertion sort
+
+speed of algos
+- timing programs
+- counting operations
+- best and worst case
+- Avg case
+
+Big o
+- comparing algos
+- understanding big ob
+- maths of big o
+
+stable matching
+- the stable matching problem
+- using greediness
+- deferred acceptance algo
+
+algorithimic complexity
+- correctness
+- termination
+- running time 
+- variants
+
+tools of cs 
+- decision trees 
+- fewer questions 
+- binary search 
+
+computational problem solving 
+- parallelism 
+- pipelining
+- res tradeoffs
+- res allocation
+
+complex sys
+- abastraction
+- interfaces 
+
+visual solutons 
+- the bridges of konigsberg 
+- brute force
+- thinking with graphs
+- eulerian paths
+
+graphs
+- reprensenting games and puzzles
+- completing the graph 
+- graph search 
+
+---
+
+fncs in py
+
+intro to fncs
+- decoding messages
+- indexing strings
+- functions
+- calling functions
+- reusing fncs
+- updating fncs
+
+design fncs
+- local var
+- mutiple inputs
+- identifying fncs
+- using multiple fncs
+
+test fncs
+- decrytion fncs
+- happy paths
+- special cases
+- edge cases
+- checking pre-conditions
+
+understanding scope
+- global vars
+- designing inputs 
+- local scope
+- shadowing var
+
+how return works
+- other return types
+- returning multiple values
+- using bool fncs
+- returning early
+- returning None
+
+function dependency
+- character encoding
+- using mod
+- function pipelining
+- helper fncs
+- reusing helpers
+- debugging dependencies
+- planning tasks
+
+comprehensions
+- joining lists
+- list comprehensions
+- filtering with comprehensions
+- dict comprehensions   
+
+coding with AI
+- the vigenere cipher
+- function contracts
+- verifying AI code
+- planning attack
+- implementing the plan 
+- cracking the code
+
+---
+
+## Parallel Learning Matrix
+
+This matrix arranges the topics side-by-side conceptually, 
+helping you understand how different subjects relate when learning them parallelly.
+
+| Learning Phase                  | Python Basics                                                   | CS Fundamentals (com-fundas)                                                | Algorithmic Thinking          | Functions in Python (fncs in py)          |
+| :---                            | :---                                                            | :---                                                                        | :---                          | :---                                      |
+| **1. Variables & Data Storage** | var                                                             | storing information                                                         |                               | intro to fncs                             |
+| **2. Logic & Decisions**        | conditional logic <br> boolean logic                            | tools of cs                                                                 | the scheduling problem        | design fncs                               |
+| **3. Loops & Sequences**        | For loop <br> list <br> while loops                             | array algos                                                                 |                               | test fncs                                 |
+| **4. Advanced Conditionals**    | str tricks <br> nesting conditionals <br> Chaining conditionals | computational problem solving                                               | priortizing shorter durations | understanding scope                       |
+| **5. Data Structuring**         | Dicts <br> working with data                                    | complex sys                                                                 | priortizing early starts      | how return works <br> function dependency |
+| **6. Advanced Patterns**        | advanced looping                                                | graphs <br> visual solutons                                                 | optimization                  | comprehensions                            |
+| **7. Algorithms & Complexity**  | time complexity <br> searching algo                             | speed of algos <br> Big o <br> algorithimic complexity <br> stable matching |                               | coding with AI                            |

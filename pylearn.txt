@@ -360,7 +360,12 @@ modules
 020526
     - 2-shape patterns
         -   2n+3n = 5n
+030526  - comparing expressions = Subtracting expressions is another way to combine them.
 
+    - var[key] = value = dictkey assignnment
+     
+050526
+    - follow brilliant py playlist topics
 
 
         
