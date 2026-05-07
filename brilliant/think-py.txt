@@ -194,7 +194,8 @@ graphs
 fncs in py
 
 intro to fncs
-- decoding messages
+- decoding messages  
+    - end="" = print result in same line - 070526
 - indexing strings
 - functions
 - calling functions
