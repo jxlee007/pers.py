@@ -201,6 +201,7 @@ intro to fncs
     - i prefer slicing [start:stop:step] - modern alternative 
         - [::-1] - pointer backwards 
         - [:: 1] - pointer move forward 
+        - message[:: 1].replace("p","")
 
 - functions
 - calling functions
