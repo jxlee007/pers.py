@@ -197,6 +197,11 @@ intro to fncs
 - decoding messages  
     - end="" = print result in same line - 070526
 - indexing strings
+    - there 2 ways this = while, slicing 
+    - i prefer slicing [start:stop:step] - modern alternative 
+        - [::-1] - pointer backwards 
+        - [:: 1] - pointer move forward 
+
 - functions
 - calling functions
 - reusing fncs
