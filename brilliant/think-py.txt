@@ -204,7 +204,9 @@ intro to fncs
         - message[:: 1].replace("p","")
 
 - functions
+    - decode message with if-else - 090526
 - calling functions
+    - in print - 090526
 - reusing fncs
 - updating fncs
 
