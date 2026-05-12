@@ -367,6 +367,63 @@ modules
 050526
     - follow brilliant py playlist topics
 
+110526
+    - get job in a month 
+    - by learning enough for cracking interview
+    - build project to showcase while learning process
+
+    - starting project CLI-todo
+    - requirement.txt - is created during dev,before share/deploy, while cloning
+    - 2 way - pip freeze and using tool called pipreqs
+
+    - can use touch to create multiple files in a folder
+    eg - touch m1.py m2.py m3.py 
+
+FCC - OOPS
+    - practical use of is to 
+
+    - class = blueprint to create objs with
+    - within class can add intializer, with attributes and methods
+        - att = var in class
+        - method = fnc in class
+    
+    - ordering matters in attributes
+        non-default value = required inputs
+        default value = pre-set value even input not given
+
+note - initializer is automatically declared while using @dataclass
+        same is used for type hints - if not then can use __init__
+
+120526
+    - there are two types of attributes - 
+        - Instance - unique to each obj 
+        - class - belong to class itself and shared by all Instances(objs)
+        eg  class Dog:
+                species = "French Bulldog" # Class attribute
+
+                def __init__(self, name):
+                    self.name = name # Instance attribute
+    - dunder methods = double underscore = special fncs
+
+    - Safety: In Python, None is a singleton. 
+    Using is or is not is faster and safer than using ==
+
+
+    - handling Attributes dynamically (https://www.freecodecamp.org/learn/python-v9/lecture-classes-and-objects/how-to-handle-object-attributes-dynamically)
+        - getattr() - to add
+        - setattr() - to create/update-existing-one
+        - hasattr() - to find
+        - delattr() - to remove
+        - dir() - is used loop over obj using for loop
+
+Note: dynamic handling of attributes is practically needed in
+        eg like multiuser support, db backend, async ops, realtime-updtes, 
+            plugin-systems, rest-api/web-app, concurrent access
+    
+    - decorator = automatic code generators
+
+
+
 
         
 

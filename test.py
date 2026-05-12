@@ -1,4 +1,12 @@
-example_list = ['example', 'dashed', 'name']
+# test any code block
 
-joined_str = ' '.join(example_list)
-print(joined_str)  # ?
+class Intro:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def sample_method(self):               
+        print(f"{self.name.upper()} with age {self.age}")
+
+p1 = Intro("jj",14)
+p1.sample_method()

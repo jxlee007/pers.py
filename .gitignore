@@ -1,0 +1,23 @@
+# Virtual Environments
+venv/
+env/
+.venv/
+ENV/
+todo/
+
+# Python Bytecode (compiled files)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / Packaging
+dist/
+build/
+*.egg-info/
+
+# Environment Variables (Sensitive data)
+.env
+
+# IDE / Editor folders
+.vscode/
+.idea/
