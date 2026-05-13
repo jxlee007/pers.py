@@ -69,15 +69,15 @@ class TaskManager:
         return f"Error: Task with ID {task_id} was not found."
 
 # Add method to return all tasks list.  
-    def get_all_task(self) -> List:
+    def get_all_tasks(self) -> List:
         return self.tasks
 
 # Add method to return only completed tasks list.  
-    def get_list_of_completed_task(self) -> List:
+    def get_completed_tasks(self) -> List:
         return [task for task in self.tasks if task.completed == True]
 
 # Add method to return only pending tasks list.  
-    def get_list_of_pending_task(self) -> List:
+    def get_pending_tasks(self) -> List:
         return [task for task in self.tasks if not task.completed]
 
 
