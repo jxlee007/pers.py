@@ -47,16 +47,16 @@ What do you want to name this project folder and the venv?
 
 ## 4. Design TaskManager (OOP wrapper)
 
-1. Define `TaskManager` that holds list of tasks.  
-2. Add method to add a new task:  
+1. ✅ Define `TaskManager` that holds list of tasks.  
+2. ✅ Add method to add a new task:  
    - create `Task` object  
    - append to internal list  
-3. Add method to get task by id (returns `Task` or `None`).  
-4. Add method to mark a task as completed using id.  
-5. Add method to delete a task using id.  
-6. Add method to return all tasks list.  
-7. Add method to return only completed tasks list.  
-8. Add method to return only pending tasks list.
+3. ✅ Add method to get task by id (returns `Task` or `None`).  
+4. ✅ Add method to mark a task as completed using id.  
+5. ✅ Add method to delete a task using id.  
+6. ✅ Add method to return all tasks list.  
+7. ✅ Add method to return only completed tasks list.  
+8. ✅ Add method to return only pending tasks list.
 
 ***
 
