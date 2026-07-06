@@ -1,0 +1,78 @@
+
+programming is
+    - figuring out what obj to create
+    - representing knowledge through DS
+
+Types of knowledge
+    - Declarative - goal  - statements/facts
+    - Imperative - recipe - how-to's/steps
+
+comp 
+    - old = fixed program
+    - new = stored program
+
+Basic machine architecture
+
+               MEMORY                   DATA
+               /    \                  /
+              /      \                /
+             /        \            HOLDS
+            /          \              \
+           /            \              \
+         CU             ALU             STORED SEQUENCE INSTRUCTIONS
+           \            /  |                        |
+            \          /   |                        v
+             \        /    |                  PRIMITIVE OPS
+              \      /     |                        |
+               \    /      |                        v
+                I/O        |                 ARITHMETIC LOGIC
+                           +----------->      SIMPLE TEST
+                                              MOVING DATA
+
+Interpreter = is special program the executes each sequence INSTRUCTION in order
+
+---
+
+note: primitive = what we want to perform
+
+THINK UPON - abstract methods can create primitive 
+
+- Can create expressions from the primitives - They could be complex 
+
+ Primitive constructs = words 
+
+Static semantics - Code is syntactically legal 
+
+CMD = Statement 
+- that Instructs interpreter to do something 
+
+
+Program - sequence of expressions and commands evaluated
+
+cmds executed by Python interpretator in shell 
+- cmd can be write direct into shell  
+- can be stored in file that can read into shell
+
+---
+
+IN Python
+- everything is a obj
+- py programs manipulate this - data obj
+- all objs have Types - that defines what kind of things we can do with the obj
+
+there are 2 types of objs
+    - scalar 
+        - cannot sub-divide
+        - eg - int,flaot,bool,nontype
+    - non-scalar - have internal structure - that can be accessed
+        
+can convert obj types using typecasting = type()
+    - float(3) = 3 to 3.0
+    - int(3.6) = 3.6 to 3 = it doesnt rounds
+
+ 
+
+
+
+
+            

@@ -1,3 +1,5 @@
+https://www.freecodecamp.org/news/how-to-parse-xml-in-python-without-using-external-libraries/
+
 datatypes 
     (immutable)
     1. int   = without decimals, for example, 10 or -5.
@@ -29,7 +31,7 @@ string
     - multiline
     - len(s)
     - indexing
-    -concatenation
+    - concatenation
 str() - provides string version of any obj without changing original value
     - interpolation = f-string
     - slicing

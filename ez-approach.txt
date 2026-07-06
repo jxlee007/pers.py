@@ -1,5 +1,7 @@
+python -m venv .venv
+
+
 problem-solving projects are needed with numbers
-- need to revamp pinterest
 
 In interview process 
 
@@ -21,7 +23,9 @@ if interview ask as any question for me
 
 
 need to choose 5
-- Based on your interest in companies like Odoo (open-source/ERP) and TCS (global scale), here is a curated Core Group of 5–8 product-based companies in India.
+- Based on your interest in companies like 
+Odoo (open-source/ERP) and TCS (global scale), 
+here is a curated Core Group of 5–8 product-based companies in India.
 These companies are known for hiring interns through their portals and offering high conversion rates to full-time employment (PPOs).
     Why this group works:
 * Skill Overlap: Preparing for one (Data Structures, Algorithms, and System Design) prepares you for all of them.
