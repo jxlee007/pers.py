@@ -424,6 +424,17 @@ Note: dynamic handling of attributes is practically needed in
     
     - decorator = automatic code generators
 
+070626
+    - found mit 2016 - even old but still great
+    - setup - focus one thing - python - odoo company
+    - tasks at claude
+    - html flask TBD
+    - 2 achieved - review pending 
+    - task 3 test and task 4 is remaining - pullover tommorow
+
+080626
+    - 
+
 
 
 

@@ -38,8 +38,10 @@ class TaskManager:
         # Optional[Task] The signature clearly warns you about the two possible outcomes
 
         for task in self.tasks:
-            if task_id == task_id:
-                return f"found it: {task} "
+            # if task_id == task_id: # mistake is . and _
+            if task.id == task_id:
+                # return f"found it: {task} "  # results in str 
+                return task # results in actual task obj
 
         return None  # Only reached if no ID matched
 
