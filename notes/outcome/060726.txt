@@ -1,0 +1,218 @@
+**TODAY TASK - YOU SOLVE. ME CHECK.**
+
+From your file, me see:
+- Weak: list-comp, dict, problem-thinking
+- Strong: trying hard, building projects
+- Goal: job in 1 month
+
+---
+
+**TASK 1 (5 min) - LIST COMPREHENSION WARM UP**
+```
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+Do this 3 way:
+1. Square all → [1, 4, 9, 16, ...]
+2. Keep only even → [2, 4, 6, 8, 10]
+3. Even AND square → [4, 16, 36, 64, 100]
+```
+
+solution 
+
+from operator import itemgetter
+
+
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# Do this 3 way:
+# 1. Square all → [1, 4, 9, 16, ...]
+# 2. Keep only even → [2, 4, 6, 8, 10]
+# 3. Even AND square → [4, 16, 36, 64, 100]
+
+
+
+# list is mutable
+square = [x*x for x in nums]
+
+even = [x for x in nums if x%2==0]
+
+sq_even = [x*x for x in nums if x%2==0] 
+
+
+
+---
+
+**TASK 2 (10 min) - DICT PROBLEM**
+```
+students = {
+    "Alice": 85,
+    "Bob": 92,
+    "Charlie": 78,
+    "Diana": 88
+}
+
+Do:
+1. Get grade > 80 (list of names)
+2. Name with highest score
+3. Average grade (use sum())
+```
+
+# Dict comp - dict are mutable
+students = {
+    "Alice": 85,
+    "Bob": 92,
+    "Charlie": 78,
+    "Diana": 88
+}
+
+# Do:
+# 1. Get grade > 80 (list of names)
+# 2. Name with highest score = my apporach is to sort and show last item of dict
+# 3. Average grade (use sum())
+
+#  Add key-val structure at the start
+# template = key: val for key, val in dict.items() if val > 80
+grade_above_80 = {name: grade for name, grade in students.items() if grade > 80}
+# print("Student scored above 80 are:")
+
+# # 2. Correct way to print: Loop through the new dictionary using .items()
+# for name, grade in grade_above_80.items():
+    # print(f"{name}")
+
+
+# There are two approaches to solve the high value problem - without import needs lambda
+# First approach is to use sorted method - Not efficient
+    # sorted_by_vals = dict(sorted(dict.items(), key = itemgetter(1))) 
+    # purpose - rearrange entire dataset - takes O(NlogN) time
+    # output type - full dictionary - uses high memory
+    
+# Second is to use Max method - highly efficient
+    # key, val = max(dict.items(), key=itemgetter(1) ))
+    # purpose = scan data at once to find highest value - O(N)
+    # output type - single tuple - no memory (just track variable)
+
+
+name, grade = max( students.items(), key=itemgetter(1) )
+# print(f"highest score = {name}: {grade}")
+
+
+# 3 - To calculate the average grade using sum(), 
+# maths formula: Total Sum of Scores ÷ Total Number of Students.
+# Interview Requirements & Core Expectations
+    # Isolate the Values: You must extract only the numeric grades from the dictionary, explicitly bypassing the student names.
+    # Summation Mechanism: You need to use Python's built-in sum() function to calculate the total combined score of all those extracted grades.
+    # Count Mechanism: You must use Python's built-in len() function to determine the total number of students in the dataset.
+    # Float Division: You must use the true division operator (/) rather than floor division (//) to ensure the resulting average retains its decimal precision (e.g., 81.25 instead of 81).
+    # ZeroDivisionError Prevention: You are expected to check that the dataset is not empty before dividing, protecting the application from crashing if there are zero students.
+
+avg_grade = sum(students.values()) / len(students) 
+print(f"average grade: {avg_grade}")
+
+
+---
+
+**TASK 3 (15 min) - REAL PROBLEM (from your repo)**
+
+Look at your `CLI-todo/manager.py` line 128:
+```python
+if task_id == task_id:  # BUG HERE!
+```
+
+**Find bug. Fix it. Explain why crash.**
+
+Then write tiny test:
+```python
+manager = TaskManager()
+manager.add_task("Buy milk")
+manager.add_task("Walk dog")
+
+result = manager.get_task_by_id(1)
+print(result)  # Should print task, not None
+```
+
+solution
+
+        for task in self.tasks:
+            # if task_id == task_id: # mistake is . and _
+            if task.id == task_id:
+                # return f"found it: {task} "  # results in str 
+                return task # results in actual task obj
+
+test_manager.py
+
+from manager import TaskManager
+
+manager = TaskManager()
+manager.add_task("Buy milk", "test")
+manager.add_task("Walk dog", "test")
+
+result = manager.get_task_by_id(1)
+print(result)  # Should print task, not None
+
+---
+
+**TASK 4 (20 min) - THINK BEFORE CODE**
+
+ no code solution - is my approach correct ?? - Problem: "Remove duplicate from list keep order"
+
+Before write:
+1. What data structure? Why?
+2. What algorithm? Step by step
+3. Edge case? (empty list, None, etc)
+
+THEN code.
+
+Example input: `[1, 2, 2, 3, 1, 4]`
+Expected: `[1, 2, 3, 4]`
+
+---
+
+solution
+- for this problem - i will use set bcoz it only have unique vals but unordered
+BP - is to use dual structure approach
+- my algo would be to use loop to convert list into set
+- Edgecases
+    - empty list - will catch and give err - using try-catch
+    - none - will catch and give err - using try-catch
+
+psuedocode - wrong 
+input
+ ordered_list = []
+ tracker = {}
+# implement graud clause for edge case
+if isinstance  list == none
+    return []
+
+elem for elem in input 
+    tracker = elem.append()
+
+code - right (litte bit google-search-ai help)
+
+# ✅ FIX 1: Explicitly specify what data type the list holds (e.g., int)
+def remove_duplicates_from_list_keep_order(input_list: Optional[List[int]]) -> List[int]:
+
+# ✅ FIX 2: Explicitly mark that the input can be Optional (can be a List OR None)
+    ordered_list: List[int] = []
+
+    # tracker = {}  # mistake - empty dict
+    tracker: set[Any] = set() # got to know how to set type
+    # set is unordered, unique and mutable
+
+# implement graud clause for edge case
+    # if isinstance  list == none # is used to check type of obj/data
+    if input_list is None: # is None 
+        return []
+
+    for elem in input_list :
+        if elem not in tracker:
+        # tracker = elem.append() # mistake 
+            tracker.add(elem)
+            ordered_list.append(elem)
+
+    # ✅ FIX 4: Explicitly returning the value satisfies "must return value on all code paths"
+    return ordered_list
+
+print(remove_duplicates_from_list_keep_order([1, 2, 2, 3, 1, 4]))  
+
+
+ 

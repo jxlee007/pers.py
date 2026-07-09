@@ -1,4 +1,5 @@
-python -m venv .venv
+python -m venv .venvname
+venvname\Scripts\activate.bat
 
 
 problem-solving projects are needed with numbers

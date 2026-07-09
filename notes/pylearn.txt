@@ -424,16 +424,65 @@ Note: dynamic handling of attributes is practically needed in
     
     - decorator = automatic code generators
 
-070626
+060626
     - found mit 2016 - even old but still great
     - setup - focus one thing - python - odoo company
     - tasks at claude
     - html flask TBD
     - 2 achieved - review pending 
     - task 3 test and task 4 is remaining - pullover tommorow
+    - GTL 
+        - T1 warn-up on list comp syntax = [var-with-numops for var in list if condition ]
+        - T2 warn-up on dict-comp = {key: val for key, val in dict if concise}
+            - GTK abt dict-comp - from operator import itemgetter
+            - itemgetter is better then lambda
+            - GTK abt 2 approach - sorted and max(BP)
+            - came up with approach
+            - sum logic was given by ai - like which components to set - recall memory gap
+        - T3 - ai assited to identify - gap
+            - if task_id == task_id: # Before (WRONG)
+            - if task.id == task_id: # After (RIGHT)
+            - return f"found it: {task}" # Before String, not usable
+            - return task # After Actual object, can use
 
+
+
+070626
+    - setup strict standard for better code in vs code
+    - done PO - tast 3 test and task 4
+    - GTL
+        - GTK abt test case BPs 
+        - T4 was abt removing duplicates from list while keeping order
+            - GTL abt dual structure approach - set and list - extra memory needed
+            - modern way is to use dict
+                - why - dict maintain INSERTION ORDER
+                - no extra needed
+            - logic was assisted by ai - not got to think much - understanding gap
+            - after trying wrong approach - ai assisted improvements
+            - O(n) - LIST lookup is SLOW
+            - Loop 100k times = 100k × O(n) = O(n²) 
+            - O(1) - SET lookup is FAST
+    - today task is to review and improve
+    
 080626
+    - if we do int("3.5") it will give error
+    - Instead do int(float("3.5"))
+    - given odoo test got clarity
+    - GTL abt MVC and flask setup
+
+090626
+    - abandon flask for django
+    - move towards stricter odoo approach
+    - Strict OOPs
+    - Django use variant called MVT similar to MVC
+    - Django enforces oops and mvc concepts by default
+    - python -m pip install Django
+    - workshop came in handy from 3yrs ago
     - 
+
+    
+
+
 
 
 

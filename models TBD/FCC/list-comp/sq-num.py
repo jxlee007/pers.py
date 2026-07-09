@@ -1,5 +1,5 @@
-from operator import itemgetter
-
+from operator import itemgetter # for dict comp
+from typing import List, Optional, Any # for list
 
 nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
@@ -67,4 +67,31 @@ name, grade = max( students.items(), key=itemgetter(1) )
     # ZeroDivisionError Prevention: You are expected to check that the dataset is not empty before dividing, protecting the application from crashing if there are zero students.
 
 avg_grade = sum(students.values()) / len(students) 
-print(f"average grade: {avg_grade}")
+# print(f"average grade: {avg_grade}")
+
+
+# ✅ FIX 1: Explicitly specify what data type the list holds (e.g., int)
+def remove_duplicates_from_list_keep_order(input_list: Optional[List[int]]) -> List[int]:
+
+# ✅ FIX 2: Explicitly mark that the input can be Optional (can be a List OR None)
+    ordered_list: List[int] = []
+
+    # tracker = {}  # mistake - empty dict
+    tracker: set[Any] = set() # got to know how to set type
+    # set is unordered, unique and mutable
+
+# implement graud clause for edge case
+    # if isinstance  list == none # is used to check type of obj/data
+    if input_list is None: # is None 
+        return []
+
+    for elem in input_list :
+        if elem not in tracker:
+        # tracker = elem.append() # mistake 
+            tracker.add(elem)
+            ordered_list.append(elem)
+
+    # ✅ FIX 4: Explicitly returning the value satisfies "must return value on all code paths"
+    return ordered_list
+
+print(remove_duplicates_from_list_keep_order([1, 2, 2, 3, 1, 4]))  

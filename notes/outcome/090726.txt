@@ -1,0 +1,13 @@
+TODAY TASK - setup flask and set first scrim program with MVC
+
+- got the flask setup
+- hot reload = debug mode on
+- render_template = helps takes to py output to html file
+- for odoo - move to strict OOPs
+- django setup - abandon flask(micro-framework)
+    - got django workshop note from 3yrs ago
+    - django-admin
+    - django-admin startproject name
+    - py manage.py migrate
+    - py manage.py runserver
+    
