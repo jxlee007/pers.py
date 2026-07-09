@@ -10,4 +10,20 @@ TODAY TASK - setup flask and set first scrim program with MVC
     - django-admin startproject name
     - py manage.py migrate
     - py manage.py runserver
+- GTL
+    - how setup a home page
+        - create core app - keep project directory clean
+        - In that app setup views.py  
+            - import HttpResponse
+            - write fnc with request as param 
+            - pass html content in the fnc 
+            - using variable to carry ur html content as multiline string
+            - return HttpResponse(html content)
+        - Now goto urls.py in project directory
+            - import views from core app
+            - now in urlpatterns - to add your index page 
+            - use this syntax - path("", views.fncname , name='')
+    - Now you will able to see your index page 
+              
+
     
