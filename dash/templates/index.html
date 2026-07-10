@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,15 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 
-  <style>
-    body {
-      background-color: #000000;
-      color: #ffffff;
-    }
-    a {
-      color: #00ff00;
-    }
-  </style>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
 
 </head>
 <body>
@@ -35,13 +28,27 @@
       <li></li>
       <li></li>
       <li></li>
-      <li></li>
       <li></li> -->
       
     </ol>
-
+    
     <ul>
       <li> <a href="chmod.html">Chmod Tool()</a> </li>
+      <li> Implemented Django setup</li>
+      <li> Added index page with css to support dark-mode </li>
+      <li> TBD Implement Arcade pass</li>
+
+      <!-- <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li> -->
+
+
     </ul>
 </body>
 </html>

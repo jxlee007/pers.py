@@ -18,3 +18,6 @@ myproject/                  <- Root project directory
     ├── models.py           <- Database models (Data layer)
     ├── tests.py            <- Test cases for the app
     └── views.py            <- Request/Response logic (Logic layer)
+
+
+- intial django steup - (link)[\notes\outcome\090726.txt]

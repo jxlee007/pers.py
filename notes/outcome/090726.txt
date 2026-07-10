@@ -24,6 +24,30 @@ TODAY TASK - setup flask and set first scrim program with MVC
             - now in urlpatterns - to add your index page 
             - use this syntax - path("", views.fncname , name='')
     - Now you will able to see your index page 
+    - To implement global css - for dark mode
+        - create static folder -> style.css file -> add css
+        - To implement css - goto project/settings.py
+        - # Add this block to point to your root static folder under static url
+            STATICFILES_DIRS = [
+                BASE_DIR / 'static',
+            ]
+        - Then to implement css we need to made some change to views.py
+            - write fnc with request as param 
+            - optional - set context dict -  for passing structural tracking parameters to your template if needed later
+            - return render(request, 'index.html', context)
+            - create index.html file at root folder
+            - in the html file -> at top of code -> add {% load static %}
+        - After this goto settings.py in project folder
+            - find the TEMPLATES block, and update the 'DIRS' line 
+            - BASE_DIR / 'templates'
+        - if still css is not implemented 
+            - use this debug trick in index.html file
+            - <link rel="stylesheet" href="{% static 'style.css' %}">
+
+
+
+
+
               
 
     
