@@ -1,6 +1,6 @@
+# django structure 
 
-django structure 
-
+```
 myproject/                  <- Root project directory
 ├── manage.py               <- Project management script
 └── myproject/              <- Project configuration package
@@ -18,6 +18,6 @@ myproject/                  <- Root project directory
     ├── models.py           <- Database models (Data layer)
     ├── tests.py            <- Test cases for the app
     └── views.py            <- Request/Response logic (Logic layer)
+```
 
-
-- intial django steup - (link)[\notes\outcome\090726.txt]
+- intial django steup - [link](../notes/outcome/090726.txt)
