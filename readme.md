@@ -20,4 +20,4 @@ myproject/                  <- Root project directory
     └── views.py            <- Request/Response logic (Logic layer)
 ```
 
-- intial django steup - [link](../notes/outcome/090726.txt)
+- intial django steup - [link](/notes/outcome/090726.txt)
