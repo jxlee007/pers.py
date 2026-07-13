@@ -16,10 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core import views
+from core import views as core_view
+from arcade_pass import views as arcade_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('route', views.fncname, )
-    path('', views.index, name="index" )
+    path('', core_view.index, name="index" ),
+    # This single route handles both GET (viewing) and POST (submitting)
+    path('arcade', arcade_view.arcade, name="submit_data" ),
+    # post path
+    # path('submit/', arcade_view.arcade, name='submit_data'),
 ]

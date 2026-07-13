@@ -478,9 +478,18 @@ Note: dynamic handling of attributes is practically needed in
     - Django enforces oops and mvc concepts by default
     - python -m pip install Django
     - workshop came in handy from 3yrs ago
-    - 
 
+130626
+    - user input - kms-to-miles
+    - try to understand basic oops syntax
+    - try to implement input to arcade pass today
+    - started sql at sololearn
+        - select col from table
+        - sql code send reqs known as queries
+        - col = field, row = record
+        - header - top row/record of table - contain name of fields
     
+        
 
 
 

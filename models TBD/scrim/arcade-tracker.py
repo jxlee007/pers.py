@@ -49,9 +49,9 @@ games_available =  total_tokens//tokens_required_per_game
 
 print(
     f"""===== ARCADE DAY PASS ===== 
-    Customer: {customer_name} 
-    Passes: {no_of_passes} 
-    Tokens: {total_tokens} 
-    Total Cost: ${total_cost:.2f} 
-    Games Available: {games_available}
+            Customer: {customer_name} 
+            Passes: {no_of_passes} 
+            Tokens: {total_tokens} 
+            Total Cost: ${total_cost:.2f} 
+            Games Available: {games_available}
     """)
