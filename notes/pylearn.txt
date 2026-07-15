@@ -581,7 +581,9 @@ Note: dynamic handling of attributes is practically needed in
         - fncs/method without self param - kind of act class attr
             - they use decorator for this 
         - trying to decode email class using psuedocode
-        
+            - GTK abt obj relationship
+                - composition - Has-A
+                - dependency - Use-A
 
 
     strict-oops
