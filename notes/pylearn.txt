@@ -488,8 +488,115 @@ Note: dynamic handling of attributes is practically needed in
         - sql code send reqs known as queries
         - col = field, row = record
         - header - top row/record of table - contain name of fields
+    -  make calc / converter app
+        - from whatever learned yet
+
+140626
+    - first solve 50 basic program in py
+        - for logic building and dev problem solving skills
+    - given 4 days time to complete task 
+    py example
+    - x=y=z="hello" - legal
+    - x,y,z = red,blue,yellow- legal
+    - list = [1,2,3] 
+        - a,b,c = list 
+        print(a) # result to a=1
+    - there is also type called complex
+        - x = 5
+        - x = complex(x)
+    - if we x[3] to output 
+        - it will give work on str as list and return char on index 3
+    - if want to find a word in str - use in
+    - str.strip -  string without any whitespace at the beginning or the end.
+    - str.replace("A","B")
+
+    - fstr 
+        - can use for math ops
+        - if-else statements
     
+    - Comp ops
+        - # Variables given
+            a , b = 5, 3
+
+            # Evaluates the comparison directly and assigns the boolean
+            result = a > b
+
+            # Uses the 'not' operator to invert the boolean directly
+            inverse_result = not result
+
+    - <<= bitwise left shift operator
         
+        - do Comment the Intent
+        - use fast multiplication
+        - use in low-lvl sys 
+        - do not
+            - for Simple Multiplication
+            - 
+
+    - walrus operator ( := )
+        - print(x:=3) - print at same time save value to x 
+        - BP - always use () parentheses for precedence 
+             - either output T/F resulting wrong result
+        - keep var name meaningful and clear
+        - were to use
+           - to check API responses or heavy DB queries
+           - In List Comprehensions (Filtering and Reusing Data)
+           - When modifying elements in a list, 
+                - you often want to filter out elements based on an expensive function call, 
+                - but still keep the transformed result.
+                
+                import math
+                
+                numbers = [4, 9, 16, 25]
+
+                # Without Walrus, you would have to run math.sqrt(x) twice: 
+                # once for the 'if' filter and once for the output list.
+
+                # With Walrus: math.sqrt(x) is computed once, saved to 'root', and reused
+                square_roots = [root for x in numbers if (root := math.sqrt(x)) > 3]
+
+                print(square_roots)  # Outputs: [4.0, 5.0]
+        - do not
+            - Replace Simple Assignments
+            - Chain Multiple Walruses
+            -  if it Conceals Bugs
+
+150626
+    - else never hold another condition - its elif
+    - while loop uses counter var to avoid infinite loop - used when iterations are unknown
+    - for is used when iterations are known
+    - str concate in list items 
+    - for sq nums - used list-comp 
+    - list.insert(item,index)
+    - normal-oops  - https://youtu.be/-pEs-Bss8Wc?si=Q3ovtYVbsdbZfYdd
+        - classes are complex ds/obj
+            - have fncs that decide behaviour of classes
+            - is blueprint  of a ds
+        - instance is implementation of that ds on data give
+        - attr = var 
+        - instance attr can be accessed outside of class - kind of local var
+        eg pet_1.name
+        - class attr - use upon class - kind of global var  
+        eg dog.alias # pet
+        - fncs/method without self param - kind of act class attr
+            - they use decorator for this 
+        - trying to decode email class using psuedocode
+        
+
+
+    strict-oops
+        - pivate-vars/dunder attr are for strict-encapsulation
+        - cannot be directly accessed outside of class
+        - so we use props called  
+            - getter methods - to read data safely
+            eg pet_1.get_name()
+            - setter methods - to modify data safely
+    
+
+
+
+
+
 
 
 
