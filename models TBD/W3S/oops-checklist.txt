@@ -1,0 +1,50 @@
+Do this for every class: Best way to build logical understanding
+
+Write the class name
+    Write 3 bullet points:
+    what it represents
+    what it stores
+    what it can do
+A class should answer: “What is this thing?”
+
+Take one object - very good practice exercise for you
+    and answer these 4 questions:
+
+    What is this object?
+    What should it know?
+    What should it do?
+    Which methods belong to it?
+
+How to practice this properly
+    Before touching code, practice this pattern:
+
+    1. Pick a real-world thing
+    Example:
+        Student
+        BankAccount
+        Car
+        Book
+
+    2. Write down:
+    What data it should hold
+    What actions it should perform
+    Example for Book:
+
+    Data: title, author, pages
+    Actions: open, read, close, change page
+    3. Turn it into class thinking
+    Data → attributes
+    Actions → methods
+A method should answer: “What can this thing do?”
+
+How to describe a method properly
+When you look at a method, ask these 3 questions:
+
+What does this method do?
+What object does it work on?
+What changes or result does it produce?
+A good description usually looks like this:
+
+“This method changes the state of the object.”
+“This method performs an action for the object.”
+“This method returns or prints information about the object.”

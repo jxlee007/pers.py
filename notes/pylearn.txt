@@ -593,6 +593,19 @@ Note: dynamic handling of attributes is practically needed in
             - getter methods - to read data safely
             eg pet_1.get_name()
             - setter methods - to modify data safely
+
+160726
+    - model = class represent concept = blueprint = complex DS
+    - Object = actual thing created from that blueprint that holds data
+    - A class describes what an object is.
+    - A method describes what that object can do.
+    - How to describe a method properly
+        When you look at a method, ask these 3 questions:
+            What does this method do?
+            What object does it work on?
+            What changes or result does it produce?
+    -
+
     
 
 
