@@ -1,9 +1,7 @@
-# Normal OOPS
-    # type hints -> type safety 
-
+# Normal OOPS - type hints -> type safety 
 # class = blueprint -> complex ds 
 
-class dog:
+class Dog:
 
     # class attr - shared 
     alias = 'pet'
@@ -51,12 +49,64 @@ class dog:
 
 # instance = obj -> implementation of ds/class on data to create  obj
 
-pet_1=dog("max","GR",5)
+pet_1=Dog("max","GR",5)
 
 # accessible only-  when name is a PIA
 # pubic instance attr
-print(pet_1.name) 
+# print(pet_1.name) 
 
-print(f"""
-    {pet_1.eat("fish")}
-""")
+# print(f"""
+#     {pet_1.eat("fish")}
+# """)
+
+
+# inheritance
+class Employee:
+    def __init__(self, name:str, age:int, salary:int) -> None:
+        self.name=name
+        self.age=age
+        self.salary=salary
+
+    def work(self):
+        print(f"{self.name} is working")
+        
+class SoftwareDev(Employee):
+    # extend
+    def __init__(self, name: str, age: int, salary: int, level:int) -> None:
+        super().__init__(name, age, salary)
+        self.level=level
+    pass
+
+    def work(self):
+        print(f"{self.name} is coding")
+
+class Designer(Employee):
+     # overide 
+    def work(self):
+        print(f"{self.name} is designing")
+    
+    
+
+se = SoftwareDev("mac",24,40000, 3)
+d = Designer("emily",20,60000)
+
+# d.work()
+
+# print(se.name)
+# se.work()
+
+
+
+
+
+
+# Polymorphism
+# list of employees (hint as list of base class Employee)
+employees: list[Employee] = [
+    SoftwareDev("mac", 24, 40000, 3),
+    Designer("emily", 20, 60000),
+]
+
+# Run the exact same method name on all of them
+for emp in employees:
+    emp.work()

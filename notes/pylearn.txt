@@ -604,7 +604,25 @@ Note: dynamic handling of attributes is practically needed in
             What does this method do?
             What object does it work on?
             What changes or result does it produce?
-    -
+    - input - params are - temp inputs
+    - state - attr are - permanent in mem state of instance
+    - inheritance
+        - Inherit -> base class as param to another class
+        eg softwaredev(employee)
+        - extend -> base clase instance attr used by another class using super
+        eg : super().__init__(param1,param2)
+        
+170726
+    - override -> 
+    - polymorphism = many forms
+    - if print a fnc/method outside of class - it results with type hint too
+
+180726
+    - Think of a universal Play Button (▶️):
+        - If you press it on a CD Player, it spins a disc.
+        - If you press it on a Smartphone, it streams a digital file.
+        - If you press it on a Video Game, it unpauses the engine.
+    - practice
 
     
 
