@@ -618,6 +618,22 @@ Note: dynamic handling of attributes is practically needed in
     - if print a fnc/method outside of class - it results with type hint too
 
 180726
+    - py code challenges - W3S - ✅done by own successfully
+        - ✅ remove list item using remove()
+        - ✅ list comp - filter out apple from fruits 
+        - ✅ sort items in ascending - used sort()
+        - ✅ copy items - my approach was wrong as i directly assigned thislist to mylist
+            - correct alts 
+                - using .copy(), 
+                - list-slicing - mylist = thislist[:]
+                - using constructor - mylist = list(thislist) 
+        - ✅ join list -> list3 = list1 + list2
+        - ✅ iterate over tuple = used for loop
+        - ✅ define single tuple = ('apple',)
+        - ✅ access tuple = use index
+        - ✅ update tuple = use concate with ('orange',) -> tuple type 
+            - eg - thistuple += ('orange',)
+        - ✅  
     - Think of a universal Play Button (▶️):
         - If you press it on a CD Player, it spins a disc.
         - If you press it on a Smartphone, it streams a digital file.
