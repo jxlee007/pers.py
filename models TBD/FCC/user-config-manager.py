@@ -1,3 +1,8 @@
+# CRUD - add,update, delete,view
+# for office - can be adapted for employees
+# employees can be the user
+# employee-user suggested new setting - or clean 
+
 def add_setting(settings, setting_tuple):
 
     key = setting_tuple[0].lower()

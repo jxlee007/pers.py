@@ -1,0 +1,36 @@
+TODAY TASK - BUILD BASIC OOPS UNDERSTANDING BEFORE LOGIC BUILDING
+
+- If you build basic OOP first, 
+when you practice logic building, 
+- your code naturally stays modular and readable
+
+For now 
+- models TBD is - Procedural code (functions + data) - Py scripts
+- after D-app implied → OOP (classes encapsulate both)
+
+Type hints → Catch bugs, document code
+
+PROCESS TO ADAPT OOPS
+
+Understand Original Code
+
+Questions to ask yourself:
+
+What data needs to be stored?
+    Text, shift amount, message
+What actions does this perform?
+    Encrypt, decrypt
+What could be reused?
+    The cipher logic (should work on multiple messages)
+
+2. Sketch the Class Design
+
+Before coding, plan on paper (or in comments):
+
+class
+├── Attributes (data it holds)
+├── Methods (actions it performs)
+└── Properties (controlled access)
+
+Build a office app
+- 

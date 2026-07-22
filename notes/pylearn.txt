@@ -633,13 +633,31 @@ Note: dynamic handling of attributes is practically needed in
         - ✅ access tuple = use index
         - ✅ update tuple = use concate with ('orange',) -> tuple type 
             - eg - thistuple += ('orange',)
-        - ✅  
+        
+        - SQL sololearn 
+            - what relational DB
+                - tables are related through keys
+                - contains several tables 
+
+        - rated and review path alignment - got html file 
     - Think of a universal Play Button (▶️):
         - If you press it on a CD Player, it spins a disc.
         - If you press it on a Smartphone, it streams a digital file.
         - If you press it on a Video Game, it unpauses the engine.
     - practice
 
+220726
+    - Your code → Refactor → Understand/revise → Django → LeetCode
+    - Explain why, not just how
+        Existing Python code (models_TBD/)
+                     ↓
+        Refactor to OOP (learn by refactoring)
+                     ↓
+        Build Django apps (scale the patterns)
+                     ↓
+        Master design patterns (strategy, factory, observer)
+                     ↓
+        LeetCode (with OOP thinking) ← Easier, cleaner solutions
     
 
 
