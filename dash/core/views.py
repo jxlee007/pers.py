@@ -31,14 +31,24 @@ def char_input(request):
       # get user input
       user_name = request.POST.get('user_name')
       user_age = int(request.POST.get('user_age'))
+      times = int(request.POST.get('number'))
 
       # Process data - calculate in which yr 
       age_left = 100 - user_age
       result = current_year + age_left
 
+      final_msg = f"""
+          Hi { user_name } of {user_age} ,
+          You will be turning 100 years old in year {result} 
+      """
+
+      # print msg - str manipulation
+      output = final_msg * times
+      
+
       # 3. Add the result to the context dictionary
       # in case if you want 2 var to pass
-      context['output_year'] = result 
-      context['user_name'] = user_name
+      context['result_output'] = output 
+
 
     return render(request, 'minitools/char-input.html', context)
