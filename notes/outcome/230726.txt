@@ -1,7 +1,7 @@
 The choice between Function-Based Views (FBVs) and Class-Based Views (CBVs) depends entirely on your project's goals, structural patterns, and your experience level. [1, 2, 3] 
 Neither is objectively "better" overall, but one is usually much better suited for a specific scenario. [4] 
 ------------------------------
-## 1. Which is best: FBVs or CBVs?
+## 1. Which is best: FBVs or CBVs ?
 Instead of one being superior, they excel at different things. The industry standard is to use FBVs for custom, unique logic and CBVs for predictable, standard CRUD operations (Create, Read, Update, Delete). [5, 6, 7, 8] 
 
 | Feature | Function-Based Views (FBVs) | Class-Based Views (CBVs) |
