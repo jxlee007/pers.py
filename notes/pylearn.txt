@@ -658,6 +658,24 @@ Note: dynamic handling of attributes is practically needed in
         Master design patterns (strategy, factory, observer)
                      ↓
         LeetCode (with OOP thinking) ← Easier, cleaner solutions
+
+230726
+    - complete CS50 L1
+        - b2 = Binary - good example 
+        - use 2 num sys 
+            - 0 and 1 - state - on or off
+            - 1,2,4,8,16,32,64,128 - bits to use combo of states for representation
+            - b8 = 256 possibilities
+            - b4 = ASCII - representation of eng letters + num + punch
+            - b32 = UNICODE - for other langs + emoji
+            - RGB - 1-255
+        - problem solving is a process
+            - using algo step by step
+    - back to project  - adapting py prac using oops
+        - GTK abt FBV vs CBV - refer outcome folder
+            - beginners prefer FBV - we will go with that
+            - odoo - CBV
+
     
 
 

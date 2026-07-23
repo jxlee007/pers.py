@@ -22,9 +22,11 @@ from arcade_pass import views as arcade_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('route', views.fncname, )
-    path('', core_view.index, name="index" ),
-    # This single route handles both GET (viewing) and POST (submitting)
     path('arcade', arcade_view.arcade, name="submit_data" ),
     # post path
     # path('submit/', arcade_view.arcade, name='submit_data'),
+    # This single route handles both GET (viewing) and POST (submitting)
+    path('', core_view.index, name="index" ),
+    path('mini-tools',core_view.minitools, name="minitools" ),
+    path("char-input", core_view.char_input, name="char-input")
 ]
