@@ -19,6 +19,8 @@ def index(request):
 def minitools(request):
     return render(request,'minitools/home.html')
 
+
+# MT 1 
 def char_input(request):
 
     # use dict - for passing the output on same page
@@ -43,6 +45,7 @@ def char_input(request):
       """
 
       # print msg - str manipulation
+      # multiplying a Str by an Int - uses a feature called Sequence Repetition
       output = final_msg * times
       
 
@@ -52,3 +55,11 @@ def char_input(request):
 
 
     return render(request, 'minitools/char-input.html', context)
+
+# MT 2
+def numops(request):
+
+    # use dict - for passing the output on same page
+    context = {}
+
+    return render(request, 'minitools/numops.html', context)

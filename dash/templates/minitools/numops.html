@@ -1,0 +1,80 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MT 2 - NUMOPS</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+  </head>
+  <body>
+    <a href="/mini-tools">&larr; Back to Mini Tools</a>
+
+    <h1>NUMOPS</h1>
+
+    <table>
+      <tr>
+        <td>
+          <!-- <h3></h3> -->
+        </td>
+        <td>
+          <p>Operations you can perform:</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <!-- <form action="{% url 'submit_data'%}" method="post">  -->
+          <form action="" method="post">
+            <!-- to protect post form and verify the request for django  -->
+            {% csrf_token %}
+
+            <!-- using post method - onsubmit we will send user input data to py-program file-->
+            <label for="option">Enter an operation no. (1-10):</label><br />
+            <input
+              type="text"
+              id="option"
+              name="option"
+              min="1"
+              max="10"
+              required
+            /><br /><br />
+
+            Enter number A:
+            <input type="number" name="num1" required /><br /><br />
+
+            Enter number B:
+            <input type="number" name="num2" required /><br /><br />
+
+            <input type="submit" value="calculate" />
+          </form>
+
+          <!-- The Output appears here after submission -->
+          {% if result_output %}
+          <div
+            style="
+              margin-top: 10px;
+              color: yellow;
+              font-family: Arial, sans-serif;
+            "
+          >
+            <h3>Receipt:</h3>
+            <pre>
+                <h2>{{ result_output }}</h2>
+            </pre>
+          </div>
+          {% endif %}
+        </td>
+
+        <td>
+          <ol>
+            <li>odd_even</li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ol>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

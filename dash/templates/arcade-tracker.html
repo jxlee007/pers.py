@@ -1,51 +1,52 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Arcade Day Pass</title>
 
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-
-</head>
-<body>
-
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+  </head>
+  <body>
     <h1>Arcade Day Pass</h1>
 
     <ul>
-        <li>Price per pass: $2.50</li>
-        <li>Token per pass: 40</li>
-        <li>Token needed per game:10</li>
+      <li>Price per pass: $2.50</li>
+      <li>Token per pass: 40</li>
+      <li>Token needed per game:10</li>
     </ul>
 
     <!-- <form action="/arcade-tracker" method="post">  -->
     <!-- <form action="{% url 'submit_data'%}" method="post">  -->
-    <form action="" method="post"> 
-        <!-- to protect post form and verify the request for django  -->
-        {% csrf_token %}
+    <form action="" method="post">
+      <!-- to protect post form and verify the request for django  -->
+      {% csrf_token %}
 
-    <!-- using post method - onsubmit we will send user input data to py-program file-->
-        <label for="name">Your Name:</label>
-        <input type="text" id="name" name="customer_name" required><br><br>
+      <!-- using post method - onsubmit we will send user input data to py-program file-->
+      <label for="name">Your Name:</label>
+      <input type="text" id="name" name="customer_name" required /><br /><br />
 
-        <label for="passes_bought">No. of passes you like to buy:</label>
-        <input type="number" id="passes_bought" name="passes_bought"><br><br>
+      <label for="passes_bought">No. of passes you like to buy:</label>
+      <input
+        type="number"
+        id="passes_bought"
+        name="passes_bought"
+      /><br /><br />
 
-
-        <input type="submit" value="Get Receipt">
+      <input type="submit" value="Get Receipt" />
     </form>
 
-        <!-- The Output appears here after submission -->
+    <!-- The Output appears here after submission -->
     {% if result_output %}
-        <div style="margin-top: 10px; color: yellow; font-family: Arial, sans-serif;">
-            <h3>Receipt:</h3>
-            <pre>
+    <div
+      style="margin-top: 10px; color: yellow; font-family: Arial, sans-serif"
+    >
+      <h3>Receipt:</h3>
+      <pre>
                 <h2>{{ result_output }}</h2>
             </pre>
-        </div>
+    </div>
     {% endif %}
-
-    
-</body>
+  </body>
 </html>

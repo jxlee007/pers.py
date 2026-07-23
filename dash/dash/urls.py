@@ -28,5 +28,6 @@ urlpatterns = [
     # This single route handles both GET (viewing) and POST (submitting)
     path('', core_view.index, name="index" ),
     path('mini-tools',core_view.minitools, name="minitools" ),
-    path("char-input", core_view.char_input, name="char-input")
+    path('char-input', core_view.char_input, name="char-input"),
+    path('numops', core_view.numops, name='numops')
 ]
