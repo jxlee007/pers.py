@@ -683,6 +683,25 @@ Note: dynamic handling of attributes is practically needed in
     - problem - want to consolidate multiple similar ops/process
     - solution - used matchcase in for clean execution 
     - GTK abt presence check pattern - single responsibility principle
+    - complete CS50 L1 
+        X = time it takes
+        Y = space/mem it takes
+        - n - no. to times
+        - n/2 - better than n
+        - log2n 
+
+250726
+    - CS50P L1
+        - return value
+        - comments - psuedocode
+        - ARGS are input 
+        - print(  , sep=' ' , end="\n", file.sysout )
+        - refer py doc for above 
+        - str - .split( ) , .strip( )
+        - int - print( f ' { z : , } ' )
+        - float - print( f ' { z : . 2f  } ' )
+        - default param in def fnc
+        - def Hello ( to = world ) print ( ' hi ', to )
 
 
     
