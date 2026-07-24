@@ -78,19 +78,34 @@ def numops(request):
         # keep in mind while code - context['result'] = output
         match operation:
 
-            case 1: # odd_even
-            # P2. If the number is a multiple of 4, print out a different message 
-                if num_a % 4 == 0:
-                    output = f"{num_a} is 4 multiple"
-                    context['result'] = output
-            # P1. Depending on whether the number is even or odd, 
-                elif num_a % 2 == 0:
-                    output = f" {num_a} is even. "
-                # print out an appropriate message to the user
-                    context['result'] = output
+            case 1: # odd_even and divisiblilty check
+
+                # SRP - Presence check pattern
+                if num_b == 0:
+
+                # P2. If the number is a multiple of 4, print out a different message 
+                    if num_a % 4 == 0:
+                        output = f"{num_a} is 4 multiple"
+                        context['result'] = output
+                # P1. Depending on whether the number is even or odd, 
+                    elif num_a % 2 == 0:
+                        output = f" {num_a} is even. "
+                    # print out an appropriate message to the user
+                        context['result'] = output
+                    else:
+                        output = f"{num_a} is odd."
+                        context['result'] = output
+
                 else:
-                    output = f"{num_a} is odd."
-                    context['result'] = output
+                # P3. check if divides evenly into num
+                # if num_a / num_b == type(int) : # wrong approach - divops results in float
+                    if num_a % num_b == 0 : 
+                        output = f"{num_a} is evenly divisible by {num_b}."
+                        context['result'] = output
+                    else:
+                        output = f"{num_a} is not evenly divisible by {num_b}."
+                        context['result'] = output
+
 
     
     return render(request, 'minitools/numops.html', context)

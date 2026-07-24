@@ -36,12 +36,29 @@
           Enter number B:
           <input type="number" name="num2" required /><br /><br />
 
-          <input type="submit" value="`calculate" />
+          <input type="submit" value="calculate" />
         </form>
 
       </td>
       
       <td rowspan="2">
+        <p>Operations you can perform:</p>
+        <ol>
+          <li>odd_even and divisibility check</li>
+            <ul>
+              <li>enter num1 value for odd/even and keep num 2 as 0</li>
+              <li>enter num2 value to check if num1 is divisible by num2</li>
+            </ul>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ol>
+        
+      </td>
+      
+      <tr>
+        <td>
         <!-- The Output appears here after submission -->
         {% if result%}
         <div
@@ -57,19 +74,6 @@
           </pre>
         </div>
         {% endif %}
-
-      </td>
-
-      <tr>
-        <td>
-          <p>Operations you can perform:</p>
-          <ol>
-            <li>odd_even</li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ol>
         </td>
       </tr>
       
