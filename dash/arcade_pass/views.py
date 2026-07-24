@@ -24,9 +24,9 @@ def arcade(request):
         games_available =  total_tokens//tokens_required_per_game
 
         result = f"""
-        ===== ARCADE DAY PASS ===== 
+     ===== ARCADE DAY PASS =====      
 
-        Customer: {cust_name.title()} ! 
+        Customer Name: {cust_name.title()} 
         Passes: {no_of_passes} 
         Tokens: {total_tokens} 
         Total Cost: ${total_cost:.2f} 
