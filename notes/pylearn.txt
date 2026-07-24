@@ -674,14 +674,16 @@ Note: dynamic handling of attributes is practically needed in
     - back to project  - adapting py prac using oops
         - GTK abt FBV vs CBV - refer outcome folder
             - beginners prefer FBV - we will go with that
-            - odoo - CBV
+            - odoo prefers CBV
 
 240726
     - done some tabular formatting
     - odd/even only for int digits
+    - divops results float
     - problem - want to consolidate multiple similar ops/process
     - solution - used matchcase in for clean execution 
-    -
+    - GTK abt presence check pattern - single responsibility principle
+
 
     
 
