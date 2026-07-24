@@ -40,8 +40,8 @@ def char_input(request):
       result = current_year + age_left
 
       final_msg = f"""
-          Hi { user_name } of {user_age} ,
-          You will be turning 100 years old in year {result} 
+        Hi { user_name } of {user_age} ,
+        You will be turning 100 years old in year {result} 
       """
 
       # print msg - str manipulation
@@ -50,8 +50,11 @@ def char_input(request):
       
 
       # 3. Add the result to the context dictionary
-      # in case if you want 2 var to pass
+      # in case if you want 2 var to pass 
+        #- put it into 1 var or add separate to key
       context['result_output'] = output 
+        # syntax: dict key access = var 
+ 
 
 
     return render(request, 'minitools/char-input.html', context)
@@ -62,4 +65,32 @@ def numops(request):
     # use dict - for passing the output on same page
     context = {}
 
+    if request.method == 'POST':
+
+        # 1. get inputs
+        operation = int(request.POST.get('option'))
+        num_a = int(request.POST.get('num1'))
+        num_b = int(request.POST.get('num2'))
+
+
+        # 2. use switchcase for multiple operations
+        # to connect matchcase to context dict - add the context 
+        # keep in mind while code - context['result'] = output
+        match operation:
+
+            case 1: # odd_even
+            # P2. If the number is a multiple of 4, print out a different message 
+                if num_a % 4 == 0:
+                    output = f"{num_a} is 4 multiple"
+                    context['result'] = output
+            # P1. Depending on whether the number is even or odd, 
+                elif num_a % 2 == 0:
+                    output = f" {num_a} is even. "
+                # print out an appropriate message to the user
+                    context['result'] = output
+                else:
+                    output = f"{num_a} is odd."
+                    context['result'] = output
+
+    
     return render(request, 'minitools/numops.html', context)

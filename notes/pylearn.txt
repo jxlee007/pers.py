@@ -660,7 +660,7 @@ Note: dynamic handling of attributes is practically needed in
         LeetCode (with OOP thinking) ← Easier, cleaner solutions
 
 230726
-    - complete CS50 L1
+    - complete CS50 L1 - only half done
         - b2 = Binary - good example 
         - use 2 num sys 
             - 0 and 1 - state - on or off
@@ -675,6 +675,13 @@ Note: dynamic handling of attributes is practically needed in
         - GTK abt FBV vs CBV - refer outcome folder
             - beginners prefer FBV - we will go with that
             - odoo - CBV
+
+240726
+    - done some tabular formatting
+    - odd/even only for int digits
+    - problem - want to consolidate multiple similar ops/process
+    - solution - used matchcase in for clean execution 
+    -
 
     
 
