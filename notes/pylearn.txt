@@ -703,6 +703,14 @@ Note: dynamic handling of attributes is practically needed in
         - default param in def fnc
         - def Hello ( to = world ) print ( ' hi ', to )
 
+    - CS50P L2
+        - conditionals needs flowchart - DFD
+        - chain comops - s >= 90 and s <= 100
+        - if 90 <= s <=100 
+        - def main  - this is use to organize fncs 
+        - main() - only one fnc call for all 
+        - catchall = case_
+
 
     
 
