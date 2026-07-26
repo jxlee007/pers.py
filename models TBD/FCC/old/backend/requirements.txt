@@ -1,5 +1,0 @@
-fastapi
-uvicorn
-pydantic
-networkx
-#pip install -r .\requirements.txt

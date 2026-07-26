@@ -1,3 +1,12 @@
+# Brilliant tutorials
+
+def main():
+    # one()
+    # two()
+    # three()
+    # four(message_two)
+    pass
+
 print("decode-message")
 
 # clue : str backward
@@ -54,10 +63,10 @@ def replace_xy(character):
 # for letter in message:
 #     print(replace_xy(letter), end="")
 
-# Run the functions
-# one()
-# two()
-# three()
-# four(message_two)
-
 # slicing is best 
+
+
+
+# ------------------------
+if __name__ == '__main__':
+    main()

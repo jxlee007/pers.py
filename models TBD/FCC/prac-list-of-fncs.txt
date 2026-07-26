@@ -31,4 +31,4 @@ The "Area of a Circle"
 Rule: Function calculate_area(radius)
 Check: If radius is 0 or negative, return "Radius must be positive".
 Math: 3.14 * (radius ** 2)
-Goal: Practice using exponents (**) and guarding against zero/negative values.
+Goal: Practice using exponents (**) and guarding against zero/negative values
