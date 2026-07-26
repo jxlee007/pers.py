@@ -1,0 +1,80 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MT 3 - elem_search</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+  </head>
+  <body>
+    <a href="/mini-tools">&larr; Back to PRAC-PY</a>
+
+    <h1>Element search in numbers list</h1>
+
+    <table border="1">
+      <td>
+        <!-- <form action="{% url 'submit_data'%}" method="post">  -->
+        <form action="" method="post">
+          <!-- to protect post form and verify the request for django  -->
+          {% csrf_token %}
+
+          <!-- using post method - onsubmit we will send user input data to py-program file-->
+          <label for="option">Enter 5 numbers with space:</label>
+          <input
+            id="option"
+            name="option"
+            required
+          /><br /><br />
+
+          Enter number to search:
+          <input type="number" name="num1" required /><br /><br />
+
+          <!-- Enter number B:
+          <input type="number" name="num2" required /><br /><br /> -->
+
+          <input type="submit" value="calculate" />
+        </form>
+
+      </td>
+
+      <td rowspan="2">
+        <ol>
+          <li>Give user 2 choices - for input and random choice </li>
+          <li>Print the list of numbers to choose from</li>
+          <li>To Implement binary search algorithm </li>
+          NTK
+            <ul>
+              <li>abt moving boundaries</li>
+              <li>handle list size changes</li>
+              <li>map out changing state</li>
+            </ul>
+          <!-- <li></li>
+          <li></li> -->
+        </ol>
+      </td>
+      
+      <tr>
+
+        <td>
+        <!-- The Output appears here after submission -->
+        {% if result%}
+        <div
+          style="
+            margin: 10px;
+            color: yellow;
+            font-family: Arial, sans-serif;
+          "
+        >
+          <h3>Result:</h3>
+          <pre>
+              <h2>{{ result }}</h2>
+          </pre>
+        </div>
+        {% endif %}
+        </td>
+      </tr>
+    
+    </table>
+  </body>
+</html>

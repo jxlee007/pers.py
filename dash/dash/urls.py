@@ -29,5 +29,8 @@ urlpatterns = [
     path('', core_view.index, name="index" ),
     path('mini-tools',core_view.minitools, name="minitools" ),
     path('char-input', core_view.char_input, name="char-input"),
-    path('numops', core_view.numops, name='numops')
+    path('odd_even', core_view.odd_even, name='odd_even'),
+    path('elem_search', core_view.elem_search, name='elem_search')
+
+
 ]

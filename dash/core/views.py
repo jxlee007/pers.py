@@ -1,5 +1,6 @@
 from django.shortcuts import render  #, HttpResponse
 from datetime import date
+import random
 # Request/Response logic (Logic layer)
 # Create your views here.
 
@@ -19,8 +20,7 @@ def index(request):
 def minitools(request):
     return render(request,'minitools/home.html')
 
-
-# MT 1 
+# PP 1 
 def char_input(request):
 
     # use dict - for passing the output on same page
@@ -59,8 +59,8 @@ def char_input(request):
 
     return render(request, 'minitools/char-input.html', context)
 
-# MT 2
-def numops(request):
+# PP 2
+def odd_even(request):
 
     # use dict - for passing the output on same page
     context = {}
@@ -105,7 +105,22 @@ def numops(request):
                     else:
                         output = f"{num_a} is not evenly divisible by {num_b}."
                         context['result'] = output
-
-
     
-    return render(request, 'minitools/numops.html', context)
+    return render(request, 'minitools/odd_even.html', context)
+
+# PP 3
+def elem_search(request):
+
+    # use dict - for passing the output on same page
+    context = {}
+
+    if request.method == 'POST': # if not mention give nonetype err
+        item = int(request.POST.get('num1'))
+        list_input = request.POST.get('option').split()
+
+        ordered_list = [int(i) for i in list_input]
+
+
+        context['result'] = f'{item in ordered_list}'
+
+    return render(request, 'minitools/elem_search.html', context)
