@@ -43,7 +43,7 @@ num--ops
     - ** = exponentiation = pow(x, y)
     - fncs = float(), int(), round(), abs(), max(), min(), sum(), prod(), 
 
-    - Augumented Assignnments = concise way todo numops
+    - Augumented Assignnments = concise way todo odd_even
     - = +=, -=, *=, /=, %=, //=, **=
 
 bools and conditional
@@ -432,7 +432,7 @@ Note: dynamic handling of attributes is practically needed in
     - 2 achieved - review pending 
     - task 3 test and task 4 is remaining - pullover tommorow
     - GTL 
-        - T1 warn-up on list comp syntax = [var-with-numops for var in list if condition ]
+        - T1 warn-up on list comp syntax = [var-with-odd_even for var in list if condition ]
         - T2 warn-up on dict-comp = {key: val for key, val in dict if concise}
             - GTK abt dict-comp - from operator import itemgetter
             - itemgetter is better then lambda
@@ -710,7 +710,35 @@ Note: dynamic handling of attributes is practically needed in
         - def main  - this is use to organize fncs 
         - main() - only one fnc call for all 
         - catchall = case_
+    
+brilliant
+    - swap(text, letter1, letter2) , 
+    - remove(txt, to_remove),  - use to remove noise
+        def remove(text, to_remove):
+        new_text =""
+        for letter in text:
+            if letter != to_remove:
+                new_text += letter
+                return new_text
+    - cycle(text, n)
+    - reverse(text)
+    - step_through(text, step)
+    - Fncs help decompose complex problems into smaller parts that are easier to solve
 
+    - odd letter
+    message="pancicherpitrarbileen ploonsystens"
+    # clue: even-indexed letters are noise
+    def odd_letters(text):
+        only_odds = ""
+        i = 1
+        while i<len(text):
+            only_odds += text[i]
+            i += 2
+            return only_odds
+            print(odd_letters(message))
+
+260726
+    - before solving binary search - refer 260726.txt
 
     
 

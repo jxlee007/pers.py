@@ -5,12 +5,44 @@ def main(): # for code org
     # sum_of_n_num()
     # msg(0, 5)
     # list()
-    print(firstLast())
+    # print(firstLast())
+    elem_search()
+
     pass
 
 def firstLast():
     a = random.sample(range(30), 10)
     return (a,[a[0], a[-1]])
+
+def elem_search():
+    ordered_list = sorted(random.sample(range(500), 10))
+    # our item is elem
+    item = random.choice(ordered_list)
+
+    # binary search imply
+        # needs dynamic boundary
+    # tried 
+        # enmerate = false
+        # divide by 2 = false
+    # we take how bit list is and find the middle position by 2
+    idx = int(len(ordered_list) / 2)
+
+    position = ordered_list[idx]
+    left = ordered_list[(idx - 1)]
+    right = ordered_list[(idx + 1)]
+
+
+    # if idx == item :
+    #     print(f'found item {position} at {ordered_list(idx)} ')
+    # elif left == item :
+    #     print(f'found item {position} at {ordered_list.index(left)} ')
+    # elif right == item:
+    #     print(f'found item {position} at {ordered_list.index(right)} ')
+    # else:
+    #     print(f'{item} not found')
+
+    print(ordered_list)
+
 
 def list():
     n = int(input("How many numbers do you want to add? "))
