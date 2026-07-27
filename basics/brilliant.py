@@ -5,24 +5,26 @@ def main():
     # two()
     # three()
     # four(message_two)
+    # print("decode-message")
     pass
 
-print("decode-message")
 
-# clue : str backward
-message_one = "onaip si siht"
+def strops():
 
-# clue : replace a with e
-message_two = "tha bast avar krama hara"
+    # clue : str backward
+    message_one = "onaip si siht"
 
-# clue : repacle z wit r . c is noise 
-message_three = "pczogczamming is czeally gczeat"
+    # clue : replace a with e
+    message_two = "tha bast avar krama hara"
 
-# clue - x hide a , y hide e
-message = "bywxry thy yvyning rxin"
+    # clue : repacle z wit r . c is noise 
+    message_three = "pczogczamming is czeally gczeat"
 
-# practice for str indexing
-# there are two possible ways = while loop or slicing(modern way)
+    # clue - x hide a , y hide e
+    message = "bywxry thy yvyning rxin"
+
+    # practice for str indexing
+    # there are two possible ways = while loop or slicing(modern way)
 
 
 def one():
@@ -40,8 +42,10 @@ def one():
 def two():
     print(message_one[::-1])
 
+
 def three():
     print(message_three[::1].replace("cz","r"))
+
 
 def four(character):
     # swap characters
@@ -52,6 +56,7 @@ def four(character):
             print(letter, end="")
     # print(message_two[::1].replace("a","e")) # best-way
 
+
 def replace_xy(character):
     if character == "x":
         return "a"
@@ -59,6 +64,7 @@ def replace_xy(character):
         return "e"
     else :
         return character
+
 
 # for letter in message:
 #     print(replace_xy(letter), end="")

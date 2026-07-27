@@ -740,6 +740,9 @@ brilliant
 260726
     - before solving binary search - refer 260726.txt
 
+270726
+    - 
+
     
 
 
