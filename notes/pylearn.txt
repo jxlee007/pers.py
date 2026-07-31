@@ -740,8 +740,27 @@ brilliant
 260726
     - before solving binary search - refer 260726.txt
 
-270726
-    - 
+300726
+    Brilliant 
+        Returning vals
+        - create respond method - to take user queries input and return output as "thinking"
+        - in the previous method itself we will also add a count of one - for each query answered by agent 
+        - create add query method with attribute amount
+        - set a limit for non premium agents of three queries and stop adding queries
+        - Methods make objects flexible: because they're functions, they can implement a wide variety of behaviors.
+
+        planning classes
+        - what it shoud store - attribute(vars) - eg word, count
+        - what tasks should performs - methods(fncs) - eg couting words
+        - what DS would be good to store data - ex dict for word counter
+        """Set up an empty dictionary of word count pairs. """ - init class
+        """Given a word from the dataset , update its count """ - plan method
+        """Return the number of times a word appears in the dataset """ - plan output
+
+        planning is key to thinking OOPs
+
+        Building states
+        - 
 
     
 
