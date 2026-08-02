@@ -12,14 +12,15 @@
 # Designing classes
 # -> 3107   
 # 7. Planning classes - psuedocode
-# 8. Building states - code
+# 8. Building states - code - mutators
 # -> note
 """
 1. Imports go at the very top
 2. Classes are defined at the module level
 3. Main function ONLY handles execution logic
 """
-# 9. reporting states
+# 9. reporting states - accessors
+# 10. 
 
 
 # -------------------------------------------------
@@ -35,12 +36,39 @@ class word_counter():
         self.count = {}
 
 # methods that change an obj state are known as mutators
+# Mutator 1
     def update_count(self,word):
     # update-count mutator update and build up count dictionary
         if word not in self.count :
             self.count[word] = 1
         else:
             self.count[word] +=1
+
+# Accessor 1: Return the number of times a word appears in the dataset.
+# method that report val and dont change the state are called acesssors
+    def get_count(self,word):
+        # shorthand approach using dict.get()
+        return self.count.get(word,0)
+
+        # if word in self.count:
+        #     return self.count[word]
+        # else:
+        #     return 0
+
+# return yes or no
+    def in_dataset(self, word):
+        return word in self.count
+
+# Accessor 2: Return the number of distinct words in the dataset.
+    def distinct_words(self):
+        return len(self.count)
+
+# Accessor 3: Return the total number of words in the dataset.
+    def total_words(self):
+        total = 0
+        for word in self.count:
+            total += self.count[word]
+        return total
 
 
 
@@ -137,11 +165,15 @@ def word_count():
         "and the dish ran away with the spoon")
 
     word_list_2 = cow_data.split()
-    print(word_list_2)
+    # print(word_list_2)
     cow_counter = word_counter()
     for word in word_list_2:
         cow_counter.update_count(word)
     print(cow_counter.count)
+    # print(f" 'Count of the' = {cow_counter.get_count('the')}")
+    # print(f" 'the' in dataset = {cow_counter.in_datase')}")
+    print(f"Distinct words: {cow_counter.distinct_words()}")
+    print(f"Total words: {cow_counter.total_words()}")
 
     # word_list=['the','cow','jumped','over','the',"moon"]
     # list_counter = word_counter()
