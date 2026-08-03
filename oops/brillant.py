@@ -1,26 +1,33 @@
-#OOPS
-# -> 2707
-# 1. Create Agent class     
-# 2. update attributes
-# -> 2807
-# 3. methods - pairing attrs 
-# 4. updating using methods
-# -> 3007
-# 5. retuning vals - print keeps fnc running
-# 6. lvl review
+from random import randrange
+# Protip:The randrange(n) function returns a random number in the range from O to n — 1
 
-# Designing classes
-# -> 3107   
-# 7. Planning classes - psuedocode
-# 8. Building states - code - mutators
-# -> note
 """
+OOPS
+-> 2707
+1. Create Agent class     
+2. update attributes
+-> 2807
+3. methods - pairing attrs 
+4. updating using methods
+-> 3007
+5. retuning vals - print keeps fnc running
+6. lvl review
+
+Designing classes
+-> 3107   
+7. Planning classes - psuedocode
+8. Building states - code - mutators
+-> note
+9. reporting states - accessors
+-> 0208
+10.  helper methods - got to know abt randrange
+
+
 1. Imports go at the very top
 2. Classes are defined at the module level
 3. Main function ONLY handles execution logic
 """
-# 9. reporting states - accessors
-# 10. 
+
 
 
 # -------------------------------------------------
@@ -70,6 +77,49 @@ class word_counter():
             total += self.count[word]
         return total
 
+# Helper 1: Return counting all the words in a str/dataset 
+    def count_data(self, text):
+        words = text.split() # ai help in resolving name err
+
+        for word in words:
+            # A method can call another method as a helper.
+            self.update_count(word)
+
+# Helper 2: Return the highest word count in the dataset.
+    def greatest_count(self):
+        greatest = 0 # flag 
+
+        # loop = for word count
+        for word in self.count:
+            word_count = self.get_count(word)
+
+            # condition = for updating flag in loop to keep track of max val 
+            if word_count > greatest :
+                greatest = word_count
+
+        return greatest
+
+#  Helper 3 : Return list of most common words
+    def most_common_words(self):
+        most_common = []
+        max_count = self.greatest_count()
+
+        for word in self.count:
+            word_count = self.get_count(word)
+
+            if word_count == max_count:
+                most_common.append(word)
+
+        return most_common
+
+# Helper 4 : returns one of the most common words at random using rand range
+    def random_common_word(self):
+        commom_list = self.most_common_words()
+        choice = randrange(len(commom_list))
+
+        return commom_list[choice]
+
+
 
 
 class Agent():
@@ -104,6 +154,13 @@ class Agent():
             print(f"{self.name} is now {self.style}")
         else:
             print(f'{change} is not a valid style')
+
+
+# Create class string_ops 
+# compare 2 inputs for short str
+# concatinate 2 str inputs
+# encode-code the str 
+
 
 
 # -------------------------------
@@ -157,6 +214,20 @@ def agent():
 
 def word_count():
 
+    pickle_data = (
+    "Peter Piper picked a peck of pickled peppers "
+    "a peck of pickled peppers Peter Piper picked "
+    "if Peter Piper picked a peck of pickled peppers"
+    "where's the peck of pickled peppers Peter Piper picked"
+    )
+
+    pickle_counter = word_counter()
+    pickle_counter.count_data(pickle_data)
+    # print("Most common words:")
+    # print (pickle_counter.most_common_words())
+    for i in range(10):
+        print(pickle_counter. random_common_word())
+
     cow_data = ("hey diddle diddle "
         "the cat and the fiddle "
         "the cow jumped over the moon "
@@ -169,13 +240,15 @@ def word_count():
     cow_counter = word_counter()
     for word in word_list_2:
         cow_counter.update_count(word)
-    print(cow_counter.count)
+    # print(cow_counter.count)
     # print(f" 'Count of the' = {cow_counter.get_count('the')}")
     # print(f" 'the' in dataset = {cow_counter.in_datase')}")
-    print(f"Distinct words: {cow_counter.distinct_words()}")
-    print(f"Total words: {cow_counter.total_words()}")
+    # print(f"Distinct words: {cow_counter.distinct_words()}")
+    # print(f"Total words: {cow_counter.total_words()}")
+    # print("Greatest count:" , cow_counter.greatest_count())
 
-    # word_list=['the','cow','jumped','over','the',"moon"]
+
+    word_list=['the','cow','jumped','over','the',"moon"]
     # list_counter = word_counter()
     
     # for word in word_list:

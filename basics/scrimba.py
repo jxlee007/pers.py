@@ -10,7 +10,6 @@ def main():
 
 
 
-
 def guess_game():  # while loop exe - guessing game
 
     print('==== Guessing game ====') 
@@ -97,7 +96,7 @@ def km_2_mi():  # - Create a distance converter converting Km to miles
         """)
 
 
-# OOPs approach
+# OOPs approach 
 # -> convert independent fnc into class
 # -> create a PassReceipt class
 def arcade():    # 🕹️ Arcade Day Pass Tracker — Challenge Steps
