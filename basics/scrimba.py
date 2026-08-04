@@ -1,58 +1,15 @@
 # SCRIMS FORM SCRIMBA
 
 import random
- 
+
 
 def main():
     # arcade()
     # km_2_mi()
+    # pit()
+    lemonbiz()
     # guess_game()
-    pit()
     # pass   
-
-def pit():  # 🏁 Pit Stop Timing Optimizer 🔧
-    print("🏁 Pit Stop Timing Optimizer 🔧")
-
-    race_time = float(input("Enter the race time (in seconds): ")) # wrong - used int
-    pit_stops = int(input("Enter the no. of pit stop's made: "))
-    avg_duration = float(input("Enter average pit stop duration (in seconds): ")) # wrong - used int
-
-    total_pit_stop_time = pit_stops * avg_duration
-    race_spent_in_pits = (total_pit_stop_time/race_time) * 100
-
-    print(f""" Pit Stop Timing Optimizer 🔧
-    Based on input data:
-        Total pit stop time in seconds: {total_pit_stop_time}
-        Percentage of race time spent in pits : {race_spent_in_pits:.2f}
-    """)
-
-# optional feedback
-    # if race_spent_in_pits > ((5/race_time)*100): wrong 
-    if race_spent_in_pits > 5:
-        print("You need a new pit crew. 🛠️")
-
-    #
-    # 1. Ask the user for the total race time in seconds.
-    # 2. Ask how many pit stops were made.
-    # 3. Ask for the average pit stop duration (in seconds).
-    #
-    # Then:
-    # - Calculate the total pit stop time.
-    # - Calculate the percentage of the race spent in the pits.
-    # - Round the percentage to 2 decimal places.
-    #
-    # Finally, print all of the following:
-    # - Total pit stop time in seconds
-    # - Percentage of race time spent in pits
-    # - A final message if pit time > 5% of the race: "You need a new pit crew. 🛠️"
-
-
-def strings():
-    name = 'TERRY'
-    color = 'RED'
-    print(f" [{name.capitalize()}] loves the color {color.lower()} ")
-
-    # find and replace
 
 
 def guess_game():  # while loop exe - guessing game 
@@ -114,6 +71,132 @@ def guess_game():  # while loop exe - guessing game
     #       - 3 attempt - num less than 10
     #       - 5 attempt - num less than 50
     #       - 10 attempt - num is less than 100  + hints
+
+
+# list
+""" 
+list - - len, count, index 
+sort(reverse=true) -> for list of nums or str
+max, min - again works for both list of str as well as int  
+sum
+modify list
+to add in list - can use append(val), insert(index/position, value ), specify index
+list_1.extend(list_2) - merge to list together
+
+to remove - remove(val), pop(idx) 
+del list or del list[idx]
+list.clear() - clears whole list
+
+copy list - 
+new_list = list_1[:] - slicing
+new_list = list_1.copy() - fnc
+new_list = list(list_1) - list constructor
+"""
+
+
+def lemonbiz():
+    # instructions
+    """ 
+    Lists - Exercise
+    Selling lemonade
+    You sell lemonade over two weeks, the lists show number of lemonades sold per week
+    Profit for each lemonde sold is 1.5$
+    Add another day to week 2 list by capturing a number as input
+    Combine the two lists into the list called 'sales'
+    Calculate/ print how much you have earned on
+    Best day
+    Worst day
+    Separately and in total
+    # Hint: 3 prints in total
+    """
+
+    print("Business")
+
+    sales_w1 = [7,3,42,19,15,35,9]
+    sales_w2 = [12,4,26,10,7,28]
+    # sales = []
+
+    price = 1.5
+    another_day = int(input("Enter sales of last day : "))
+
+    sales_w2.append(another_day)
+
+    sales = sales_w1 + sales_w2
+    print(sales)
+
+    # never directly store in variable  ->  sales = sales_w1.extend(sales_w2)
+    # as it will result none 
+    sales_w1.extend(sales_w2)
+    # sales = sales_w1
+
+    # task givers used sales.sort() 
+    # to access first min and last max val
+    best_day = max(sales)
+    worst_day = min(sales)
+    lifetime_sales = sum(sales)
+
+    # print(f"""
+    # Sales of lemonade biz
+    # Best Day: Sold {best_day}, earned {best_day * price}$
+    # Worst Day: Sold {worst_day}, earned {worst_day * price}$
+    # Total sales: Sold {lifetime_sales} earned {lifetime_sales * price}$
+    # """)
+
+
+
+
+
+
+def pit():  # 🏁 Pit Stop Timing Optimizer 🔧
+
+    # instructions
+    """  
+    1. Ask the user for the total race time in seconds.
+    2. Ask how many pit stops were made.
+    3. Ask for the average pit stop duration (in seconds).
+    
+    Then:
+    - Calculate the total pit stop time.
+    - Calculate the percentage of the race spent in the pits.
+    - Round the percentage to 2 decimal places.
+    
+    Finally, print all of the following:
+    - Total pit stop time in seconds
+    - Percentage of race time spent in pits
+    - A final message if pit time > 5% of the race: "You need a new pit crew. 🛠️"
+
+    """
+
+    print("🏁 Pit Stop Timing Optimizer 🔧")
+
+    race_time = float(input("Enter the race time (in seconds): ")) # wrong - used int
+    pit_stops = int(input("Enter the no. of pit stop's made: "))
+    avg_duration = float(input("Enter average pit stop duration (in seconds): ")) # wrong - used int
+
+    total_pit_stop_time = pit_stops * avg_duration
+    race_spent_in_pits = (total_pit_stop_time/race_time) * 100
+
+    print(f""" Pit Stop Timing Optimizer 🔧
+    Based on input data:
+        Total pit stop time in seconds: {total_pit_stop_time}
+        Percentage of race time spent in pits : {race_spent_in_pits:.2f}
+    """)
+
+# optional feedback
+    # if race_spent_in_pits > ((5/race_time)*100): wrong 
+    if race_spent_in_pits > 5:
+        print("You need a new pit crew. 🛠️")
+
+
+""" 
+def strings():
+    name = 'TERRY'
+    color = 'RED'
+    print(f" [{name.capitalize()}] loves the color {color.lower()} ")
+
+    # find and replace
+
+"""
 
 
 def second():
