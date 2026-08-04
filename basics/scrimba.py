@@ -1,16 +1,61 @@
 # SCRIMS FORM SCRIMBA
 
 import random
+ 
 
 def main():
     # arcade()
     # km_2_mi()
     # guess_game()
-    pass   
+    pit()
+    # pass   
+
+def pit():  # 🏁 Pit Stop Timing Optimizer 🔧
+    print("🏁 Pit Stop Timing Optimizer 🔧")
+
+    race_time = float(input("Enter the race time (in seconds): ")) # wrong - used int
+    pit_stops = int(input("Enter the no. of pit stop's made: "))
+    avg_duration = float(input("Enter average pit stop duration (in seconds): ")) # wrong - used int
+
+    total_pit_stop_time = pit_stops * avg_duration
+    race_spent_in_pits = (total_pit_stop_time/race_time) * 100
+
+    print(f""" Pit Stop Timing Optimizer 🔧
+    Based on input data:
+        Total pit stop time in seconds: {total_pit_stop_time}
+        Percentage of race time spent in pits : {race_spent_in_pits:.2f}
+    """)
+
+# optional feedback
+    # if race_spent_in_pits > ((5/race_time)*100): wrong 
+    if race_spent_in_pits > 5:
+        print("You need a new pit crew. 🛠️")
+
+    #
+    # 1. Ask the user for the total race time in seconds.
+    # 2. Ask how many pit stops were made.
+    # 3. Ask for the average pit stop duration (in seconds).
+    #
+    # Then:
+    # - Calculate the total pit stop time.
+    # - Calculate the percentage of the race spent in the pits.
+    # - Round the percentage to 2 decimal places.
+    #
+    # Finally, print all of the following:
+    # - Total pit stop time in seconds
+    # - Percentage of race time spent in pits
+    # - A final message if pit time > 5% of the race: "You need a new pit crew. 🛠️"
 
 
+def strings():
+    name = 'TERRY'
+    color = 'RED'
+    print(f" [{name.capitalize()}] loves the color {color.lower()} ")
 
-def guess_game():  # while loop exe - guessing game
+    # find and replace
+
+
+def guess_game():  # while loop exe - guessing game 
 
     print('==== Guessing game ====') 
 # Guess the correct number in 3 guesses. If you don’t get it right after 3 guesses you lose the game. 
@@ -58,24 +103,24 @@ def guess_game():  # while loop exe - guessing game
     else:
         print(f"You lost, answer was {win_answer} ")
 
-# Three Loop Questions:
-#1. What do I want to repeat?
-#  ->  capturing user input and update attempt available
-#2. What do I want to change each time?
-#  -> attempt available
-#3. How long should we repeat?
-#  -> 3 or 5 or 10 times
-#  -> difficulty - let user enter
-#       - 3 attempt - num less than 10
-#       - 5 attempt - num less than 50
-#       - 10 attempt - num is less than 100  + hints
+    # Three Loop Questions:
+    #1. What do I want to repeat?
+    #  ->  capturing user input and update attempt available
+    #2. What do I want to change each time?
+    #  -> attempt available
+    #3. How long should we repeat?
+    #  -> 3 or 5 or 10 times
+    #  -> difficulty - let user enter
+    #       - 3 attempt - num less than 10
+    #       - 5 attempt - num less than 50
+    #       - 10 attempt - num is less than 100  + hints
 
 
 def second():
     pass
 
 
-def km_2_mi():  # - Create a distance converter converting Km to miles
+def km_2_mi():  # - Create a distance converter converting Km to miles 
 # - Take two inputs from user: Their first name and the distance in km
 
 # - Print: Greet user by name and show km, and mile values

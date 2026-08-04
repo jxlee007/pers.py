@@ -1,4 +1,5 @@
 import random
+import datetime
 
 # module
 class Numbers:
@@ -44,18 +45,77 @@ class Numbers:
 
 
 
-
-
-
-
 # logic
 def main():
-    print (py_4())
+    py_8() # pending
+    # py_7()
+    # py_6()
+    # py_5()
+    # print (py_4())
     # print (py_3())
     # print(py_2())
     # py_1()
     # print(py_1()) -> results None at the end of list in console
     pass
+
+def py_8(): # check if prime number
+    print("If Prime number")
+
+    num = int(input("Enter number: "))
+
+    if num % 1 == 0 and num % num == 0:
+        print(f"{num} is prime num")
+    else:
+        print(f"{num} is not a prime num")
+
+
+def py_7():# check if num is palaindrome 
+
+    print("if number is palaindrome")
+
+    num = input("enter number: ")
+
+    val = int(num[::-1])
+    num = int(num)
+
+    if val < 9:
+        print(f"Input can't be a single digit num")
+    elif num == val:
+        print(f"{num} is a palaindrome")
+    else:
+        print(f"{num} is not a palaindrome")
+
+
+def py_6(): # check leap year
+
+    print("Check if Leap year")
+
+    # leap_year = 2000 + 4
+    #  every 4th year is leap 
+    # count from 2000
+    # add of 4 
+    year = int(input("Enter year: "))
+
+    if year % 4 == 0:
+        print(f"{year} is a leap year")
+    else:
+        print(f"{year} is not a leap year")
+
+
+def py_5(): # largest of 3 numbers
+
+    print("Largest of 3 numbers")
+    # take 3 inputs
+    num_one = int(input("Enter num 1: "))
+    num_two = int(input("Enter num 2: "))
+    num_three = int(input("Enter num 3: "))
+
+    if num_one > num_two and num_one > num_three:
+        print("Num 1 is largest among 3")
+    elif num_two > num_one and num_two > num_three:
+        print("Num 2 is largest among 3")
+    else:
+        print("Num 3 is largest among 3 ")
 
 
 def py_4(): # reverse number 

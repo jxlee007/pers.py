@@ -760,7 +760,11 @@ brilliant
         planning is key to thinking OOPs
 
         Building states
-        - 
+
+030826
+    - solved 4 basic problems - 1 to n, reverse num, sum of num, swap without temp - in 4 hrs
+    -  now scrimba - 
+
 
     
 
