@@ -7,8 +7,9 @@ def main():
     # arcade()
     # km_2_mi()
     # pit()
-    lemonbiz()
+    # lemonbiz()
     # guess_game()
+    clean_str()
     # pass   
 
 
@@ -73,24 +74,38 @@ def guess_game():  # while loop exe - guessing game
     #       - 10 attempt - num is less than 100  + hints
 
 
-# list
-""" 
-list - - len, count, index 
-sort(reverse=true) -> for list of nums or str
-max, min - again works for both list of str as well as int  
-sum
-modify list
-to add in list - can use append(val), insert(index/position, value ), specify index
-list_1.extend(list_2) - merge to list together
+#Tuples - faster Lists you can't change
+"""
+iterations and searches are faster
+list methods work on tuple except modify once 
+"""
 
-to remove - remove(val), pop(idx) 
-del list or del list[idx]
-list.clear() - clears whole list
 
-copy list - 
-new_list = list_1[:] - slicing
-new_list = list_1.copy() - fnc
-new_list = list(list_1) - list constructor
+def clean_str():
+    csv = 'Eric,John,Michael,Terry,Graham:TerryG;Brian'
+    friends_list = ['Exercise: fill me with names']
+    # From the list above fill a list(friends_list) properly
+
+    # update and need to store for results
+    csv = csv.replace(':', ',')
+    csv = csv.replace(';', ',')
+
+    # with the names of all the friends. One per "slot"
+    friends_list = csv.split(',')
+
+    print(friends_list)
+
+    # you may need to run same command several times
+    # use print() statements to work your way through the exercise
+    pass
+
+
+# str - split and join
+"""
+split can be used to from str list  - split is performed on string
+->  ' '.join(str_list) - join is performed on list
+-> use + we can concatinate str_list
+-> to remove space can use replace
 """
 
 
@@ -143,8 +158,26 @@ def lemonbiz():
     # """)
 
 
+# list
+""" 
+list - - len, count, index 
+sort(reverse=true) -> for list of nums or str
+max, min - again works for both list of str as well as int  
+sum
+modify list
+to add in list - can use append(val), insert(index/position, value ), specify index
+list_1.extend(list_2) - merge to list together
 
+to remove - remove(val), pop(idx) 
+del list or del list[idx]
+list.clear() - clears whole list
 
+copy list - 
+new_list = list_1[:] - slicing
+new_list = list_1.copy() - fnc
+new_list = list(list_1) - list constructor
+
+"""
 
 
 def pit():  # 🏁 Pit Stop Timing Optimizer 🔧
@@ -188,6 +221,7 @@ def pit():  # 🏁 Pit Stop Timing Optimizer 🔧
         print("You need a new pit crew. 🛠️")
 
 
+# fstr and methods
 """ 
 def strings():
     name = 'TERRY'
