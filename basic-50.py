@@ -47,26 +47,78 @@ class Numbers:
 
 # logic
 def main():
-    py_8() # pending
-    # py_7()
-    # py_6()
-    # py_5()
-    # print (py_4())
-    # print (py_3())
-    # print(py_2())
-    # py_1()
+    # pending
+    py_10()
+    # py_9()            # right triangle - pattern
+    # py_8()            # Tables
+    # py_7()            # Palaindrome num
+    # py_6()            # Check leap year
+    # py_5()            # largest or 3
+    # print (py_4())    # reverse num
+    # print (py_3())    # Swap without temp
+    # print(py_2())     # Sum of N 
+    # py_1()            # 1 to N 
     # print(py_1()) -> results None at the end of list in console
     pass
 
-def py_8(): # check if prime number
+
+def py_(): # Prime to N
+    pass
+
+def py_10(): # check if prime number
     print("If Prime number")
 
     num = int(input("Enter number: "))
+    
+    if num <= 1 : # 1st pass - elminating 0, 1 or negetive vals
+        print("Not a prime number")    
+    # if num <= 0 or 1: wrong approach - logical shortcut bug - 1 is detected as truthy val
+        # solution - if num <= 0 or num == 1:
 
-    if num % 1 == 0 and num % num == 0:
-        print(f"{num} is prime num")
+    counter = 2
+
+    # if num / counter == 0:  normal div results in float causing err
+    if num % counter == 0: 
+        for i in range(1, num + 1):
+            counter += 1
+ 
+        print(f" Not a prime number ")
     else:
-        print(f"{num} is not a prime num")
+        print(f"{num} is a prime")
+
+
+
+
+def py_9(): # right triangle
+
+    # to print individual rows
+    no_of_rows = int(input("Enter the number of rows: ")) + 1
+
+    # as Increment counter 
+    num_counter = 1
+    sym = '*'
+
+    for i in range(1, no_of_rows):
+        print(f"{sym * num_counter}")
+        num_counter += 1
+
+    """ while approach 
+        while num_counter < no_of_rows:
+
+            # + didnt worked - * works
+            print(f"{(i * num_counter)}")
+            num_counter += 1
+        
+    """
+
+
+def py_8(): # Multiplication table 
+
+    print(" Multiplication table")
+    table = int(input("Enter number: "))
+
+    for count in range(1,11):
+        print (f" {table} x {count} = {table * count} ")
 
 
 def py_7():# check if num is palaindrome 
