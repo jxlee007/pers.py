@@ -47,8 +47,12 @@ class Numbers:
 
 # logic
 def main():
-    # pending
-    py_10()
+    # after scrimba lesson will approach the problem
+                        # 1 to N prime number 
+    py_13()            # Str-ops : revrese ,    
+    # py_12()           # Count and sum of digits
+    # py_11()           # Factorial
+    # py_10()           # check prime number   
     # py_9()            # right triangle - pattern
     # py_8()            # Tables
     # py_7()            # Palaindrome num
@@ -62,10 +66,92 @@ def main():
     pass
 
 
-def py_(): # Prime to N
-    pass
+def py_(): # Prime to N - nested loop 
+    """
+    1. Eliminate 0, 1 or negetive
+    2. get prime num
+        - 
+    3. add to list
+    """
 
-def py_10(): # check if prime number
+    n_num = int(input("Enter number: "))
+
+    if n_num <= 1:
+        return "Enter valid number for range"
+
+    
+
+    # list till n_num
+    for val in range(3, n_num):
+        # i - 3,4,5,6,7
+        # i can be dividr by 2,3,4,5,6, 7
+        # each i to divided by it small nums
+        # i - 3 /2, 4/2, 5/2,3,4, 6/2, 7/2,3,4,5,6 
+        # need to make divisor counter dynamic
+        # maybe i need 2 loops - 1 for range, 2 - updating divisor
+        pass
+
+
+def py_13(): # Strops reverse, painlandrome, count vowels 
+
+    print(f"""
+    
+    """)
+
+    str_input = input("Enter string: ")
+    str_ops = int(input("Enter ur option: "))
+
+    match str_ops:
+        case 1:
+            pass
+            # print(f"")
+        case 2:
+            pass
+        case _:
+            print("Invalid value")
+
+
+    print(f"""
+    {str_input}
+    reverse: {str_input[::-1]}
+    """)
+
+def py_12(): # Count & sum of digits 
+
+    print("Sum & Count of digits ")
+
+    num = input(" Enter num: ")
+
+    num = (list(num))
+
+    val = 0
+
+    for idx in num:
+        val += int(idx)
+
+    print(f" Sum of digits: {val} {type(val)}")
+    print(f" Count of digits: {len(num)}")
+
+
+def py_11(): # factorial 
+
+    print("Factorial")
+
+    num = int(input("Enter number: "))
+
+
+    fact_counter = 1
+
+    for i in range(1, num + 1): 
+    # for i in range(2, num + 2): 
+        # print(f" {fact_counter} ")
+        fact_counter *=  i
+
+    # print(fact_counter)
+    #  can be done by using math module math.factorial(num)
+
+
+def py_10(): # check if prime number 
     print("If Prime number")
 
     num = int(input("Enter number: "))
@@ -87,9 +173,7 @@ def py_10(): # check if prime number
         print(f"{num} is a prime")
 
 
-
-
-def py_9(): # right triangle
+def py_9(): # right triangle 
 
     # to print individual rows
     no_of_rows = int(input("Enter the number of rows: ")) + 1
