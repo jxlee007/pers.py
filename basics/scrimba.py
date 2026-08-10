@@ -8,8 +8,10 @@ def main():
     # km_2_mi()
     # pit()
     # lemonbiz()
+    # clean_str()
+    # set_exe_1()
+    fncs_exe()
     # guess_game()
-    clean_str()
     # pass   
 
 
@@ -72,6 +74,63 @@ def guess_game():  # while loop exe - guessing game
     #       - 3 attempt - num less than 10
     #       - 5 attempt - num less than 50
     #       - 10 attempt - num is less than 100  + hints
+
+
+
+# named notation
+"""
+
+"""
+
+
+def fncs_exe():
+    def greeting(name, age=28, color="red"):
+        #Greets user with 'name' from 'input box' and 'age', if available, default age is used
+        # print('Hello '  +  name + ', you are ' + str(age) +'!')
+        print(f'Hello {name}, you are {age}!')
+
+    name = input('Enter your name: ')
+    age = int(input('Enter your age: '))
+    color = input('Enter your fav color: ')
+    # greeting(name, 32)
+    # 1. Add new print statement - on a new line
+    print(f' Hello {name.title()}, you will be {age + 1} years old next birthday !')
+    print(f"We hear you like the color {color.lower()}!")
+    #    which says 'We hear you like the color xxx! xxx is a string with color 
+    # 2. extend the function with another  input parameter 'color', that defaults to 'red'
+    # 3. Capture the color via an input box as variable:color 
+    # 4. Change the 'You are xx!' text to say 'you will be xx+1 years old next birthday 
+    #  adding 1 to the age
+    # 5. Capitalize first letter of the 'name', and rest are small caps 
+    # 6. Favorite color should be in lowercase 
+
+
+
+def set_exe_1():   #Sets - Exercise
+    #1. Check if ‘Eric’ and ‘John’ exist in friends
+    #2. combine or add the two sets 
+    #3. Find names that are in both sets
+    #4. find names that are only in friends
+    #5. Show only the names who only appear in one of the lists
+    #6. Create a new cars-list without duplicates
+
+    friends = {'John','Michael','Terry','Eric','Graham'}
+    my_friends = {'Reg','Loretta','Colin','John','Graham'}
+    cars =['900','420','V70','911','996','V90','911','911','S','328','900']
+
+
+    print('Eric' and 'John' in friends )
+    print(friends.union(my_friends))
+    print(friends.intersection(my_friends))
+    print(friends.difference(my_friends))
+
+    new_cars = list(set(cars))
+    print(new_cars)
+
+    # Show only the names who only appear in one of the lists
+    # symetric difference - ^
+    print(friends ^ my_friends) 
+
 
 
 #Tuples - faster Lists you can't change

@@ -49,7 +49,10 @@ class Numbers:
 def main():
     # after scrimba lesson will approach the problem
                         # 1 to N prime number 
-    py_13()            # Str-ops : revrese ,    
+    py_15( )            # Count word in str 
+    # py_14_2            # use linear seaarch
+    # py_14()            # largest and second largest without sort    
+    # py_13()            # Str-ops : revrese and pailindrome    
     # py_12()           # Count and sum of digits
     # py_11()           # Factorial
     # py_10()           # check prime number   
@@ -66,7 +69,7 @@ def main():
     pass
 
 
-def py_(): # Prime to N - nested loop 
+def py_(): # Pending Prime to N - nested loop 
     """
     1. Eliminate 0, 1 or negetive
     2. get prime num
@@ -79,7 +82,6 @@ def py_(): # Prime to N - nested loop
     if n_num <= 1:
         return "Enter valid number for range"
 
-    
 
     # list till n_num
     for val in range(3, n_num):
@@ -92,29 +94,77 @@ def py_(): # Prime to N - nested loop
         pass
 
 
-def py_13(): # Strops reverse, painlandrome, count vowels 
+def py_16(): #count occurence of a elem          
+    pass
 
-    print(f"""
-    
-    """)
+
+def py_15(): # count word in str 
+
+    string = "largest and second largest without sort"
+
+    count_words = string.split(" ")
+
+    print(count_words)
+    print(len(count_words))
+
+
+def py__(): # Pending - 1st & 2nd largest using linear search 
+
+    num_list = [ i for i in random.sample(range(500), 10)]
+
+    largest_num = max(num_list)
+    pass
+
+def py_14(): # largest and second largest in list without sort 
+
+    num_list = [i for i in random.sample(range(100), 10)] #choice take 1 arg and sample takes 2 args
+    print(num_list, )
+    print(f" Largest in list is : {max(num_list)}")
+    largest_num = max(num_list)
+
+    # to find second largest without sort -  use max and remove
+    num_list.remove(largest_num)
+
+    print(f" 2nd largest in list is : {max(num_list)} ")
+
+
+def py_(): # Pending - Strops reverse, painlandrome, count vowels 
 
     str_input = input("Enter string: ")
     str_ops = int(input("Enter ur option: "))
 
     match str_ops:
-        case 1:
-            pass
-            # print(f"")
-        case 2:
-            pass
+        case 1: # check if palaindrome
+            reverse =  str_input[::-1]
+            if str_input == reverse:
+                print("Input string is a palaindrome")
+            else:
+                print("Input string is not a palaindrome")
+        case 2: # count vowels
+            reverse =  str_input[::-1]
+
+            vowel_dict = {  
+                'a': 0,
+                'e': 0,
+                'i': 0,
+                'o': 0,
+                'u': 0
+            }
+
+            vowel = "aeiou"
+
+            for i in str_input:
+                if i in vowel:
+                    if i == "a":
+                        pass
+                else:
+                    print("no vowel found")
+            
+
+            print(f"Reverse:{ reverse }")
         case _:
             print("Invalid value")
 
-
-    print(f"""
-    {str_input}
-    reverse: {str_input[::-1]}
-    """)
 
 def py_12(): # Count & sum of digits 
 
