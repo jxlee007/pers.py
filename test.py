@@ -6,13 +6,41 @@ def main(): # for code org
     # msg(0, 5)
     # list()
     # print(firstLast())
-    elem_search()
+    # elem_search()
 
+    c = ['$', '£', '€', '¥']
+    print(c[1:-1])
+    # print(c[-1:-3]) = []
+    print(c[-3:-1])
+    c[:2] = ['₣', '฿']
+    print(c)
+
+
+    vehicle = 'motorbike'
+    # output bike using negetive slicing
+
+    vehicle = 'airplane'
+    # vehicle[:3] = 'water'
+    print(vehicle)
+
+    c = ['$', '£', '€', '¥']
+    print(c[-2:])
+
+    cart = ['lamp', 'candles', 'chair', 'carpet']
+    print(cart[1:])
+
+    color = 'pink'
+    print(color[1:4])
+
+    word = "run"
+    word[0] = "f"
+    print(word)
     pass
 
 def firstLast():
     a = random.sample(range(30), 10)
     return (a,[a[0], a[-1]])
+
 
 def elem_search():
     ordered_list = sorted(random.sample(range(500), 10))
