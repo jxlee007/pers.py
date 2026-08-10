@@ -766,19 +766,29 @@ brilliant
     -  now scrimba - 
 
 
-    
+050825
+Str are immutable char sequence 
+String slice → Always outputs a string.
+List slice → Always outputs a list containing the specified values.
+Slicing is a powerful technique used to select data in the python sequence
+
+Advance idx and slice
+- use indexing and slicing on lists and strings because they are ordered sequences
 
 
+Comment in sql = --
+Multiline comment= /*.   . */
+Sorting is done by using cmd = ORDER BY 
+Eg ORDER BY field ASC/DESC
+You can sort extracted data with the ORDER BY command
+⭐ DESC sorts data in descending order (from highest to lowest, or Z to A)
+⭐ ASC sorts data in ascending order (from smallest to largest, or A to Z)
 
+Breaking data - use LIMIT cmd 
 
-
-
-
-
-
-
-
-        
-
-
-         
+100826
+- tuple () - faster list you can't change 
+- set { }- blazing fast unordered list and unique vals
+- .intersection, . difference, . union 
+- set1.method(set_2)
+- set() - empty set can be only created by set construct
