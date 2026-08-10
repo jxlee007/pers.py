@@ -10,7 +10,8 @@ def main():
     # lemonbiz()
     # clean_str()
     # set_exe_1()
-    fncs_exe()
+    # fncs_exe()
+    # calc()
     # guess_game()
     # pass   
 
@@ -77,9 +78,78 @@ def guess_game():  # while loop exe - guessing game
 
 
 
-# named notation
+
+
+# If-elif exes
+def calc(): # Calculator with temp convertor using if-elif 
+# Create a calculator which handles +,-,*,/ and outputs answer based on the mode/ operator used
+# Hint: use 3 separate inputs 
+# Bonus: Extend functionality with extra mode so it also does celsius to fahrenheit conversion
+# formula is: temp in C*9/5 + 32 = temp in f
+    print('Calculator with temp converter')
+    print("""
+    modes [ 0 = Temp converter, 1 = add, 2 = subtract , 3 = multiply, 4 = divide ]
+    Note: In division num 1 = value and num 2 = divisor 
+    """)
+
+    mode = int(input("Enter operation to perform: "))
+
+    if mode == 0:
+        celsius = int(input("Enter temperature in celsius: "))
+        print(f" {celsius}°C = {celsius*9/5 + 32}°F")
+
+    elif 0 < mode < 5:    
+        num_1 = int(input("Enter number 1: "))
+        num_2 = int(input("Enter number 2: "))
+
+        if mode == 1:
+            print(f"{num_1} + {num_2} = {num_1 + num_2} ")
+        elif mode == 2:
+            print(f"{num_1} - {num_2} = {num_1 - num_2} ")
+        elif mode == 3:
+            print(f"{num_1} x {num_2} = {num_1 * num_2} ")
+        elif mode == 4:
+            print(f"{num_1} / {num_2} = {num_1 / num_2} ")
+        else:
+            pass
+    else:
+        print("Invalid operation")
+
+
+# Comparisons and booleans
+""" to see memory - print(id(a), id(b))
+
+a=7
+b=3
+print('a == b is', a == b)
+print('a != b is', a != b)
+print('a > b is', a > b)
+print('a < b is', a < b)
+print('a >= b is', a >= b)
+print('a <= b is', a <= b)
+print('o in John is ','o' in 'John') #membership
+print('o in John is ','o' not in 'John') #non membership
+print('John is John ','John' is 'John') #identity
+print('John is not John is ','John' is not 'John') # negative identity
+
 """
 
+
+# named notation & return statements
+"""  Profile(yob=1995,weight=83.5,height=192,eye_color="blue")
+
+greeting(age=27, name="brian",color="Blue")
+---------------------------------------------------------------
+
+def value_added_tax(amount):
+    tax = amount * 0.25
+    total_amount = amount * 1.25
+    return [amount, tax, total_amount] # list
+    return {amount, tax, total_amount} # set
+    return f"{amount}, {tax}, {total_amount}" #str
+    
+price = value_added_tax(100)    
+print(price, type(price))
 """
 
 
@@ -105,8 +175,7 @@ def fncs_exe():
     # 6. Favorite color should be in lowercase 
 
 
-
-def set_exe_1():   #Sets - Exercise
+def set_exe_1():  # Sets - Exercise
     #1. Check if ‘Eric’ and ‘John’ exist in friends
     #2. combine or add the two sets 
     #3. Find names that are in both sets
