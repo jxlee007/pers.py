@@ -48,8 +48,9 @@ class Numbers:
 # logic
 def main():
     # after scrimba lesson will approach the problem
+    bubble_sort()       # manual
                         # 1 to N prime number 
-    py_15( )            # Count word in str 
+    # py_15()            # Count word in str 
     # py_14_2            # use linear seaarch
     # py_14()            # largest and second largest without sort    
     # py_13()            # Str-ops : revrese and pailindrome    
@@ -96,6 +97,24 @@ def py_(): # Pending Prime to N - nested loop
 
 def py_16(): #count occurence of a elem          
     pass
+
+def bubble_sort(): #manual 
+    num_list = random.sample(range(500), 10)
+
+    print(num_list)
+
+    # ❌ for i in num_list: 
+        # ❌ for j in num_list: 
+    # ✔️ we run loop on indices/pointers = range(len(num_list)) = not on vals 
+    for i in range(len(num_list)): # for rotating i idx
+        for j in range(len(num_list) - 1): # for rotating j idx
+            if num_list[j] > num_list[j + 1]: # if i greater than j 
+            # if condition is true - j will stored in temp
+                temp = num_list[j] 
+                num_list[j] = num_list[j + 1]
+                num_list[j + 1] = temp
+                print( num_list[j+1], num_list[j], temp)
+    print(num_list)
 
 
 def py_15(): # count word in str 
