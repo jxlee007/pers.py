@@ -792,3 +792,10 @@ Breaking data - use LIMIT cmd
 - .intersection, . difference, . union 
 - set1.method(set_2)
 - set() - empty set can be only created by set construct
+
+
+120826
+- till date i have learn abt random lib is 
+    - random.choice( 1 arg ) 
+    - random.sample( 2 args ) -> range(), no. of vals 
+    - random.randint( 2 args ) -> start val , end val
