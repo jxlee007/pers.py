@@ -106,8 +106,10 @@ def bubble_sort(): #manual
     # ❌ for i in num_list: 
         # ❌ for j in num_list: 
     # ✔️ we run loop on indices/pointers = range(len(num_list)) = not on vals 
+    # compare neighbours = j , j+1
+    # innner loop = len(num_list) - 1 - i = -i saves operation  
     for i in range(len(num_list)): # for rotating i idx
-        for j in range(len(num_list) - 1): # for rotating j idx
+        for j in range(len(num_list) - 1 - i): # for rotating j idx
             if num_list[j] > num_list[j + 1]: # if i greater than j 
             # if condition is true - j will stored in temp
                 temp = num_list[j] 
