@@ -799,3 +799,6 @@ Breaking data - use LIMIT cmd
     - random.choice( 1 arg ) 
     - random.sample( 2 args ) -> range(), no. of vals 
     - random.randint( 2 args ) -> start val , end val
+- str are immutable - ordered sequence
+- list are mutable - ordered sequence
+- branching = if-elif-else
