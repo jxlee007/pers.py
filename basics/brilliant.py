@@ -1,4 +1,7 @@
 # Brilliant tutorials
+import random
+
+
 
 def main():
     # one()
@@ -6,7 +9,64 @@ def main():
     # three()
     # four(message_two)
     # print("decode-message")
+    login()
     pass
+
+def login():
+    print("Login demo")
+    # make program work on boolean value
+
+    username = "Deputy"
+    password = 910111213
+
+    print(username)
+    entered_password = int(input("Enter password: "))
+
+    failed_logins = 0
+
+    if entered_password == password:
+        print("Successful Login")
+    else:
+        print('Wrong password')
+        failed_logins += 1
+
+    reset_code = 0
+
+    Locked = False
+    if failed_logins >= 5:
+        print("Account Locked")
+        reset_code = random.randint(99999, 100000)
+        print("Reset code sent to your console: ", reset_code)
+
+        Locked = True
+        code_entered = int(input("Enter Reset Code: "))
+
+        if code_entered != reset_code:
+            print('Invalid reset code')
+        else:
+            new_password = int(input("Enter new password: "))
+            cnf_password = int(input("Confirm password: "))
+
+            if cnf_password != new_password:
+                print("Confirmed password is not same as new password" )
+                pwd_changed = False
+            else:
+                password = new_password
+                pwd_changed = True
+                print("Password updated")
+
+
+        if pwd_changed:
+            print("Acc unlocked")
+            Locked = False
+        else: 
+            print(' ')
+
+
+
+    else:
+        print(failed_logins)
+
 
 
 def strops():
