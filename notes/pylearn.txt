@@ -802,3 +802,12 @@ Breaking data - use LIMIT cmd
 - str are immutable - ordered sequence
 - list are mutable - ordered sequence
 - branching = if-elif-else
+
+130826
+- boolean flag
+    - set behaviour of control flowchart
+    - combining bool expression
+        - Boolean operators are crucial for expressing complex logic. 
+    - storing bool val 
+        - give more meaning to code making it highly readable
+    - negetive bool vals
