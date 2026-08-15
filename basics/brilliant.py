@@ -184,6 +184,25 @@ else:
     else: 
         print ("❌ Login failed")
 
+    username = "BosslAm"
+    device = "iPhone 1934392"
+    trusted_device = "iPhone_1934392U"
+    device_ok = device == trusted_device
+    code_ok = False
+    face_id_ok = False
+    touch_id_ok = False
+    second_step_ok = code_ok or touch_id_ok or face_id_ok
+    locked = False
+    attempt_ok = True
+    if attempt_ok and (not locked) and (second_step_ok ):
+        print("Login successful")
+    else:
+        print("Login failed")
+
+    if (not device_ok) and attempt_ok and (not locked) and second_step_ok :
+        print("Trust this device?)
+
+
 
 
 def strops():
