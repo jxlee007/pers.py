@@ -810,4 +810,9 @@ Breaking data - use LIMIT cmd
         - Boolean operators are crucial for expressing complex logic. 
     - storing bool val 
         - give more meaning to code making it highly readable
-    - negetive bool vals
+        - and usage
+    - negetive bool vals =  not
+    - organizing logic
+        - or usage
+    - complex logic
+        - 
