@@ -1,12 +1,12 @@
 
 
 def main():
-    saving_for_house()
+    # saving_for_house()
     # lost_in_forest()
     pass
 
 
-def lost_in_forest():
+def lost_in_forest(): 
     print("Lost in forest")
     player_position = "😀"
 
@@ -46,7 +46,7 @@ def lost_in_forest():
     print("You got out of the lost forest")
 
 
-def saving_for_house():
+def saving_for_house(): 
     # control flow 
     # bisection search
 
@@ -54,24 +54,6 @@ def saving_for_house():
     # amount_saved, which starts at $0
 
     """
-    1. 'yearly_salary'       -> The starting yearly salary.
-    2. 'portion_saved'       -> Percent of salary saved monthly (as decimal, e.g., 0.1).
-    3. 'cost_of_dream_home'  -> Total purchase cost of the dream house.
-
-    - 'portion_down_payment' -> The percentage of total cost needed (set to 0.25).
-    - 'r'                    -> Annual investment rate of return (set to 0.05).
-    - 'amount_saved'         -> Your current savings balance (starts at 0.0).
-    - 'months'               -> An integer counter to track elapsed time (starts at 0).
-
-    -------------------------------------------------------------------------------
-    📊 MILESTONE 3: PRE-LOOP CALCULATIONS
-    -------------------------------------------------------------------------------
-    Before starting the time loop, calculate your static benchmarks:
-
-    1. 'down_payment_target' -> Multiply 'cost_of_dream_home' by 'portion_down_payment'.
-    2. 'monthly_salary'      -> Derived from your 'yearly_salary'.
-    3. 'monthly_savings_contribution' -> The fixed dollar amount saved from your 
-                                        salary every month.
 
     -------------------------------------------------------------------------------
     🔄 MILESTONE 4: THE TIME-STEP ENGINE (WHILE LOOP)
@@ -107,22 +89,46 @@ def saving_for_house():
     - Expected Output -> Number of months: 189
     """
 
+    # P1
+    # 1. 'yearly_salary'       -> The starting yearly salary.
+    # 2. 'portion_saved'       -> Percent of salary saved monthly (as decimal, e.g., 0.1).
+    # 3. 'cost_of_dream_home'  -> Total purchase cost of the dream house.
 
+    # - 'portion_down_payment' -> The percentage of total cost needed (set to 0.25).
+    # - 'r'                    -> Annual investment rate of return (set to 0.05).
+    # - 'amount_saved'         -> Your current savings balance (starts at 0.0).
+    # - 'months'               -> An integer counter to track elapsed time (starts at 0).
 
     yearly_salary = float(input("Enter your yearly salary: "))
     portion_saved = float(input("Enter the percent of your salary to save, as a decimal: "))
     cost_of_dream_home = float(input("Enter the cost of your dream home: "))
     portion_down_payment =  0.25 
-
-    down_payment = cost_of_dream_home/(0.25 * 100)
-
     r =  0.05
 
+    # P2
+    # 1. 'down_payment_target' -> Multiply 'cost_of_dream_home' by 'portion_down_payment'.
+    # 2. 'monthly_salary'      -> Derived from your 'yearly_salary'.
+    # 3. 'monthly_savings_contribution' -> The fixed dollar amount saved from your salary every month.
+
+    down_payment = cost_of_dream_home * portion_down_payment
+    monthly_salary = yearly_salary/12
+    monthly_savings_contribution = monthly_salary * portion_saved
+
+    months = 0
     amount_saved = 0
+    
+    while amount_saved < down_payment:
+        # Step 1: Calculate investment returns
+        investment_return = amount_saved * (r / 12)
+        
+        # Step 2: Add investment return and monthly savings to balance
+        amount_saved += investment_return + monthly_savings_contribution
+        
+        # Step 3: Increment months counter
+        months += 1
 
-    months = amount_saved * (r/12)
+    print(" Number of months:  ",months)
 
-    print(" Number of months ",months)
 
 # -------------------------------------------
 if __name__ == "__main__":
