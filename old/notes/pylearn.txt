@@ -815,4 +815,16 @@ Breaking data - use LIMIT cmd
     - organizing logic
         - or usage
     - complex logic
-        - 
+
+150826
+    - mental sandbox
+        Step 1 (Trace One Step): 
+            Manually calculate exactly one time cycle on paper using fake, 
+            simple numbers like $100 to easily figure out the math formulas you need to code.
+        Step 2 (Engine & Fuel): 
+            Identify the real-world condition that stops the process to build your while loop, 
+            and track the changing elements to write the logic inside the loop body.
+        Step 3 (Static vs Dynamic): 
+            Separate fixed constants that stay outside the loop 
+            from variables that change with every single time-step inside the loop.
+

@@ -16,8 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core import views as core_view
-from arcade_pass import views as arcade_view
+from old.dash.core import views as core_view
+from old.dash.core.arcade_pass import views as arcade_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
