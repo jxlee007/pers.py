@@ -1,3 +1,7 @@
+ 
+ To transition these specific script files into an Odoo OOP style framework, you must completely stop writing loose functions. Odoo organizes applications into Data Records (Models), Business Methods (Python Classes), and Views/Controllers.
+
+
  Scattered Practice Files                       Production-Grade Odoo Modules
  ────────────────────────                       ─────────────────────────────
  [basics/before_bsa.py] ──────────────────────► [od_core/models.py] 
