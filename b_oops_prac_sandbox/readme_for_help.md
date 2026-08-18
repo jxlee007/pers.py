@@ -16,7 +16,8 @@ Here is the 3-step repeat framework to convert any script in your file into a cl
 ------------------------------
 ## ➡️ Over to You
 
-Here is the list of steps you must execute in your terminal and editor to apply this framework and restructure your code into the Odoo pattern:
+Here is the list of steps you must execute in your terminal and editor 
+to apply this framework and restructure your code into the Odoo pattern:
 
 * Step 1: Create a brand new folder on your computer named odoo_learning_sandbox.
 * Step 2: Create three blank files inside that folder named models.py, business_logic.py, and main_engine.py.

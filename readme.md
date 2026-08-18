@@ -1,6 +1,7 @@
  
  To transition these specific script files into an Odoo OOP style framework, you must completely stop writing loose functions. Odoo organizes applications into Data Records (Models), Business Methods (Python Classes), and Views/Controllers.
 
+```
 
  Scattered Practice Files                       Production-Grade Odoo Modules
  ────────────────────────                       ─────────────────────────────
@@ -45,9 +46,13 @@
  [test.py (firstLast / list)] ──────────────────► [tests/test_erp_flow.py]
  (List-comprehension arrays)                      (Automated assertion and payload matrix)
 
+```
+
 ------------------------------
 ## 📂 Production-Grade Modular Directory Layout
 Before initializing Day 1, you must manually construct the following package hierarchy exactly as specified. This mirrors an enterprise-scale Odoo custom module repository layout:
+
+```
 
 mini_erp_suite/
 │
@@ -73,6 +78,8 @@ mini_erp_suite/
 │
 ├── main.py                      # System Orchestrator & Workflow Validation
 └── README.md                    # System Documentation & Architectural Logic
+
+```
 
 ------------------------------
 ## 📆 The 7-Day High-Logic Implementation Plan## Day 1: Simulated Database Datastore & Dynamic Core ORM Layer

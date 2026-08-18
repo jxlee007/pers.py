@@ -1,3 +1,6 @@
+# The State Layer: Classes that hold fields/attributes
+
+
 # strict OOPS
     # Private variables -> strict encapsulation
     # No direct access
@@ -56,7 +59,35 @@ class dog:
     # if we use a fnc without self -> act as class attr
     # without self - instance methods use decorators
 
+
+# login user - brilliant 
+class User(): # data record
+
+    def __init__(self, 
+                username:str, 
+                password: str
+                ) -> None:
         
+        self.username=username
+        self.password=password
+        self.locked = False
+
+
+
+
+class Login_session(): # state
+    def __init__(self, user_record: User) -> None:
+        
+    pass
+
+
+
+
+
+
+
+
+# ============================================================================
 
 # instance = obj -> implementation of ds/class on data to create  obj
 

@@ -1,0 +1,8 @@
+
+170826
+    - structuring loops
+        - eg - 30 sec expire time on 2FA code - brilliant
+
+180826
+    - oops Vid
+    - commence oops transfer

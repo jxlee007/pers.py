@@ -1,18 +1,20 @@
-var 
+A brilliant course - thinking python
+
+✅ var 
 - variable
 - updating variable
 - printing
 - variable self-update
 - variable dependency
 
-conditional logic
+✅ conditional logic
 - boolean expression
 - conditional statements
 - branching conditionals
 - setting boolean var
 - testing program
 
-boolean logic
+✅ boolean logic
 - combining bool expressions
 - storing bool expression
 - negating bools
@@ -240,7 +242,7 @@ function dependency
 - character encoding
 - using mod
 - function pipelining
-- helper fncs
+- ✅helper fncs 
 - reusing helpers
 - debugging dependencies
 - planning tasks
