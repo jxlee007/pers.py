@@ -5,8 +5,14 @@ import datetime
 # Classes that hold fields/attributes and business methods 
 
 
+# 1. initialize the classes with needed params
+# 2. define methods/fncs with needed params
+    # classify them as mutators, accessors or helper
+    # define obj relations
+
 
 # class = blueprint -> complex ds 
+# params/nouns/datafields
 
 class dog:
 
@@ -95,7 +101,16 @@ class Email:
     self.timestamp=datetime.datetime.now()
 
 
-    
+    def mark_as_read(self):
+        pass
+
+
+    def display_full_email(self):
+        pass
+
+
+    def __str__(self):
+        pass
 
 class User:
 
@@ -108,6 +123,17 @@ class User:
         self.inbox = Inbox()
 # user has-an inbox = composition(strong ownership)
 
+    def send_email(self, receiver, subject, body):
+        pass
+
+    def check_inbox(self):
+        pass
+
+    def read_email(self, index):
+        pass
+
+    def delete_email(self, index):
+        pass
     
     pass
 
@@ -117,5 +143,20 @@ class Inbox:
     def __init__(self) -> None:
 
         self.email=[]
+
+
+    def receive_email(self, email):
+        pass
+
+    def list_emails(self):
+        pass
+
+    def read_email(self, index):
+        pass
+
+    def delete_email(self, index):
+        pass
+
+
 
     pass
