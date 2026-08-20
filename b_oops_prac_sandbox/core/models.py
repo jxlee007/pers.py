@@ -1,11 +1,10 @@
-# The State Layer: Classes that hold fields/attributes
+import datetime
 
 
-# strict OOPS
-    # Private variables -> strict encapsulation
-    # No direct access
-    # Getter / setter -> props
-    # type hints -> type safety 
+# The Data and State Layer - odoo arch
+# Classes that hold fields/attributes and business methods 
+
+
 
 # class = blueprint -> complex ds 
 
@@ -60,8 +59,8 @@ class dog:
     # without self - instance methods use decorators
 
 
-# login user - brilliant 
-class User(): # data record
+# login - brilliant 
+class login(): # data record 
 
     def __init__(self, 
                 username:str, 
@@ -75,24 +74,48 @@ class User(): # data record
 
 
 
-class Login_session(): # state
-    def __init__(self, user_record: User) -> None:
-        
+# FCC task de-construct email simulator
+class Email:
+
+    def __init__(
+        self,
+        sender:str,
+        reciever:str,
+        subject:str,
+        body:str
+    )-> None:
+
+    # PIA - unique public instance attr
+    self.sender=sender
+    self.reciever=reciever
+    self.subject=subject
+    self.body=body
+
+    self.read=False
+    self.timestamp=datetime.datetime.now()
+
+
+    
+
+class User:
+
+
+    def __init__(self, 
+        name:str
+    ) -> None:
+
+        self.name=name
+        self.inbox = Inbox()
+# user has-an inbox = composition(strong ownership)
+
+    
     pass
 
+class Inbox:
 
 
+    def __init__(self) -> None:
 
+        self.email=[]
 
-
-
-
-# ============================================================================
-
-# instance = obj -> implementation of ds/class on data to create  obj
-
-pet_1=dog("max","GR",5)
-
-print(pet_1.bark())
-
-print(f"{pet_1.eat("fish")}")
+    pass
