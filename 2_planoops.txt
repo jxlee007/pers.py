@@ -16,3 +16,16 @@
 200826
     - ep 1 - done feel good need improvements
     - moving forward to email into opps sandbox
+        - models.py -> handle data and ops layer 
+            = were all the data fields stay
+            = AND Business Math Methods
+        - main.py -> loop switches, input() and print()
+        
+    - params/nouns/datafields
+
+    - by dropping below file we are following 
+        - "FAT MODELS, THIN CONTROLLERS" pattern used by Odoo 
+        
+        - biz_logic -> ops layer = modifies state data and returns variable
+        - Breaks the Core Rule of OOP (Encapsulation)
+        - Prevents Circular Import Bugs
