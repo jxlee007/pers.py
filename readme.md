@@ -1,3 +1,4 @@
+```
 WEEKS 1-2:  50 problems (1-2) + No theory yet
             Focus: Problem-solving discipline
 
@@ -16,3 +17,5 @@ JAN:        Odoo interview
             Target: 65-70% code + 80% MCQs = 72-75% overall (PASS)
 
 FEB:        Job offer → Onboard
+
+```
