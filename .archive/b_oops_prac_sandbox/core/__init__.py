@@ -7,4 +7,4 @@
     # Package Metadata Variables, 
     # Initialization Code
 
-from . import models
+from ....b_prac_ps.core import models

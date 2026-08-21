@@ -1,4 +1,4 @@
-from models import User
+from a_rchive.b_prac_ps.core.models import User
 
 
 
