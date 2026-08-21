@@ -7,3 +7,4 @@
     # Package Metadata Variables, 
     # Initialization Code
 
+from . import models
