@@ -32,3 +32,11 @@
     - as print statments are not allowed in models
         - will covert it into a fstr
     
+210826
+    - done with the 1st core imply of FCC email class
+    - GTK the feel abt that i need more focus on problem solving
+    - oops is a sturcture but skill is PS 
+    - OOP is a problem-solving tool, not a separate skill
+
+  
+    
