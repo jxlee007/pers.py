@@ -20,8 +20,6 @@
             = were all the data fields stay
             = AND Business Math Methods
         - main.py -> loop switches, input() and print()
-        
-    - params/nouns/datafields
 
     - by dropping below file we are following 
         - "FAT MODELS, THIN CONTROLLERS" pattern used by Odoo 
@@ -29,3 +27,8 @@
         - biz_logic -> ops layer = modifies state data and returns variable
         - Breaks the Core Rule of OOP (Encapsulation)
         - Prevents Circular Import Bugs
+
+    - params/nouns/datafields
+    - as print statments are not allowed in models
+        - will covert it into a fstr
+    

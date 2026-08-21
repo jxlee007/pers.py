@@ -7,7 +7,7 @@ import datetime
 
 # 1. initialize the classes with needed params
 # 2. define methods/fncs with needed params
-    # classify them as mutators, accessors or helper
+    # classify them as mutators(setters), accessors(getters) or helper
     # define obj relations
 
 
@@ -81,38 +81,70 @@ class login(): # data record
 
 
 # FCC task de-construct email simulator
-class Email:
+class Email: 
 
     def __init__(
         self,
         sender:str,
-        reciever:str,
+        receiver:str,
         subject:str,
         body:str
     )-> None:
 
-    # PIA - unique public instance attr
-    self.sender=sender
-    self.reciever=reciever
-    self.subject=subject
-    self.body=body
+        # PIA - unique public instance attr
+        self.sender=sender
+        self.receiver=receiver
+        self.subject=subject
+        self.body=body
 
-    self.read=False
-    self.timestamp=datetime.datetime.now()
-
-
-    def mark_as_read(self):
-        pass
+        self.read=False
+        self.timestamp=datetime.datetime.now()
 
 
+    # MUTATOR 1
+    def mark_as_read(self): #SETTER
+        self.read = True
+
+
+    # ACCESSOR 2 & HELPER 1
     def display_full_email(self):
-        pass
+        self.mark_as_read()
+
+        formatted_time = self.timestamp.strftime('%Y-%m-%d %H:%M')
+
+# Build the entire str into single var
+        email_view = (
+            f"\n--- Email ---\n"
+            f"From: {self.name}\n"
+            f"To: {self.receiver}\n"
+            f"Subject: {self.subject}\n"
+            f"Received: {formatted_time}\n"
+            f"Body: {self.body}\n"
+            f"------------\n"
+        )
+        return email_view
+
+    """ print not allowed in models    
+            print('\n--- Email ---')
+            print(f'From: {self.sender.name}')
+            print(f'To: {self.receiver.name}')
+            print(f'Subject: {self.subject}')
+            print(f"Received: {self.timestamp.strftime('%Y-%m-%d %H:%M')}")        
+            print(f'Body: {self.body}')
+            print('------------\n')
+    """
 
 
+    # MUTATOR 5
     def __str__(self):
-        pass
+        status = 'Read' if self.read else 'Unread'
 
-class User:
+        time = self.timestamp.strftime('%Y-%m-%d %H:%M')
+        return f"[{status}] From: {self.sender.name} | Subject: {self.subject} | Time: {time}"
+
+
+
+class User: 
 
 
     def __init__(self, 
@@ -123,39 +155,85 @@ class User:
         self.inbox = Inbox()
 # user has-an inbox = composition(strong ownership)
 
+    # MUTATOR 2
     def send_email(self, receiver, subject, body):
-        pass
 
+        email = Email(sender=self, receiver=receiver, subject=subject, body=body )
+
+        receiver.inbox.receive_email(email)
+
+        return f"Email sent from {email.sender.name} to {email.receiver.name}!\n"
+
+    # HELPER 2
     def check_inbox(self):
-        pass
+        header = f"\n{self.name}'s Inbox:"
+        inbox_content = self.inbox.list_emails()
 
+        return f'{header}\n{inbox_content}'
+
+    # HELPER 3
     def read_email(self, index):
-        pass
+        self.inbox.read_email(index)
 
+    # HELPER 4
     def delete_email(self, index):
-        pass
-    
-    pass
+        self.inbox.delete_email(index)
 
-class Inbox:
+
+
+class Inbox: 
 
 
     def __init__(self) -> None:
+        self.emails=[]
 
-        self.email=[]
-
-
+    # MUTATOR 2
     def receive_email(self, email):
-        pass
+        self.emails.append(email)
 
+
+    # ACCESSOR 1
     def list_emails(self):
-        pass
+        # validation - for empty inbox state
+        if not self.emails:
+            return f'Your inbox is empty.\n'
+        output_lines = ['\nYour Emails:']
 
+        #  using for loop to 
+        for i, email in enumerate(self.emails, start=1):
+            # print(f'{i}. {email}')
+            output_lines.append(f"{i}. {email}")
+
+        # 4. Join all the structural lines together with a newline character (\n)
+        return "\n".join(output_lines) + "\n"
+
+
+    # MUTATOR 3 + HELPER
     def read_email(self, index):
-        pass
+        if not self.emails:
+            return 'Inbox is empty.\n'
+        actual_index = index - 1
 
+        # clean way of doing things
+        if 0 < actual_index >= len(self.emails): 
+            return 'Invalid email number.\n'
+            
+        # to access actual email i need index and related val from emails list
+        self.emails[actual_index].display_full_email()
+
+
+    # MUTATOR 4
     def delete_email(self, index):
-        pass
+        if not self.emails:
+            return 'Inbox is empty.\n'
+        actual_index = index - 1
+
+        if actual_index < 0 or actual_index >= len(self.emails):
+            print('Invalid email number.\n')
+            return
+
+        del self.emails[actual_index]
+        return f"Email deleted at {index} .\n "
 
 
 
