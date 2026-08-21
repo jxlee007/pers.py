@@ -117,5 +117,27 @@ Breaking data - use LIMIT cmd
         
         - In this course we're going to learn inductive thinking with recursion 
 
-  
+
+
+        - recusion - needs more effort
+        - A recursive function expresses induction:
+            The base case describes how to start.
+            The recursive step describes how each step depends on a previous step.
+
+        - day n = Today 
+        - day n - 1 = Yesterday 
+        
+        - exponent pattern statment = geometric
+        - On TODAY, the number of CacheCoins equals 2 TIMES 
+        the number of CacheCoins on YESTERDAY.
     
+        - constant 2nd differ pattern = quadratic
+        - on TODAY, the no. of stack coins equals N PLUS 
+        the no. of stack coins on YESTERDAY 
+
+        - constant single differ = linear 
+        - on TODAY, the no. of queue coins equals 2 TIMES 
+        the no. of stack coins on YESTERDAY, PLUS 5 
+
+        - A recursive function calls itself 
+        — it expresses a problem in terms of a smaller version of the same problem.
