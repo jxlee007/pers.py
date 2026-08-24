@@ -18,4 +18,11 @@ JAN:        Odoo interview
 
 FEB:        Job offer → Onboard
 
+┌─────────────────────────────────────────────────────────┐
+│              DAILY 8-HOUR BLOCK SCHEDULE                │
+├───────────────┬────────────────────────┬────────────────┤
+│   BLOCK 1     │        BLOCK 2         │    BLOCK 3     │
+│  (3 Hours)    │       (3 Hours)        │   (2 Hours)    │
+│  Logic & DSA  │ Core Tech & Frameworks │ Projects & SQL │
+└───────────────┴────────────────────────┴────────────────┘
 ```
