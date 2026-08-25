@@ -141,3 +141,15 @@ Breaking data - use LIMIT cmd
 
         - A recursive function calls itself 
         — it expresses a problem in terms of a smaller version of the same problem.
+
+
+220826-230826-240826
+- ✅brilliant for loop 
+- ✅induction recursion
+- ✅algo thinking psuedocode
+
+
+- do 3rd ballwork in hand 
+- eventually made miss - previous 2 set routine disciplines
+
+
