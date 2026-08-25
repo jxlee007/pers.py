@@ -1,0 +1,128 @@
+As your Odoo Tech Lead and Senior Python Architect, I have designed a blueprint that completely shifts you away from writing boilerplate script configurations. It challenges you to build a structural mini-framework from scratch.
+By building your own custom memory storage layers, relational record trackers, and state management workflows, you will develop the deep algorithmic thinking required to ace Odoo's technical assessments.
+------------------------------
+## 📂 Production-Grade Modular Directory Layout
+Before initializing Day 1, you must manually construct the following package hierarchy exactly as specified. This mirrors an enterprise-scale Odoo custom module repository layout:
+
+mini_erp_suite/
+│
+├── od_core/                     # Simulated Odoo Base Framework
+│   ├── __init__.py
+│   └── models.py                # Core BaseModel implementation
+│
+├── od_addons/                   # Interconnected Business Modules
+│   ├── __init__.py
+│   ├── od_crm/
+│   │   ├── __init__.py
+│   │   └── crm.py               # Customer Management Records
+│   ├── od_warehouse/
+│   │   ├── __init__.py
+│   │   └── warehouse.py         # Inventory, Stock Adjustments, Locations
+│   └── od_account/
+│       ├── __init__.py
+│       └── account.py           # Financial Invoicing & Balancing
+│
+├── od_data/
+│   ├── __init__.py
+│   └── datastore.py             # Global central dictionary state (Simulated DB)
+│
+├── main.py                      # System Orchestrator & Workflow Validation
+└── README.md                    # System Documentation & Architectural Logic
+
+------------------------------
+## 📆 The 7-Day High-Logic Implementation Plan## Day 1: Simulated Database Datastore & Dynamic Core ORM Layer
+
+* Objective: The codebase will establish an abstracted base record management system that automatically registers, isolates, and dynamically assigns sequential primary identifiers across different business data types.
+* Python Concept Focus: Global Data State Objects, Class Variables vs Instance Variables, Auto-Increment Logic, __init_subclass__ or Class Factories, and String Manipulation validations.
+* Odoo Framework Parallel: This architecture mimics how the base class models.Model hooks into PostgreSQL to automatically provide auto-incrementing id primary keys and handle table definitions for every new module.
+* Logic-Building Challenge: Ensuring that each inherited data class keeps its own isolated auto-increment sequence inside a single global datastore module without colliding with other modules (e.g., creating CRM Customer #1 must not push Warehouse Item IDs to #2).
+* Self-Guided Implementation Instructions:
+1. Initialize the global central storage container within the datastore file as a complex multi-layered dictionary, where top-level keys map to model technical names and values are sub-dictionaries of records. [Level: Easy] [Google Search Score: 2/10]
+   2. Implement the root BaseModel class inside the core package layer, utilizing class-level variables to track the string name of the data domain. [Level: Medium] [Google Search Score: 4/10]
+   3. Write a initialization routine inside BaseModel that intercepts object instantiation, fetches the updated sequence length for its specific model layout from the datastore, increments it, and writes the numeric ID into a read-only instance field. [Level: Hard] [Google Search Score: 7/10]
+   4. Create a clean validation helper method inside the core engine that loops through string keys, flags empty strings, removes unwanted padding whitespace, and blocks execution if data types do not match specific type annotations. [Level: Medium] [Google Search Score: 5/10]
+
+------------------------------
+## Day 2: CRM Core Addon & Advanced String-Fuzzy Verification Engines
+
+* Objective: The CRM engine will create, persist, and execute state-machine transformations on customer leads, while enforcing absolute data formatting integrity.
+* Python Concept Focus: Regular Expressions (re module), String Formatting, Advanced List Comprehensions, and State Machine Logic using conditional transitions.
+* Odoo Framework Parallel: This mimics the functional operations of crm.lead records in Odoo, handling business state transitions from "Draft" to "Won" while enforcing validation logic via field constraints.
+* Logic-Building Challenge: Developing an isolated lookup mechanism that can identify matching customer profiles using phone text strings or strict substring matches, ensuring that variant inputs resolve safely to the correct structural record without crashing.
+* Self-Guided Implementation Instructions:
+1. Build the inherited CrmLead class linking back to the parent base model layer, setting up dedicated data fields for partner names, contact numbers, email strings, and lead transaction status. [Level: Easy] [Google Search Score: 2/10]
+   2. Implement a strict lookup mechanism that accepts a raw search string, strips out formatting variations, and returns matching record indices by parsing the datastore mapping dictionary. [Level: Medium] [Google Search Score: 6/10]
+   3. Design an email checking system using regular expression pattern filters that raises a custom descriptive validation exception if a user submits an incorrectly formatted email address. [Level: Medium] [Google Search Score: 7/10]
+   4. Create a state transition function that strictly governs data mutations across state boundaries (e.g., preventing a record from transitioning from "Cancelled" directly to "Won" without passing intermediate logic steps). [Level: Hard] [Google Search Score: 5/10]
+
+------------------------------
+## Day 3: Warehouse Matrix, Location Allocation & Stock Integrity Safeguards
+
+* Objective: The warehouse engine will maintain products across distinct virtual and physical locations, guarding against negative balances across multi-nested item dictionaries.
+* Python Concept Focus: Deeply Nested Dictionaries, Mutable vs Immutable data evaluation, Dictionary Comprehensions, and Transactional Error Handlers.
+* Odoo Framework Parallel: This mirrors Odoo's double-entry inventory tracking model (stock.location and stock.quant), where inventory changes are treated as precise adjustments across stock points.
+* Logic-Building Challenge: Writing an atomic location-transfer calculation loop that securely moves quantities between two internal sub-dictionary arrays, ensuring that a rollback occurs if any step fails.
+* Self-Guided Implementation Instructions:
+1. Construct the WarehouseInventory class tracking item identities, stock locations, current available counts, and reorder limit numbers. [Level: Easy] [Google Search Score: 2/10]
+   2. Write an inventory modification method that processes additions and subtractions to the central data structure, blocking transactions that cause items to fall below zero. [Level: Medium] [Google Search Score: 4/10]
+   3. Create a location-transfer tool that takes source, destination, product code, and volume parameters, adjusting both data positions inside the dictionary state. [Level: Hard] [Google Search Score: 6/10]
+   4. Build an analysis tool that scans the nested record structures and outputs a clean tracking list of items whose stock levels have fallen below their safety limits. [Level: Medium] [Google Search Score: 5/10]
+
+------------------------------
+## Day 4: Accounting Module, Multi-Line Invoicing & Precision Balance Sheets
+
+* Objective: The accounting engine will calculate multi-line transaction totals, track ledger balances, and enforce historical record immutability.
+* Python Concept Focus: Floating-Point Precision Management (decimal or standard round rules), Immutability patterns, Multi-Key Grouping, and Cumulative Aggregations.
+* Odoo Framework Parallel: This engine maps directly to Odoo’s invoicing system (account.move and account.move.line), matching draft invoices with double-entry general ledger constraints.
+* Logic-Building Challenge: Designing an invoice line loop checker that computes dynamic percentage compound taxes per line item, preventing floating-point rounding errors from corrupting total accounting summaries.
+* Self-Guided Implementation Instructions:
+1. Define the AccountInvoice structure, storing customer identifiers, date structures, status strings, and an explicit list containing nested dictionaries representing individual item rows. [Level: Easy] [Google Search Score: 3/10]
+   2. Implement an execution loop that parses multi-line invoices, calculates net balances, adds specific localized compound tax values, and formats the output to exactly two decimal places. [Level: Medium] [Google Search Score: 5/10]
+   3. Create an invoicing method that seals a record by setting its status marker to "Posted", making the record immutable to prevent subsequent value updates or field modifications. [Level: Hard] [Google Search Score: 6/10]
+   4. Write an aggregation routine that loops through recorded financial lines to compute real-time balance metrics, sorting records by customer identifier keys. [Level: Medium] [Google Search Score: 4/10]
+
+------------------------------
+## Day 5: Custom ORM Logic Expansion, Decorators & Python Dunder Integration
+
+* Objective: The codebase will implement custom method decorators to automate state tracking and use Python dunder methods to enable direct mathematical comparisons between business objects.
+* Python Concept Focus: Custom Method Decorators (*args, **kwargs), Context Management thinking, Magic Dunder Methods (__str__, __eq__, __len__), and Object Representation.
+* Odoo Framework Parallel: This step directly models Odoo's framework API decorators like @api.model or @api.constrains, which automatically execute background checks before data hits the base models.
+* Logic-Building Challenge: Creating an error-logging decorator that inspects method inputs before execution, tracking state shifts across models while keeping execution overhead low.
+* Self-Guided Implementation Instructions:
+1. Design a custom method decorator that tracks and prints the execution duration and argument vectors of any database model method it wraps. [Level: Hard] [Google Search Score: 8/10]
+   2. Implement a validation decorator that checks an object's internal lock state before allowing a method to run, automatically raising a permission exception if the record is sealed. [Level: Hard] [Google Search Score: 7/10]
+   3. Integrate the native equality dunder method (__eq__) to evaluate matching instances by comparing their technical identifiers and internal data footprints. [Level: Medium] [Google Search Score: 5/10]
+   4. Override the standard user string dunder method (__str__) across all active model targets to return clean, tabular diagnostic views of records directly to the terminal. [Level: Easy] [Google Search Score: 3/10]
+
+------------------------------
+## Day 6: Cross-Module Dependency Injection & Relational Pipeline Flows
+
+* Objective: The core architecture will orchestrate an automated, multi-engine transaction pipeline where finalizing a sales deal instantly mutates warehouse inventory maps and generates general ledger invoices.
+* Python Concept Focus: Dependency Injection Patterns, Object Composition over Inheritance, Pipeline Design Patterns, and Mock Relational Referencing.
+* Odoo Framework Parallel: This replicates Odoo's cross-app workflows, where confirming a sales order (sale.order) automatically creates stock moves in the inventory app and generates draft invoices in accounting.
+* Logic-Building Challenge: Handling stock outs smoothly during a multi-module transaction pipeline—if the warehouse lacks sufficient stock for a product, the transaction must halt before generating invoices or changing customer record states.
+* Self-Guided Implementation Instructions:
+1. Create a specialized pipeline orchestrator class that accepts initialized references to your Warehouse and Accounting engines via its constructor method. [Level: Medium] [Google Search Score: 5/10]
+   2. Write an operational execution pipeline method that processes individual transactions, linking lookups across your customer database, stock registers, and financial ledgers. [Level: Hard] [Google Search Score: 7/10]
+   3. Implement an internal lookup routing check that cross-references product inventories using model ID keys before moving on to invoice execution steps. [Level: Hard] [Google Search Score: 8/10]
+   4. Design an error-recovery block within the transaction workflow to gracefully restore original inventory balances if an issue occurs midway through pipeline processing. [Level: Hard] [Google Search Score: 9/10]
+
+------------------------------
+## Day 7: Timed Integration Suite, Assert Verification & Full Matrix Run
+
+* Objective: The system will run an automated script that tests end-to-end business operations, logs performance metrics, and validates datastore consistency under heavy transactional conditions.
+* Python Concept Focus: Robust Exception Arrays (try-except-finally), Assertion Testing framework, Automated Orchestration Loops, and Terminal Performance Visualizations.
+* Odoo Framework Parallel: This implementation replicates the standard execution patterns of Odoo unit tests (tests/test_*.py), which spin up temporary transactions to verify code execution against mock databases.
+* Logic-Building Challenge: Developing a data verification loop that maps current inventory values against corresponding invoice logs, dynamically flagging any mismatches between product movements and financial records.
+* Self-Guided Implementation Instructions:
+1. Build a master execution gateway inside your root package controller module to trigger your end-to-end transactional workflows systematically. [Level: Easy] [Google Search Score: 2/10]
+   2. Write a testing harness script that automatically loads data rows across all functional business modules in sequence. [Level: Medium] [Google Search Score: 4/10]
+   3. Wrap your multi-module pipeline execution steps in a complete error-handling structure to intercept custom business anomalies without terminating the testing sequence. [Level: Medium] [Google Search Score: 5/10]
+   4. Implement a series of programmatic assertion checks at the bottom of your testing file to verify that the final internal datastore fields accurately reflect all inventory deductions and financial updates. [Level: Hard] [Google Search Score: 6/10]
+
+------------------------------
+## 💡 Tech Lead's Code Review Strategy for Success
+
+* Write Your Own Tests First: Before coding a module, map out your input expectations and expected outputs on paper. Code to pass those strict conditions.
+* Don't Use global Keywords: Odoo relies heavily on explicit instances and structured object references. Pass state across modules using proper object references rather than relying on global declarations.
+* Isolate Code Smells: If a method requires more than two nested loop structures, pause and rethink your logic. Break down complex lookups by organizing your data structures cleanly with dictionaries.

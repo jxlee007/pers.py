@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>coding-sprint // week 1-2 tracker</title>
+<style>
+  :root{
+    --bg:#0f1117;
+    --bg-elev:#161923;
+    --bg-elev-2:#1d2130;
+    --border:#262b3a;
+    --text:#e6e8ee;
+    --muted:#868c9e;
+    --muted-2:#5b6072;
+    --amber:#e8b95d;
+    --teal:#5fb3a3;
+    --coral:#e0687a;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+    --sans: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.5;
+    padding:20px;
+    min-height:100vh;
+  }
+  .wrap{max-width:1100px; margin:0 auto;}
+
+  /* ---------- terminal hero ---------- */
+  .term{
+    background:var(--bg-elev);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:20px 24px;
+    margin-bottom:18px;
+    font-family:var(--mono);
+    position:relative;
+    overflow:hidden;
+  }
+  .term::before{
+    content:"";
+    position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg,var(--amber),var(--teal));
+    opacity:.7;
+  }
+  .term-dots{display:flex; gap:6px; margin-bottom:14px;}
+  .term-dots span{width:9px; height:9px; border-radius:50%; background:var(--muted-2); opacity:.5;}
+  .term-line{color:var(--teal); font-size:14px;}
+  .term-line .prompt{color:var(--muted);}
+  .term-out{margin-top:10px; font-size:22px; color:var(--text); font-weight:600; letter-spacing:.2px;}
+  .term-sub{margin-top:6px; color:var(--muted); font-size:13px;}
+  .term-sub b{color:var(--amber); font-weight:600;}
+
+  /* ---------- toggles ---------- */
+  .row{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;}
+  .pill{
+    font-family:var(--mono); font-size:12px; letter-spacing:.5px; text-transform:uppercase;
+    padding:8px 14px; border-radius:7px; border:1px solid var(--border);
+    background:var(--bg-elev); color:var(--muted); cursor:pointer; user-select:none;
+    transition:.15s;
+  }
+  .pill:hover{color:var(--text); border-color:var(--muted-2);}
+  .pill.active{background:var(--amber); color:#161923; border-color:var(--amber); font-weight:700;}
+  .pill.record-btn{background:var(--teal); color:#0f1117; border-color:var(--teal); font-weight:700; text-decoration:none; margin-left:auto;}
+  .pill.record-btn:hover{background:#4fa393; border-color:#4fa393;}
+
+  .days{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:20px;}
+  .day-btn{
+    flex:1; min-width:70px; text-align:center;
+    font-family:var(--mono); font-size:12px; padding:10px 4px; border-radius:7px;
+    border:1px solid var(--border); background:var(--bg-elev); color:var(--muted); cursor:pointer;
+    transition:.15s; position:relative;
+  }
+  .day-btn:hover{border-color:var(--muted-2); color:var(--text);}
+  .day-btn.active{background:var(--bg-elev-2); border-color:var(--teal); color:var(--text); font-weight:700;}
+  .day-btn.today::after{
+    content:"today"; position:absolute; top:-9px; right:6px;
+    background:var(--coral); color:#161923; font-size:8px; padding:1px 5px; border-radius:4px;
+    font-weight:800; letter-spacing:.4px;
+  }
+
+  /* ---------- main grid ---------- */
+  .grid{display:grid; grid-template-columns:1.6fr 1fr; gap:16px;}
+  @media(max-width:820px){ .grid{grid-template-columns:1fr;} }
+
+  .card{
+    background:var(--bg-elev); border:1px solid var(--border); border-radius:10px; padding:20px;
+  }
+  .focus-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px; flex-wrap:wrap; gap:6px;}
+  .focus-title{font-size:19px; font-weight:700; color:var(--amber);}
+  .focus-tag{font-family:var(--mono); font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px;}
+  .focus-desc{color:var(--muted); font-size:13.5px; margin-bottom:18px;}
+
+  .block{margin-bottom:16px; padding-left:14px; border-left:2px solid var(--border);}
+  .block-time{font-family:var(--mono); font-size:11px; color:var(--teal); text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px;}
+  .block ul{list-style:none;}
+  .block li{font-size:13.5px; color:var(--text); padding:4px 0; display:flex; gap:8px;}
+  .block li::before{content:"›"; color:var(--muted-2);}
+  .prog-ref{color:var(--amber); font-family:var(--mono); font-size:12px;}
+
+  /* ---------- sidebar cards ---------- */
+  .side-card{margin-bottom:16px;}
+  .side-title{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.6px; color:var(--teal); margin-bottom:10px;}
+  .qlist{list-style:none; counter-reset:q;}
+  .qlist li{counter-increment:q; font-size:13px; color:var(--text); padding:6px 0 6px 26px; position:relative; border-bottom:1px dashed var(--border);}
+  .qlist li:last-child{border-bottom:none;}
+  .qlist li::before{
+    content:counter(q); position:absolute; left:0; top:6px;
+    width:18px; height:18px; border-radius:5px; background:var(--bg-elev-2);
+    color:var(--amber); font-family:var(--mono); font-size:10px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .stuck{
+    background:var(--bg-elev-2); border:1px solid var(--coral); border-radius:8px; padding:12px 14px;
+    font-size:12.5px; color:var(--text); margin-top:4px;
+  }
+  .stuck b{color:var(--coral); font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.5px; display:block; margin-bottom:6px;}
+  .flow{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.9;}
+  .flow b{color:var(--text);}
+
+  /* ---------- program bank ---------- */
+  .bank-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px; flex-wrap:wrap; gap:8px;}
+  .bank-head h2{font-size:16px; color:var(--text);}
+  .bank-head span{font-family:var(--mono); font-size:11px; color:var(--muted);}
+  .bank-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:8px;}
+  .prog{
+    display:flex; gap:10px; align-items:center; padding:9px 11px; border-radius:7px;
+    background:var(--bg-elev-2); border:1px solid var(--border); font-size:12.5px;
+    transition:.15s; cursor:pointer;
+  }
+  .prog.assigned{border-color:var(--amber); background:rgba(232,185,93,.07);}
+  .prog.solved{border-color:#63c174; background:rgba(99,193,116,.14); color:#b9edc1;}
+  .prog.solved .prog-num{color:#78d487; font-weight:700;}
+  .prog-num{font-family:var(--mono); color:var(--muted-2); font-size:11px; min-width:22px;}
+  .prog.assigned .prog-num{color:var(--amber); font-weight:700;}
+  .cat-label{font-family:var(--mono); font-size:10.5px; color:var(--muted-2); text-transform:uppercase; letter-spacing:.5px; margin:16px 0 6px;}
+
+  footer{text-align:center; color:var(--muted-2); font-family:var(--mono); font-size:11px; margin-top:26px; padding-bottom:10px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="term">
+    <div class="term-dots"><span></span><span></span><span></span></div>
+    <div class="term-line"><span class="prompt">guest@sprint:~$</span> ./today.sh --show</div>
+    <div class="term-out" id="termOut">loading…</div>
+    <div class="term-sub" id="termSub"></div>
+  </div>
+
+  <div class="row" id="weekToggle">
+    <div class="pill" data-week="1">Week 1 · Fundamentals</div>
+    <div class="pill" data-week="2">Week 2 · Patterns</div>
+    <a href="record.html" class="pill record-btn">📊 Record Progress</a>
+  </div>
+
+  <div class="days" id="dayToggle"></div>
+
+  <div class="grid">
+    <div class="card" id="focusCard"></div>
+
+    <div>
+      <div class="card side-card">
+        <div class="side-title">Pseudocode — ask before you type</div>
+        <ol class="qlist" id="qlist"></ol>
+      </div>
+      <div class="card side-card">
+        <div class="side-title">Stuck protocol</div>
+        <div class="flow">
+          stuck &gt; 10min<br>
+          &nbsp;&nbsp;→ <b>write pseudocode</b> (plain English)<br>
+          &nbsp;&nbsp;→ <b>code the first piece only</b><br>
+          &nbsp;&nbsp;→ <b>run it, see what breaks</b><br>
+          &nbsp;&nbsp;→ <b>expand, repeat</b>
+        </div>
+        <div class="stuck">
+          <b>Rule</b>
+          Partial code &gt; zero code. Never submit / stop before the timer ends. Giving up ≠ struggling.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <div class="bank-head">
+      <h2>50-program bank</h2>
+      <span id="bankCount">— logic-building drills, referenced from ez-approach.txt patterns</span>
+    </div>
+    <div id="bankGrid"></div>
+  </div>
+
+  <footer>week 1–2 · pure python only · no AI, no frameworks · rebuild fundamentals before Odoo retry</footer>
+</div>
+
+<script>
+// ---------------- 50-program bank ----------------
+const BANK = [
+  {id:1,c:"numbers",n:"Print numbers 1 to N"},
+  {id:2,c:"numbers",n:"Sum of N numbers"},
+  {id:3,c:"numbers",n:"Reverse a number"},
+  {id:4,c:"numbers",n:"Check palindrome number"},
+  {id:5,c:"numbers",n:"Check prime number"},
+  {id:6,c:"numbers",n:"Print primes up to N"},
+  {id:7,c:"numbers",n:"Factorial (iterative)"},
+  {id:8,c:"numbers",n:"Factorial (recursive)"},
+  {id:9,c:"numbers",n:"Fibonacci series"},
+  {id:10,c:"numbers",n:"Check Armstrong number"},
+  {id:11,c:"numbers",n:"Sum of digits"},
+  {id:12,c:"numbers",n:"Count digits"},
+  {id:13,c:"strings",n:"Reverse a string"},
+  {id:14,c:"strings",n:"Check palindrome string"},
+  {id:15,c:"strings",n:"Count vowels in string"},
+  {id:16,c:"strings",n:"Count words in string"},
+  {id:17,c:"lists",n:"Largest of 3 numbers"},
+  {id:18,c:"lists",n:"Largest in a list"},
+  {id:19,c:"lists",n:"Second largest in list"},
+  {id:20,c:"lists",n:"Bubble sort (manual)"},
+  {id:21,c:"lists",n:"Linear search"},
+  {id:22,c:"lists",n:"Binary search"},
+  {id:23,c:"lists",n:"Count occurrences of element"},
+  {id:24,c:"lists",n:"Remove duplicates from list"},
+  {id:25,c:"lists",n:"Merge two lists"},
+  {id:26,c:"lists",n:"Find common elements (2 lists)"},
+  {id:27,c:"numbers",n:"Swap two numbers, no temp"},
+  {id:28,c:"logic",n:"Check leap year"},
+  {id:29,c:"logic",n:"Print multiplication table"},
+  {id:30,c:"logic",n:"Pattern: right triangle"},
+  {id:31,c:"logic",n:"Pattern: pyramid"},
+  {id:32,c:"strings",n:"Check anagram"},
+  {id:33,c:"dict",n:"Char frequency (dict)"},
+  {id:34,c:"dict",n:"Word frequency (dict)"},
+  {id:35,c:"dict",n:"Convert list to dict"},
+  {id:36,c:"lists",n:"Flatten nested list"},
+  {id:37,c:"logic",n:"Max/min without built-ins"},
+  {id:38,c:"numbers",n:"Calculate GCD / HCF"},
+  {id:39,c:"numbers",n:"Calculate LCM"},
+  {id:40,c:"logic",n:"Celsius ↔ Fahrenheit"},
+  {id:41,c:"logic",n:"Menu-driven calculator"},
+  {id:42,c:"logic",n:"Leap year as a function"},
+  {id:43,c:"strings",n:"String → list → string"},
+  {id:44,c:"strings",n:"Count upper/lowercase letters"},
+  {id:45,c:"strings",n:"Replace char, no .replace()"},
+  {id:46,c:"interview",n:"Two Sum (dict-based)"},
+  {id:47,c:"interview",n:"Move zeros to end"},
+  {id:48,c:"interview",n:"Rotate list by k"},
+  {id:49,c:"interview",n:"Missing number 1..N"},
+  {id:50,c:"interview",n:"Valid parentheses (stack)"},
+];
+const byId = id => BANK.find(p=>p.id===id);
+
+// ---------------- questions to ask before coding ----------------
+const QUESTIONS = [
+  "What exactly is the INPUT? (type, format, edge cases)",
+  "What exactly is the OUTPUT? (type, format)",
+  "Trace the SIMPLEST example by hand first",
+  "Write the steps in plain English — no code yet",
+  "Is this a pattern I already know? (loop / search / count / swap)",
+  "What could break it? empty, negative, duplicate, zero",
+  "Can I split this into 2 smaller sub-problems?",
+  "3–5 bullet plan, written down, before typing",
+];
+
+// ---------------- routine data ----------------
+const DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]; // JS getDay order
+
+const PLAN = {
+  1:{ // WEEK 1
+    Mon:{focus:"Variables, I/O & type casting", tag:"data types",
+      morning:["Hand-write: what's a variable, print vs input, int() / str() / float()"],
+      core:[1,2,27], evening:["LeetCode Easy ×1, no AI"]},
+    Tue:{focus:"Conditionals", tag:"if / elif / else",
+      morning:["Hand-write: compare operators, truthy vs falsy"],
+      core:[17,28,4], evening:["LeetCode Easy ×1, no AI"]},
+    Wed:{focus:"For loops", tag:"range() & iteration",
+      morning:["Hand-write: for loop over range vs over list"],
+      core:[29,30,6], evening:["LeetCode Easy ×1, no AI"]},
+    Thu:{focus:"While loops + functions", tag:"def / return",
+      morning:["Hand-write: while vs for, when to use each"],
+      core:[7,11,12], evening:["LeetCode Easy ×1, no AI"]},
+    Fri:{focus:"Strings", tag:"indexing & slicing",
+      morning:["Hand-write: s[i], s[a:b], s[::-1] on paper first"],
+      core:[13,14,15], evening:["LeetCode Easy ×1, no AI"]},
+    Sat:{focus:"Lists", tag:"append / sort / slice",
+      morning:["Hand-write: list ops without .sort() first, then with"],
+      core:[18,19,21], evening:["LeetCode Easy ×1, no AI"]},
+    Sun:{focus:"Review day", tag:"no new topics",
+      morning:["Re-do 5 programs from this week — from memory, no notes"],
+      core:[3,5,16,20,23], evening:["Redo any 2 failed LeetCode from the week"]},
+  },
+  2:{ // WEEK 2
+    Mon:{focus:"Dictionaries", tag:"key-value & counting",
+      morning:["Hand-write: when dict beats list — counting pattern"],
+      core:[33,34,35], evening:["LeetCode Easy ×1 (hashmap)"]},
+    Tue:{focus:"Recursion", tag:"base case + recursive call",
+      morning:["Hand-write: trace factorial(4) call stack on paper"],
+      core:[8,9], evening:["LeetCode Easy ×1 (recursion)"]},
+    Wed:{focus:"Nested structures + comprehensions", tag:"list-in-list",
+      morning:["Hand-write: expand a list comprehension into a for loop"],
+      core:[36,24,25], evening:["LeetCode Easy ×1"]},
+    Thu:{focus:"Search & sort logic", tag:"algorithmic thinking",
+      morning:["Hand-write: why binary search needs sorted input"],
+      core:[20,22,26], evening:["LeetCode Easy–Medium ×1"]},
+    Fri:{focus:"Errors & edge cases", tag:"try / except",
+      morning:["Hand-write: 3 ways this week's code could crash"],
+      core:[41,42,37], evening:["LeetCode Medium ×1, 30 min timer"]},
+    Sat:{focus:"Interview classics", tag:"hashmap patterns",
+      morning:["Hand-write: Two Sum brute force, then dict version"],
+      core:[46,47,50], evening:["LeetCode Medium ×1, 30 min timer"]},
+    Sun:{focus:"Full mock", tag:"45 min · no AI · no notes",
+      morning:["Pick 3 programs blind from the bank below"],
+      core:[38,39,48], evening:["Review week 1–2, note 3 weakest topics"]},
+  }
+};
+
+// ---------------- render ----------------
+let state = { week: null, day: null };
+const SOLVED_STORAGE_KEY = "coding-sprint-solved-programs";
+let solvedIds = new Set(JSON.parse(localStorage.getItem(SOLVED_STORAGE_KEY) || "[]"));
+
+function toggleSolved(id){
+  if(solvedIds.has(id)) solvedIds.delete(id);
+  else solvedIds.add(id);
+  localStorage.setItem(SOLVED_STORAGE_KEY, JSON.stringify([...solvedIds]));
+  renderAll(new Date(), DAYS[new Date().getDay()]);
+}
+
+function ordinalWeek(){
+  // decide default week: before/after a hard date isn't known, default to Week 1
+  return 1;
+}
+
+function init(){
+  const now = new Date();
+  const todayName = DAYS[now.getDay()];
+  state.week = ordinalWeek();
+  state.day = (todayName==="Sun") ? "Sun" : todayName; // Sun both weeks = review
+
+  buildWeekToggle();
+  buildDayToggle();
+  renderAll(now, todayName);
+}
+
+function buildWeekToggle(){
+  document.querySelectorAll('#weekToggle .pill').forEach(el=>{
+    el.addEventListener('click',()=>{
+      state.week = Number(el.dataset.week);
+      renderAll(new Date(), DAYS[new Date().getDay()]);
+    });
+  });
+}
+
+function buildDayToggle(){
+  const order = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  const wrap = document.getElementById('dayToggle');
+  wrap.innerHTML = order.map(d=>`<div class="day-btn" data-day="${d}">${d}</div>`).join('');
+  wrap.querySelectorAll('.day-btn').forEach(el=>{
+    el.addEventListener('click',()=>{
+      state.day = el.dataset.day;
+      renderAll(new Date(), DAYS[new Date().getDay()]);
+    });
+  });
+}
+
+function renderAll(now, todayName){
+  // week pills
+  document.querySelectorAll('#weekToggle .pill').forEach(el=>{
+    el.classList.toggle('active', Number(el.dataset.week)===state.week);
+  });
+  // day buttons
+  document.querySelectorAll('.day-btn').forEach(el=>{
+    el.classList.toggle('active', el.dataset.day===state.day);
+    el.classList.toggle('today', el.dataset.day===todayName);
+  });
+
+  const plan = PLAN[state.week][state.day];
+
+  // terminal hero
+  const dayIndexInWeek = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].indexOf(state.day)+1;
+  const globalDay = (state.week-1)*7 + dayIndexInWeek;
+  document.getElementById('termOut').textContent = `${plan.focus}`;
+  document.getElementById('termSub').innerHTML =
+    `Day <b>${globalDay}/14</b> · Week ${state.week} · ${state.day}` +
+    (state.day===todayName ? ` · <b style="color:var(--coral)">TODAY</b>` : ``);
+
+  // focus card
+  const core = plan.core.map(byId);
+  document.getElementById('focusCard').innerHTML = `
+    <div class="focus-head">
+      <div class="focus-title">${plan.focus}</div>
+      <div class="focus-tag">${plan.tag}</div>
+    </div>
+    <div class="focus-desc">Pure Python only — no frameworks, no AI-written code this phase.</div>
+
+    <div class="block">
+      <div class="block-time">Morning · 45 min · pen & paper</div>
+      <ul>${plan.morning.map(m=>`<li>${m}</li>`).join('')}</ul>
+    </div>
+
+    <div class="block">
+      <div class="block-time">Core practice · 90 min · type & test</div>
+      <ul>${core.map(p=>`<li><span class="prog-ref">#${String(p.id).padStart(2,'0')}</span> ${p.n}</li>`).join('')}</ul>
+    </div>
+
+    <div class="block">
+      <div class="block-time">Evening · 45 min</div>
+      <ul>${plan.evening.map(m=>`<li>${m}</li>`).join('')}</ul>
+    </div>
+  `;
+
+  // program bank grid — highlight today's assigned ones
+  const assigned = new Set(plan.core);
+  const cats = [["numbers","Numbers"],["strings","Strings"],["lists","Lists"],["dict","Dictionaries"],["logic","Logic / Patterns"],["interview","Interview Classics"]];
+  let html = "";
+  cats.forEach(([key,label])=>{
+    const items = BANK.filter(p=>p.c===key);
+    if(!items.length) return;
+    html += `<div class="cat-label">${label}</div><div class="bank-grid">`;
+    html += items.map(p=>`
+      <div class="prog ${assigned.has(p.id)?'assigned':''} ${solvedIds.has(p.id)?'solved':''}"
+        data-program-id="${p.id}" role="button" tabindex="0" aria-pressed="${solvedIds.has(p.id)}">
+        <span class="prog-num">#${String(p.id).padStart(2,'0')}</span>${p.n}
+      </div>`).join('');
+    html += `</div>`;
+  });
+  document.getElementById('bankGrid').innerHTML = html;
+  document.getElementById('bankCount').textContent = `${assigned.size} assigned today · ${solvedIds.size} solved · green = solved`;
+
+  document.querySelectorAll('[data-program-id]').forEach(el=>{
+    el.addEventListener('click',()=>toggleSolved(Number(el.dataset.programId)));
+    el.addEventListener('keydown', event=>{
+      if(event.key === 'Enter' || event.key === ' '){
+        event.preventDefault();
+        toggleSolved(Number(el.dataset.programId));
+      }
+    });
+  });
+}
+
+// pseudocode questions (static)
+document.getElementById('qlist').innerHTML = QUESTIONS.map(q=>`<li>${q}</li>`).join('');
+
+init();
+</script>
+</body>
+</html>

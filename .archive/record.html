@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Tracker</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --border: #30363d;
+            --text: #c9d1d9;
+            --muted: #8b949e;
+            --blue: #58a6ff;
+            --green: #238636;
+            --green-hover: #2ea043;
+            --red: #f85149;
+            --yellow: #d29922;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 30px 20px;
+            line-height: 1.5;
+        }
+        
+        .container { 
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--surface);
+            padding: 25px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        h1 { 
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .sync-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .sync-status.online {
+            background: rgba(63, 185, 80, 0.15);
+            color: #3fb950;
+        }
+
+        .sync-status.offline {
+            background: rgba(248, 81, 73, 0.15);
+            color: var(--red);
+        }
+
+        .sync-status.syncing {
+            background: rgba(88, 166, 255, 0.15);
+            color: var(--blue);
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border: 2px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .token-section {
+            background: #0d1117;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .token-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .token-input input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        input, select, button {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: #0d1117;
+            color: var(--text);
+            font-size: 13px;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+        }
+
+        button {
+            background: var(--green);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        button:hover { background: var(--green-hover); }
+        button:disabled { background: #30363d; color: var(--muted); cursor: not-allowed; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 120px 1.5fr 90px 2fr 100px;
+            gap: 10px;
+            margin-bottom: 20px;
+            align-items: end;
+        }
+
+        label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .form-row > div { display: flex; flex-direction: column; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        th {
+            background: #21262d;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        tr:hover { background: #0d1117; }
+
+        .status-yes { color: #3fb950; font-weight: 600; }
+        .status-no { color: var(--red); font-weight: 600; }
+
+        .util-buttons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .util-buttons button { 
+            font-size: 12px;
+            padding: 7px 12px;
+        }
+
+        #file-input { display: none; }
+
+        .last-sync {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 8px;
+        }
+
+        @media (max-width: 800px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-row { 
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .form-row button { grid-column: 1 / -1; }
+
+            .util-buttons {
+                flex-direction: column;
+            }
+
+            .util-buttons button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📊 Problem Tracker</h1>
+        <div class="sync-status offline" id="sync-status">
+            <span id="sync-icon">●</span>
+            <span id="sync-text">Offline</span>
+        </div>
+    </div>
+
+    <div class="token-section">
+        <div class="token-input">
+            <input type="password" id="input-token" placeholder="Enter GitHub PAT (optional)" autocomplete="off">
+            <button type="button" id="save-token-btn">Set Token</button>
+            <button type="button" id="sync-btn" disabled>⟳ Sync Now</button>
+        </div>
+        <div class="last-sync" id="last-sync"></div>
+    </div>
+
+    <form id="tracker-form" onsubmit="addRecord(event)">
+        <div class="form-row">
+            <div>
+                <label>Date</label>
+                <input type="date" id="input-date" required>
+            </div>
+            <div>
+                <label>Problem Name</label>
+                <input type="text" id="input-problem" placeholder="e.g., Two Sum" required>
+            </div>
+            <div>
+                <label>Solved</label>
+                <select id="input-solved">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div>
+                <label>Concept / Idea</label>
+                <input type="text" id="input-idea" placeholder="e.g., HashMap pattern" required>
+            </div>
+            <div>
+                <button type="submit" id="submit-btn">Add Record</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="util-buttons">
+        <button id="download-btn">⬇️ Download tracker.json</button>
+        <button id="import-btn">📤 Import tracker.json</button>
+        <input type="file" id="file-input" accept=".json">
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 12%;">Date</th>
+                <th style="width: 30%;">Problem</th>
+                <th style="width: 10%;">Solved</th>
+                <th style="width: 48%;">Concept / Idea</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <tr><td colspan="4" style="text-align: center; color: var(--muted);">No records yet</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    const TOKEN_KEY = "tracker_github_token";
+    const LOCAL_DATA_KEY = "tracker_local_data";
+    const SYNC_TIME_KEY = "tracker_last_sync";
+    const GIST_ID = "18fb41adbd5e8dc3f50e4d2a001a24e7";
+
+    let records = [];
+    let githubToken = "";
+    let isSyncing = false;
+
+    // === Initialization ===
+    function init() {
+        setDefaultDate();
+        loadToken();
+        loadLocalData();
+        renderTable();
+        attachEventListeners();
+        updateSyncStatus();
+        // Auto-sync on page load if token exists
+        if (githubToken) {
+            pullFromGitHub();
+        }
+    }
+
+    // === Token Management ===
+    function loadToken() {
+        githubToken = localStorage.getItem(TOKEN_KEY) || "";
+        if (githubToken) {
+            document.getElementById('input-token').value = githubToken;
+            document.getElementById('sync-btn').disabled = false;
+        }
+    }
+
+    function saveToken(token) {
+        if (token.trim()) {
+            githubToken = token.trim();
+            localStorage.setItem(TOKEN_KEY, githubToken);
+            document.getElementById('sync-btn').disabled = false;
+            alert("✓ Token saved. Syncing now...");
+            pullFromGitHub();
+        } else {
+            alert("⚠️ Please enter a valid token");
+        }
+    }
+
+    // === Local Storage ===
+    function loadLocalData() {
+        const stored = localStorage.getItem(LOCAL_DATA_KEY);
+        records = stored ? JSON.parse(stored) : [];
+    }
+
+    function saveLocalData() {
+        localStorage.setItem(LOCAL_DATA_KEY, JSON.stringify(records));
+    }
+
+    // === Sync Status UI ===
+    function setSyncStatus(status, message) {
+        const statusEl = document.getElementById('sync-status');
+        const textEl = document.getElementById('sync-text');
+        const iconEl = document.getElementById('sync-icon');
+
+        statusEl.className = `sync-status ${status}`;
+        textEl.textContent = message;
+
+        if (status === 'syncing') {
+            iconEl.innerHTML = '<span class="spinner"></span>';
+        } else if (status === 'online') {
+            iconEl.textContent = '●';
+        } else {
+            iconEl.textContent = '●';
+        }
+    }
+
+    function updateSyncStatus() {
+        if (!githubToken) {
+            setSyncStatus('offline', 'Local Only');
+        } else if (isSyncing) {
+            setSyncStatus('syncing', 'Syncing...');
+        } else {
+            setSyncStatus('online', 'Synced');
+        }
+        updateLastSyncTime();
+    }
+
+    function updateLastSyncTime() {
+        const lastSync = localStorage.getItem(SYNC_TIME_KEY);
+        const el = document.getElementById('last-sync');
+        if (lastSync) {
+            const date = new Date(lastSync);
+            const time = date.toLocaleTimeString();
+            const dateStr = date.toLocaleDateString();
+            el.textContent = `Last sync: ${dateStr} at ${time}`;
+        } else {
+            el.textContent = '';
+        }
+    }
+
+    // === Date Handling ===
+    function setDefaultDate() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('input-date').value = today;
+    }
+
+    // === Table Rendering ===
+    function renderTable() {
+        const tbody = document.getElementById('table-body');
+        
+        if (records.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--muted);">No records yet</td></tr>';
+            return;
+        }
+
+        const sorted = [...records].sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        tbody.innerHTML = sorted.map(r => {
+            const statusClass = r.solved === 'Yes' ? 'status-yes' : 'status-no';
+            return `
+                <tr>
+                    <td>${r.date}</td>
+                    <td><strong>${r.problem}</strong></td>
+                    <td class="${statusClass}">${r.solved}</td>
+                    <td style="color: var(--muted);">${r.idea}</td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    // === Sync Logic: Pull from GitHub ===
+    async function pullFromGitHub() {
+        if (!githubToken || isSyncing) return;
+        
+        isSyncing = true;
+        updateSyncStatus();
+
+        try {
+            const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+                headers: {
+                    'Authorization': `Bearer ${githubToken}`,
+                    'Accept': 'application/vnd.github+json'
+                }
+            });
+
+            if (!res.ok) throw new Error("Failed to pull from GitHub");
+
+            const gistData = await res.json();
+            const remoteContent = gistData.files?.['tracker.json']?.content || "[]";
+            const remoteRecords = JSON.parse(remoteContent);
+
+            // Merge: keep local records not in remote (user might add offline)
+            const merged = mergeRecords(records, remoteRecords);
+            records = merged;
+            saveLocalData();
+            renderTable();
+
+            setSyncStatus('online', 'Synced');
+        } catch (err) {
+            console.error("Pull error:", err);
+            setSyncStatus('offline', 'Sync failed');
+        } finally {
+            isSyncing = false;
+            updateSyncStatus();
+        }
+    }
+
+    // === Sync Logic: Push to GitHub ===
+    async function pushToGitHub() {
+        if (!githubToken || isSyncing) return;
+
+        isSyncing = true;
+        updateSyncStatus();
+
+        try {
+            const response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Bearer ${githubToken}`,
+                    'Accept': 'application/vnd.github+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    files: {
+                        'tracker.json': {
+                            content: JSON.stringify(records, null, 2)
+                        }
+                    }
+                })
+            });
+
+            if (!response.ok) throw new Error("Failed to push to GitHub");
+
+            localStorage.setItem(SYNC_TIME_KEY, new Date().toISOString());
+            setSyncStatus('online', 'Synced');
+        } catch (err) {
+            console.error("Push error:", err);
+            setSyncStatus('offline', 'Sync failed');
+            alert("⚠️ Could not sync to GitHub (local copy saved)");
+        } finally {
+            isSyncing = false;
+            updateSyncStatus();
+        }
+    }
+
+    // === Merge Strategy: Remote + Local ===
+    function mergeRecords(local, remote) {
+        // Create map by date+problem to identify duplicates
+        const seen = new Set();
+        const merged = [];
+
+        // Add all remote records first
+        remote.forEach(r => {
+            merged.push(r);
+            seen.add(`${r.date}${r.problem}`);
+        });
+
+        // Add local records not in remote
+        local.forEach(r => {
+            const key = `${r.date}${r.problem}`;
+            if (!seen.has(key)) {
+                merged.push(r);
+            }
+        });
+
+        return merged;
+    }
+
+    // === Add Record ===
+    async function addRecord(event) {
+        event.preventDefault();
+        
+        const record = {
+            date: document.getElementById('input-date').value,
+            problem: document.getElementById('input-problem').value.trim(),
+            solved: document.getElementById('input-solved').value,
+            idea: document.getElementById('input-idea').value.trim()
+        };
+
+        if (!record.date || !record.problem || !record.idea) {
+            alert("Please fill all fields");
+            return;
+        }
+
+        records.push(record);
+        saveLocalData();
+        renderTable();
+
+        // Reset form
+        document.getElementById('input-problem').value = '';
+        document.getElementById('input-idea').value = '';
+        setDefaultDate();
+
+        // Auto-push to GitHub if token exists
+        if (githubToken) {
+            await pushToGitHub();
+        }
+    }
+
+    // === Download ===
+    function downloadJSON() {
+        const dataStr = JSON.stringify(records, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'tracker.json';
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    // === Import ===
+    function importJSON() {
+        document.getElementById('file-input').click();
+    }
+
+    document.getElementById('file-input').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const imported = JSON.parse(event.target.result);
+                if (Array.isArray(imported)) {
+                    records = imported;
+                    saveLocalData();
+                    renderTable();
+                    alert(`✓ Imported ${imported.length} records`);
+                    
+                    // Push to GitHub if token exists
+                    if (githubToken) {
+                        pushToGitHub();
+                    }
+                } else {
+                    alert("Invalid format. Should be a JSON array.");
+                }
+            } catch (err) {
+                alert("Error parsing file: " + err.message);
+            }
+        };
+        reader.readAsText(file);
+    });
+
+    // === Event Listeners ===
+    function attachEventListeners() {
+        document.getElementById('save-token-btn').addEventListener('click', () => {
+            const token = document.getElementById('input-token').value;
+            saveToken(token);
+        });
+
+        document.getElementById('sync-btn').addEventListener('click', pullFromGitHub);
+        document.getElementById('download-btn').addEventListener('click', downloadJSON);
+        document.getElementById('import-btn').addEventListener('click', importJSON);
+
+        document.getElementById('input-token').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('save-token-btn').click();
+            }
+        });
+    }
+
+    init();
+</script>
+
+</body>
+</html>
