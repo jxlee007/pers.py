@@ -1,0 +1,178 @@
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useApp } from "../context/AppContext";
+import { dashboardCases, caseTimelines, routingMatrix } from "../data/mockData";
+import Timeline from "../components/Timeline";
+import Button from "../components/Button";
+
+const statusColors: Record<string, string> = {
+  "In Progress": "bg-amber-500",
+  "Escalated": "bg-red-500",
+  "Resolved": "bg-emerald-500",
+  "Awaiting Action": "bg-purple-500",
+};
+
+export default function CaseDetail() {
+  const { id } = useParams<{ id: string }>();
+  const { t } = useApp();
+  const navigate = useNavigate();
+
+  const caseData = dashboardCases.find((c) => c.id === id);
+  const timeline = id ? caseTimelines[id] || [] : [];
+
+  if (!caseData) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+        <div className="text-center">
+          <div className="text-5xl mb-4">❓</div>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">{t("केस नहीं मिला", "Case Not Found")}</h2>
+          <p className="text-gray-500 mb-6">{t("केस ID गलत हो सकती है।", "The case ID may be incorrect.")}</p>
+          <Link to="/dashboard">
+            <Button>{t("डैशबोर्ड पर जाएं", "Go to Dashboard")}</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const routing = routingMatrix[caseData.complaint_type] || routingMatrix["other"];
+  const completedSteps = timeline.filter((e) => e.status === "completed").length;
+  const progress = Math.round((completedSteps / timeline.length) * 100);
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+        {/* Back button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 mb-6 transition-colors"
+        >
+          ← {t("वापस जाएं", "Go Back")}
+        </button>
+
+        {/* Case header */}
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-5 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div>
+              <div className="font-mono text-sm text-gray-400 mb-1">{caseData.id}</div>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">{t(caseData.titleHi, caseData.title)}</h1>
+              <div className="flex flex-wrap gap-2">
+                <span
+                  className={`text-xs px-3 py-1 rounded-full text-white font-semibold ${statusColors[caseData.status] || "bg-gray-400"}`}
+                >
+                  {caseData.status}
+                </span>
+                <span className="text-xs px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 font-semibold">
+                  {routing.icon} {caseData.routed_to}
+                </span>
+                <span
+                  className={`text-xs px-3 py-1 rounded-full font-semibold ${
+                    caseData.priority === "critical"
+                      ? "bg-red-100 text-red-700"
+                      : caseData.priority === "high"
+                      ? "bg-amber-100 text-amber-700"
+                      : "bg-blue-100 text-blue-700"
+                  }`}
+                >
+                  {caseData.priority.toUpperCase()} PRIORITY
+                </span>
+              </div>
+            </div>
+
+            <div className="text-right">
+              <div className="text-3xl font-extrabold text-red-600">{caseData.days_pending}</div>
+              <div className="text-xs text-gray-400">{t("दिन लंबित", "days pending")}</div>
+            </div>
+          </div>
+
+          {/* Progress bar */}
+          <div className="mt-5">
+            <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+              <span>{t("प्रगति", "Progress")}</span>
+              <span>{progress}%</span>
+            </div>
+            <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-indigo-500 rounded-full transition-all duration-700"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Status info */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
+          <div className="bg-white border border-gray-200 rounded-xl p-4">
+            <div className="text-xs text-gray-400 font-medium mb-1">{t("दर्ज तिथि", "Filed Date")}</div>
+            <div className="font-bold text-gray-900">📅 {caseData.filed_date}</div>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-xl p-4">
+            <div className="text-xs text-gray-400 font-medium mb-1">{t("वर्तमान चरण", "Current Stage")}</div>
+            <div className="font-bold text-gray-900 text-sm">🔍 {caseData.current_stage}</div>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-xl p-4">
+            <div className="text-xs text-gray-400 font-medium mb-1">{t("अपेक्षित समाधान", "Expected Resolution")}</div>
+            <div className="font-bold text-gray-900">🎯 {caseData.expected_resolution}</div>
+          </div>
+        </div>
+
+        {/* Timeline */}
+        <div className="bg-white border border-gray-200 rounded-2xl p-5 sm:p-6 mb-5">
+          <h2 className="font-bold text-gray-900 text-lg mb-6">{t("शिकायत की यात्रा", "Case Journey & Timeline")}</h2>
+          <Timeline events={timeline} />
+        </div>
+
+        {/* Contact section */}
+        <div className="bg-white border border-gray-200 rounded-2xl p-5 mb-5">
+          <h2 className="font-bold text-gray-900 mb-4">📞 {t("संपर्क करें", "Contact Department")}</h2>
+          <div className="flex items-center gap-4 mb-4">
+            <span className="text-3xl">{routing.icon}</span>
+            <div>
+              <div className="font-bold text-gray-900">{routing.ministry}</div>
+              <div className="text-sm text-gray-500">{routing.department}</div>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <a
+              href={`tel:${caseData.phone}`}
+              className="flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-white text-sm transition-colors"
+              style={{ background: "#10B981" }}
+            >
+              ☎️ {t("कॉल करें", "Call Now")} · {caseData.phone}
+            </a>
+            <a
+              href={`sms:${caseData.phone}`}
+              className="flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-white text-sm bg-blue-500 hover:bg-blue-600 transition-colors"
+            >
+              📱 {t("SMS करें", "Send SMS")}
+            </a>
+            <button
+              onClick={() => navigate("/appeals")}
+              className="flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-gray-700 text-sm bg-gray-100 hover:bg-gray-200 transition-colors"
+            >
+              ⚖️ {t("अपील दर्ज करें", "File Appeal")}
+            </button>
+          </div>
+        </div>
+
+        {/* Action buttons */}
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Link to="/appeals" className="flex-1">
+            <Button size="md" fullWidth variant="ghost">
+              ⚖️ {t("अपील करें", "File an Appeal")}
+            </Button>
+          </Link>
+          <Link to="/directory" className="flex-1">
+            <Button size="md" fullWidth variant="secondary">
+              👤 {t("अधिकारी देखें", "View Officer Directory")}
+            </Button>
+          </Link>
+          <Link to={`/feedback`} className="flex-1">
+            <Button size="md" fullWidth variant="secondary">
+              ⭐ {t("फीडबैक दें", "Give Feedback")}
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
