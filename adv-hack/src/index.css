@@ -50,6 +50,103 @@ html, body, #root { height: 100%; }
 }
 
 /* ═══════════════════════════════════════════════════
+   DARK MODE TOKENS & OVERRIDES
+   ═══════════════════════════════════════════════════ */
+:root.dark, [data-theme="dark"] {
+  --background:     #0b0f19;
+  --surface:        #131a2a;
+  --card:           #182236;
+  --border:         #2a364f;
+  --border-strong:  #3e4f70;
+  --text:           #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted:     #94a3b8;
+
+  --gov-navy-light: #182342;
+  --gov-saffron-lt: #331d06;
+
+  --util-bg:        #060910;
+  --header-bg:      #0f172a;
+  --nav-bg:         #0d1757;
+  --nav-text:       #ffffff;
+  --footer-bg:      #070b13;
+}
+
+.dark body {
+  background-color: var(--background);
+  color: var(--text);
+}
+
+.dark .gov-header-bar {
+  background: var(--header-bg);
+  border-bottom-color: var(--border);
+}
+
+.dark .bg-white {
+  background-color: var(--card) !important;
+  color: var(--text) !important;
+}
+
+.dark .text-gray-900 {
+  color: #f8fafc !important;
+}
+.dark .text-gray-800 {
+  color: #f1f5f9 !important;
+}
+.dark .text-gray-700 {
+  color: #e2e8f0 !important;
+}
+.dark .text-gray-600 {
+  color: #cbd5e1 !important;
+}
+.dark .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+.dark .border-gray-200,
+.dark .border-gray-300,
+.dark .border-gray-100 {
+  border-color: var(--border) !important;
+}
+
+.dark .bg-gray-50,
+.dark .bg-gray-100 {
+  background-color: var(--surface) !important;
+}
+
+.dark .form-section {
+  background: var(--card);
+  border-color: var(--border);
+}
+
+.dark .form-field input,
+.dark .form-field select,
+.dark .form-field textarea {
+  background: #0f172a !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+.dark .action-tile {
+  background: var(--card);
+  border-color: var(--border);
+}
+
+.dark .action-tile-icon {
+  background: var(--surface);
+}
+
+.dark .btn-gov-secondary {
+  background: transparent;
+  color: #93c5fd;
+  border-color: #3b82f6;
+}
+.dark .btn-gov-secondary:hover {
+  background: rgba(59, 130, 246, 0.15);
+}
+
+
+/* ═══════════════════════════════════════════════════
    TYPOGRAPHY
    ═══════════════════════════════════════════════════ */
 * {

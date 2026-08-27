@@ -79,8 +79,8 @@ export default function HowItWorks() {
           </h1>
           <p className="text-indigo-200 text-lg max-w-xl mx-auto">
             {t(
-              "AI की शक्ति से शिकायतें पहली बार में ही सही विभाग तक पहुंचती हैं।",
-              "AI-powered complaint routing that gets it right the first time — every time."
+              "AI-सक्षम तकनीक से शिकायतें पहली बार में ही सही विभाग तक पहुंचती हैं।",
+              "AI-enabled complaint routing that gets it right the first time — every time."
             )}
           </p>
         </div>

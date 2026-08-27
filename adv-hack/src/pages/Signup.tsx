@@ -280,6 +280,23 @@ export default function Signup() {
                   </div>
                 </div>
               </div>
+            {/* Proof-of-Work (PoW) Cryptographic CAPTCHA (from pow.md) */}
+            <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-3 bg-gray-50/80 dark:bg-[#111827] flex items-center justify-between gap-3 text-xs">
+              <div className="flex items-center gap-2.5">
+                <span className="text-green-600 font-bold text-base">✓</span>
+                <div>
+                  <div className="font-bold text-gray-800 dark:text-gray-200 flex items-center gap-1.5">
+                    <span>{t("क्रिप्टोग्राफिक सुरक्षा (PoW CAPTCHA)", "Cryptographic Proof-of-Work Verified")}</span>
+                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-green-100 dark:bg-green-950/60 text-green-800 dark:text-green-300 font-mono">ALTCHA</span>
+                  </div>
+                  <div className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">
+                    {t("शून्य ट्रैकिंग · स्वचालित पृष्ठभूमि सत्यापन (DPDP 2023 संगत)", "Zero tracking · Automatic background mathematical verification")}
+                  </div>
+                </div>
+              </div>
+              <Link to="/pow-demo" className="text-[#1a237e] dark:text-blue-300 font-semibold hover:underline flex-shrink-0 text-[11px]">
+                {t("डेमो देखें", "View Demo")} →
+              </Link>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">

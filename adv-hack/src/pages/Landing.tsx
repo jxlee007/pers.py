@@ -105,7 +105,7 @@ export default function Landing() {
                 className="inline-flex items-center gap-2 text-xs font-bold px-3 py-1 rounded-full mb-5 uppercase tracking-wider"
                 style={{ background: "rgba(255,111,0,0.25)", color: "#ffd54f", border: "1px solid rgba(255,213,79,0.4)" }}
               >
-                🇮🇳 {t("भारत सरकार · DARPG · AI-संचालित", "Government of India · DARPG · AI-Powered")}
+                🇮🇳 {t("भारत सरकार · DARPG · AI-सक्षम", "Government of India · DARPG · AI-Enabled")}
               </div>
 
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mb-4">
@@ -310,8 +310,8 @@ export default function Landing() {
                 </p>
                 <p>
                   {t(
-                    "CPGRAMS AI इस प्रणाली को AI-संचालित रूटिंग के साथ अपग्रेड करता है — कीवर्ड मिलान की बजाय वास्तविक समस्या को समझकर पहली बार सही विभाग को शिकायत भेजता है।",
-                    "CPGRAMS AI upgrades this system with AI-powered routing — instead of keyword matching, it understands the actual problem and routes to the correct ministry on first submission, eliminating delays from wrong routing."
+                    "CPGRAMS AI इस प्रणाली को AI-सक्षम रूटिंग के साथ अपग्रेड करता है — कीवर्ड मिलान की बजाय वास्तविक समस्या को समझकर पहली बार सही विभाग को शिकायत भेजता है।",
+                    "CPGRAMS AI upgrades this system with AI-enabled routing — instead of keyword matching, it understands the actual problem and routes to the correct ministry on first submission, eliminating delays from wrong routing."
                   )}
                 </p>
               </div>

@@ -1,0 +1,609 @@
+For your **CPGRAMS-style grievance webapp**, I would not create dozens of separate DPDP pages. A practical DPDP-oriented UX can be covered with a focused set of pages and flows.
+
+> **Important:** These are pages/features to support DPDP-oriented privacy compliance, not a guarantee of legal compliance. Final legal requirements should be validated against the applicable DPDP Act/Rules and your organisation's role.
+
+## Recommended DPDP page structure
+
+### 1. Public Privacy Pages
+
+| Page                            | Route                | Purpose                                                                                                       | Priority         |
+| ------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------- | ---------------- |
+| **Privacy Notice**              | `/privacy`           | Explain what personal data is collected, why, how it is used, retention, sharing, rights, grievance mechanism | 🔴 Essential     |
+| **Cookie / Tracking Notice**    | `/privacy/cookies`   | Explain non-essential cookies/tracking if your site uses them                                                 | 🟡 If applicable |
+| **Data Retention Policy**       | `/privacy/retention` | Explain categories of data and retention/deletion approach                                                    | 🟡 Recommended   |
+| **Security & Data Protection**  | `/privacy/security`  | Explain security safeguards at a high level                                                                   | 🟡 Recommended   |
+| **Grievance / Privacy Contact** | `/privacy/contact`   | Privacy-related contact/grievance mechanism                                                                   | 🔴 Essential     |
+
+You don't necessarily need all of these as independent pages. They can be sections under `/privacy`.
+
+---
+
+# 2. Login / Signup Privacy Screens
+
+These are particularly important because the user is providing personal information.
+
+### `/login`
+
+```text
+Login
+
+Mobile Number
+[________________]
+
+[Send OTP]
+
+Privacy Notice
+Your information will be processed to authenticate
+your account and provide access to your complaints.
+
+[View Privacy Notice]
+```
+
+### `/login/otp`
+
+```text
+Verify Mobile Number
+
+OTP sent to +91 XXXXX XXXXX
+
+[ _ _ _ _ _ _ ]
+
+Resend OTP
+Change mobile number
+```
+
+No privacy consent should be bundled into the OTP itself.
+
+---
+
+### `/signup`
+
+```text
+Create Account
+
+Name
+Mobile
+Email (optional)
+
+Preferred Language
+
+[Continue]
+```
+
+Then:
+
+### `/signup/privacy`
+
+This should be a dedicated privacy/consent step.
+
+```text
+Before you continue
+
+Privacy Notice
+
+We collect your information to:
+• Create and secure your account
+• Register and process complaints
+• Communicate regarding your complaint
+
+[Read full Privacy Notice]
+
+Required
+☐ I acknowledge and agree to the processing
+  necessary for the requested service.
+
+Optional
+☐ I want to receive optional notifications.
+
+[Continue]
+```
+
+**Do not pre-check optional consent.**
+
+---
+
+# 3. Privacy Centre
+
+This is the most important new authenticated section.
+
+### `/privacy-center`
+
+or preferably:
+
+```text
+/account/privacy
+```
+
+The user should see:
+
+```text
+Privacy & Data
+
+Your information
+View the information associated with your account
+[View my data]
+
+Consent
+Manage your consent preferences
+[Manage consent]
+
+Your data rights
+[Request access]
+[Request correction]
+[Request deletion]
+
+Privacy
+[Privacy Notice]
+
+Grievance
+[Raise a privacy grievance]
+```
+
+---
+
+# 4. My Data / Data Access
+
+### `/privacy/data`
+
+or:
+
+```text
+/account/privacy/data
+```
+
+Show the user what categories of personal data the system holds.
+
+Example:
+
+```text
+My Data
+
+ACCOUNT
+Name
+Mobile number
+Email
+Preferred language
+
+COMPLAINTS
+Complaint information
+Case IDs
+Submitted documents
+
+PREFERENCES
+Language
+Notification preferences
+
+CONSENT
+Consent records
+Privacy notice version
+Consent timestamps
+
+[Request a copy of my data]
+```
+
+The important architectural point is that this must be **user-scoped**.
+
+User A must never see User B's information.
+
+---
+
+# 5. Consent Management
+
+### `/privacy/consent`
+
+Show consent history and current status.
+
+```text
+Consent & Preferences
+
+Required service processing
+ACTIVE
+Required for providing the requested service
+
+Optional notifications
+ACTIVE
+[Withdraw]
+
+Consent history
+
+Privacy Notice v1.2
+27 Aug 2026
+Language: Gujarati
+Status: Accepted
+```
+
+The system should maintain consent metadata rather than simply:
+
+```text
+consent = true
+```
+
+For example:
+
+```text
+purpose
+noticeVersion
+language
+status
+consentedAt
+withdrawnAt
+method
+```
+
+---
+
+# 6. Consent Withdrawal
+
+This can be a separate page or modal.
+
+### `/privacy/consent/withdraw`
+
+Example:
+
+```text
+Withdraw Optional Consent
+
+Optional notifications
+
+Currently:
+ACTIVE
+
+If you withdraw:
+You will no longer receive optional notifications.
+
+[Cancel]
+[Withdraw Consent]
+```
+
+Don't provide a misleading "withdraw all consent" button if some processing is necessary to provide the service.
+
+---
+
+# 7. Correction Request
+
+### `/privacy/correction`
+
+```text
+Correct My Information
+
+Name
+[________________]
+
+Email
+[________________]
+
+Preferred Language
+[Gujarati ▼]
+
+Reason for correction
+[________________]
+
+[Submit Correction Request]
+```
+
+After submission:
+
+```text
+Correction Request Submitted
+
+Reference:
+COR-2026-0001
+
+Status:
+Submitted
+```
+
+---
+
+# 8. Deletion / Erasure Request
+
+### `/privacy/delete`
+
+This should have a confirmation flow rather than one-click deletion.
+
+```text
+Delete My Account
+
+Deleting your account will affect:
+
+✓ Your profile
+✓ Your saved preferences
+✓ Your access to your account
+
+Some information may need to be retained
+where required by applicable legal obligations.
+
+[Continue]
+```
+
+Then:
+
+```text
+Confirm Your Request
+
+Re-authenticate
+[OTP]
+
+☐ I understand the consequences.
+
+[Confirm Deletion Request]
+```
+
+Then:
+
+```text
+Deletion Request Submitted
+
+Reference:
+DEL-2026-0001
+
+Status:
+Submitted
+```
+
+---
+
+# 9. Privacy Grievance
+
+### `/privacy/grievance`
+
+```text
+Privacy Grievance
+
+What is your concern?
+
+[Select issue]
+
+Complaint:
+[____________________________]
+
+Related case:
+[Optional]
+
+Preferred contact:
+○ Mobile
+○ Email
+
+[Submit Grievance]
+```
+
+Success:
+
+```text
+Privacy Grievance Submitted
+
+Reference:
+PRV-2026-0001
+
+Status:
+Submitted
+```
+
+---
+
+# 10. Privacy Request Status
+
+I strongly recommend this page even though it wasn't explicitly in the minimum list.
+
+### `/privacy/requests`
+
+It gives the user one place to track:
+
+```text
+My Privacy Requests
+
+PRV-2026-0001
+Privacy grievance
+Submitted
+27 Aug 2026
+
+COR-2026-0001
+Correction request
+In review
+
+DEL-2026-0001
+Deletion request
+Submitted
+```
+
+This makes the privacy system much easier to understand.
+
+---
+
+# 11. Profile Page
+
+### `/profile`
+
+The Profile page should become the entry point for privacy controls.
+
+```text
+My Profile
+
+Rahul Sharma
++91 XXXXX XXXXX
+rahul@example.com
+
+Preferred language
+Gujarati
+
+[Edit Profile]
+
+Privacy & Data
+[Manage]
+
+Consent
+[Manage]
+
+Security
+[Manage]
+
+[Logout]
+```
+
+---
+
+# 12. Security / Account Management
+
+### `/account/security`
+
+This isn't strictly a "DPDP page", but it is important for protecting personal data.
+
+Include:
+
+```text
+Account Security
+
+Mobile number
+Verified ✓
+
+Recent login
+27 Aug 2026
+
+Active sessions
+
+[Sign out of other sessions]
+```
+
+For an OTP-based system, this is preferable to inventing a password-management system.
+
+---
+
+# 13. Child / Minor Flow
+
+If the service is available to children or could reasonably process children's data, you should have a dedicated flow rather than treating it exactly like an adult account.
+
+Possible route:
+
+```text
+/parent-consent
+```
+
+Flow:
+
+```text
+Child account request
+        ↓
+Parent / guardian verification
+        ↓
+Consent
+        ↓
+Account activation
+```
+
+Whether and exactly how this is required depends on the applicable DPDP requirements and your user population, so this should be confirmed legally before implementation.
+
+---
+
+# 14. Recommended Final Sitemap
+
+For your project, I'd implement this structure:
+
+```text
+PUBLIC
+│
+├── /
+├── /how-it-works
+├── /help
+├── /directory
+│
+├── /privacy
+│   ├── /cookies
+│   ├── /retention
+│   ├── /security
+│   └── /contact
+│
+AUTH
+│
+├── /login
+├── /login/otp
+├── /signup
+├── /signup/privacy
+├── /signup/otp
+└── /signup/profile
+│
+AUTHENTICATED
+│
+├── /dashboard
+├── /file-complaint
+├── /routing-result
+├── /case/:id
+├── /appeals
+│
+├── /profile
+│   └── /security
+│
+└── /privacy-center
+    │
+    ├── /data
+    ├── /consent
+    ├── /consent/withdraw
+    ├── /correction
+    ├── /delete
+    ├── /requests
+    └── /grievance
+```
+
+---
+
+# Minimum vs Recommended
+
+If you want to keep the prototype lean, **these are the minimum screens I would add**:
+
+### 🔴 Must have
+
+1. **Privacy Notice**
+2. **Signup**
+3. **Login**
+4. **OTP Verification**
+5. **Consent**
+6. **Profile**
+7. **Privacy & Data Centre**
+8. **My Data / Access**
+9. **Correction Request**
+10. **Deletion Request**
+11. **Consent Management / Withdrawal**
+12. **Privacy Grievance**
+
+### 🟡 Strongly recommended
+
+13. **Privacy Request Status**
+14. **Security / Account Management**
+15. **Data Retention**
+16. **Cookie/Tracking Notice**, if applicable
+17. **Child/Guardian Consent**, if applicable
+
+---
+
+## The most important UX decision
+
+Don't make the website look like a legal compliance portal.
+
+The user should experience it as:
+
+```text
+LOGIN
+   ↓
+PRIVACY NOTICE
+   ↓
+CONSENT
+   ↓
+OTP
+   ↓
+ACCOUNT
+   ↓
+COMPLAINT
+   ↓
+MY CASES
+   ↓
+PRIVACY & DATA
+      ├── My Data
+      ├── Consent
+      ├── Correct
+      ├── Delete
+      ├── Requests
+      └── Grievance
+```
+
+That is much cleaner than adding 10–15 privacy links throughout the application.
+
+And for **your existing build specifically**, I would keep the current complaint/dashboard pages visually unchanged and introduce **Privacy & Data as a new authenticated section**, rather than redesigning the whole application around DPDP.

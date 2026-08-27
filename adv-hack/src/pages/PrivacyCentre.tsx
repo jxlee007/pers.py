@@ -59,9 +59,35 @@ export default function PrivacyCentre() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">{t("गोपनीयता और डेटा", "Privacy & Data")}</h1>
-        <p className="text-sm text-gray-500 mt-1">{t("अपनी जानकारी और सहमति प्रबंधित करें।", "Manage your information and consent.")}</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("गोपनीयता और डेटा", "Privacy & Data")}</h1>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t("अपनी जानकारी और सहमति प्रबंधित करें।", "Manage your information and consent.")}</p>
       </div>
+
+      {/* DPDP Statutory Compliance Banner */}
+      <Link
+        to="/dpdp"
+        className="mb-6 block p-4 rounded-xl bg-gradient-to-r from-[#1a237e] to-[#0d47a1] text-white shadow-sm hover:shadow-md transition-all"
+      >
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">🛡️</span>
+            <div>
+              <div className="text-xs font-bold text-amber-300 uppercase tracking-wider">
+                {t("वैधानिक अनुपालन", "Statutory Compliance")}
+              </div>
+              <div className="text-sm font-bold mt-0.5">
+                {t("DPDP अधिनियम 2023 अनुपालन केंद्र", "DPDP Act 2023 Compliance Center")}
+              </div>
+              <div className="text-xs text-blue-100 mt-0.5">
+                {t("धारा 5 सूचना, धारा 6 सहमति खाता-बही, DPO एवं DPBI शिकायतें", "Section 5 Notice, Consent Ledger, DPO & DPBI Escalation")}
+              </div>
+            </div>
+          </div>
+          <span className="text-sm font-bold bg-white/20 px-3 py-1.5 rounded-lg flex-shrink-0">
+            {t("खोलें →", "Open →")}
+          </span>
+        </div>
+      </Link>
 
       <div className="space-y-6">
         {sections.map((section) => (

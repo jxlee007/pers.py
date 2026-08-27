@@ -26,10 +26,15 @@ import PrivacyGrievance from "./pages/PrivacyGrievance";
 import Accountability from "./pages/Accountability";
 import StateDetail from "./pages/StateDetail";
 import OfficerProfile from "./pages/OfficerProfile";
+import Disclaimer from "./pages/Disclaimer";
+import WebsitePolicies from "./pages/WebsitePolicies";
+import WebInformationManager from "./pages/WebInformationManager";
+import DpdpCompliance from "./pages/DpdpCompliance";
+import PowDemo from "./pages/PowDemo";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "var(--background)" }}>
+    <div className="min-h-screen flex flex-col transition-colors duration-200" style={{ background: "var(--background)", color: "var(--text)" }}>
       <Navbar />
       <main className="flex-1">{children}</main>
       <Footer />
@@ -67,6 +72,12 @@ export default function App() {
             <Route path="/privacy/delete" element={<DeletionRequest />} />
             <Route path="/privacy/withdraw" element={<WithdrawConsent />} />
             <Route path="/privacy/grievance" element={<PrivacyGrievance />} />
+            <Route path="/dpdp" element={<DpdpCompliance />} />
+            <Route path="/privacy/dpdp" element={<DpdpCompliance />} />
+            <Route path="/disclaimer" element={<Disclaimer />} />
+            <Route path="/website-policies" element={<WebsitePolicies />} />
+            <Route path="/web-information-manager" element={<WebInformationManager />} />
+            <Route path="/pow-demo" element={<PowDemo />} />
           </Routes>
         </Layout>
       </BrowserRouter>

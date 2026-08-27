@@ -13,7 +13,7 @@ const HERO_SLIDES = [
   },
   {
     icon: "🚀",
-    title: "AI-Powered Smart Routing",
+    title: "AI-Enabled Smart Routing",
     desc: "Your complaint reaches the RIGHT department the FIRST TIME — no bouncing, no delays.",
   },
   {
@@ -190,6 +190,19 @@ export default function Login() {
               <div className="field-hint">{t("Demo: rahul@example.com या priya@example.com", "Demo: rahul@example.com or priya@example.com")}</div>
             </div>
 
+            {/* Proof-of-Work (PoW) Cryptographic CAPTCHA */}
+            <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-2.5 bg-gray-50 dark:bg-[#111827] flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2">
+                <span className="text-green-600 font-bold">✓</span>
+                <span className="text-gray-700 dark:text-gray-300 font-medium">
+                  {t("PoW क्रिप्टोग्राफिक सुरक्षा सत्यापित", "PoW Security Verified")}
+                </span>
+              </div>
+              <Link to="/pow-demo" className="text-[#1a237e] dark:text-blue-300 font-semibold hover:underline text-[11px]">
+                ALTCHA →
+              </Link>
+            </div>
+
             <button
               type="submit"
               disabled={loading || !contact.trim()}
@@ -214,9 +227,17 @@ export default function Login() {
               {t("नया पंजीकरण करें", "Click here to Register")}
             </Link>
 
-            <div className="border-t border-gray-100 pt-4 flex flex-col gap-2">
-              <Link to="/privacy" className="text-xs text-center text-blue-700 hover:underline">
+            <div className="border-t border-gray-100 dark:border-gray-800 pt-4 flex items-center justify-center gap-3 text-xs text-gray-500">
+              <Link to="/privacy" className="hover:underline text-blue-700 dark:text-blue-400">
                 {t("गोपनीयता सूचना", "Privacy Notice")}
+              </Link>
+              <span>•</span>
+              <Link to="/dpdp" className="hover:underline text-blue-700 dark:text-blue-400">
+                {t("DPDP 2023", "DPDP 2023")}
+              </Link>
+              <span>•</span>
+              <Link to="/disclaimer" className="hover:underline text-blue-700 dark:text-blue-400">
+                {t("अस्वीकरण", "Disclaimer")}
               </Link>
             </div>
           </form>
