@@ -1,106 +1,194 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 
+const TICKER_MESSAGES = [
+  "Any grievance sent by email will not be attended to / entertained. Please lodge your grievance on this portal only.",
+  "शिकायत अब आवाज़-आधारित AI टूल से भी दर्ज की जा सकती है। | Grievances can now be lodged via Voice-based AI Tool.",
+  "Government is not charging any fee from the public for filing grievances.",
+];
+
 export default function Landing() {
   const { t, setLang, lang } = useApp();
+  const [tickerIndex, setTickerIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTickerIndex((i) => (i + 1) % TICKER_MESSAGES.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, []);
 
   const stats = [
-    { label: t("शिकायतें दर्ज", "Complaints Filed"), value: "2.4 करोड़", valueEn: "24M+", icon: "📋" },
-    { label: t("AI सटीकता", "AI Accuracy"), value: "94%", valueEn: "94%", icon: "🎯" },
-    { label: t("पहली बार सही रूटिंग", "First-Time Correct Routing"), value: "89%", valueEn: "89%", icon: "✅" },
-    { label: t("औसत समाधान", "Avg. Resolution"), value: "18 दिन", valueEn: "18 Days", icon: "⚡" },
+    { label: t("कुल शिकायतें", "Total Grievances Filed"), value: "2,47,83,104", icon: "📋", color: "#1a237e" },
+    { label: t("AI रूटिंग सटीकता", "AI Routing Accuracy"), value: "94%", icon: "🎯", color: "#2e7d32" },
+    { label: t("पहली बार सही रूटिंग", "First-Time Correct Routing"), value: "89%", icon: "✅", color: "#006064" },
+    { label: t("औसत समाधान", "Avg. Resolution Time"), value: t("18 दिन", "18 Days"), icon: "⚡", color: "#e65100" },
   ];
 
-  const categories = [
-    { icon: "🏦", label: t("पेंशन / EPF", "Pension / EPF"), type: "pension" },
-    { icon: "📊", label: t("आयकर", "Income Tax"), type: "tax" },
-    { icon: "🚗", label: t("ड्राइविंग लाइसेंस", "Driving License"), type: "license" },
-    { icon: "🆔", label: t("आधार", "Aadhaar"), type: "aadhaar" },
-    { icon: "🛣️", label: t("सड़क / PWD", "Roads / PWD"), type: "road" },
-    { icon: "🚂", label: t("रेलवे", "Railway"), type: "railway" },
-    { icon: "🧾", label: t("GST", "GST"), type: "gst" },
-    { icon: "📢", label: t("अन्य", "Other"), type: "other" },
+  const journey = [
+    {
+      step: "01",
+      title: t("पंजीकरण करें", "Register"),
+      desc: t("मोबाइल नंबर या ईमेल से OTP के साथ पंजीकरण करें।", "Register using your mobile or email with OTP verification."),
+      icon: "👤",
+    },
+    {
+      step: "02",
+      title: t("शिकायत दर्ज करें", "Lodge Grievance"),
+      desc: t("अपनी समस्या हिंदी या English में टाइप करें या बोलें।", "Describe your problem in Hindi or English — type or speak."),
+      icon: "✍️",
+    },
+    {
+      step: "03",
+      title: t("AI विश्लेषण", "AI Analysis"),
+      desc: t("हमारा AI आपकी शिकायत पढ़कर सही मंत्रालय तय करता है।", "Our AI reads your complaint and identifies the correct ministry."),
+      icon: "🤖",
+    },
+    {
+      step: "04",
+      title: t("स्थिति ट्रैक करें", "Track Status"),
+      desc: t("पंजीकरण ID से शिकायत की स्थिति कभी भी देखें।", "Check your grievance status anytime using the registration ID."),
+      icon: "📡",
+    },
+    {
+      step: "05",
+      title: t("समाधान / अपील", "Resolution / Appeal"),
+      desc: t("समाधान न मिले तो अपील करें — हम जवाबदेह हैं।", "Not satisfied? File an appeal — we are accountable."),
+      icon: "⚖️",
+    },
+  ];
+
+  const whatsNew = [
+    { date: "27 Jul 2022", title: "Strengthening of Machinery for Redressal of Public Grievance (CPGRAMS) PDF — 1.05 MB" },
+    { date: "23 Aug 2024", title: "Comprehensive Guidelines for Handling the Public Grievances PDF — 0.25 MB" },
+    { date: "21 Aug 2026", title: "CPGRAMS AI — Smart Routing System launched for faster grievance resolution" },
+  ];
+
+  const notTakenUp = [
+    t("RTI मामले", "RTI Matters"),
+    t("न्यायालय से संबंधित / Sub-judice मामले", "Court related / Sub-judice matters"),
+    t("धार्मिक मामले", "Religious matters"),
+    t("सरकारी कर्मचारियों की सेवा संबंधी शिकायतें (जब तक DoPT OM No. 11013/08/2013-Estt.(A-III) dated 31.08.2015 के अनुसार नहीं)", "Grievances of Govt employees regarding service matters unless prescribed channels exhausted per DoPT OM"),
   ];
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Language selection banner */}
-      <div className="bg-indigo-600 text-white py-2 px-4 text-center text-sm">
-        <span className="mr-4">{t("भाषा बदलें:", "Switch language:")}</span>
-        <button onClick={() => setLang("hi")} className={`mr-3 font-semibold underline-offset-2 ${lang === "hi" ? "underline" : "opacity-70 hover:opacity-100"}`}>
-          🇮🇳 हिंदी
-        </button>
-        <button onClick={() => setLang("en")} className={`font-semibold underline-offset-2 ${lang === "en" ? "underline" : "opacity-70 hover:opacity-100"}`}>
-          🇬🇧 English
-        </button>
+    <div id="main-content" className="min-h-screen" style={{ background: "var(--background)" }}>
+
+      {/* ── ANNOUNCEMENT TICKER ── */}
+      <div className="ticker-strip">
+        <div className="max-w-7xl mx-auto px-4 flex items-center gap-3 overflow-hidden">
+          <span className="flex-shrink-0 bg-white text-red-700 text-xs font-bold px-2 py-0.5 rounded uppercase tracking-wide">
+            {t("सूचना", "Notice")}
+          </span>
+          <div className="overflow-hidden flex-1 h-5 flex items-center">
+            <span key={tickerIndex} className="ticker-inner">{TICKER_MESSAGES[tickerIndex]}</span>
+          </div>
+        </div>
       </div>
 
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-indigo-700 via-indigo-600 to-purple-700 text-white">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-white blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-80 h-80 rounded-full bg-purple-300 blur-3xl"></div>
-        </div>
+      {/* ── HERO BANNER ── */}
+      <section
+        className="relative overflow-hidden text-white"
+        style={{ background: "linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #1565c0 100%)" }}
+      >
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 opacity-5" style={{
+          backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E\")",
+        }} />
 
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
+          <div className="flex flex-col lg:flex-row items-center gap-10">
+            {/* Text */}
             <div className="flex-1 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 bg-white/20 rounded-full px-4 py-1.5 text-sm font-medium mb-6">
-                🇮🇳 {t("भारत सरकार · DARPG", "Government of India · DARPG")}
+              <div
+                className="inline-flex items-center gap-2 text-xs font-bold px-3 py-1 rounded-full mb-5 uppercase tracking-wider"
+                style={{ background: "rgba(255,111,0,0.25)", color: "#ffd54f", border: "1px solid rgba(255,213,79,0.4)" }}
+              >
+                🇮🇳 {t("भारत सरकार · DARPG · AI-संचालित", "Government of India · DARPG · AI-Powered")}
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mb-6">
-                {t("CPGRAMS AI", "CPGRAMS AI")}{" "}
-                <span className="text-yellow-300">{t("स्मार्ट", "Smart")}</span>{" "}
-                {t("शिकायत राउटर", "Complaint Router")}
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mb-4">
+                {t("CPGRAMS", "CPGRAMS")}{" "}
+                <span style={{ color: "#ffd54f" }}>{t("AI स्मार्ट", "AI Smart")}</span>
+                <br className="hidden sm:block" />
+                {t("शिकायत राउटर", "Grievance Router")}
               </h1>
 
-              <p className="text-lg sm:text-xl text-indigo-100 leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
+              <p className="text-base sm:text-lg leading-relaxed mb-6 max-w-lg mx-auto lg:mx-0" style={{ color: "rgba(255,255,255,0.85)" }}>
                 {t(
-                  "आपकी शिकायत पहली बार ही सही विभाग तक पहुंचती है। AI तकनीक से बनी — किसान, मजदूर, सभी के लिए।",
-                  "Your grievance reaches the RIGHT department the FIRST TIME. Powered by AI — designed for every Indian citizen."
+                  "अब आप अपनी शिकायत बोलचाल के माध्यम से आसानी से दर्ज कर सकते हैं। AI तकनीक से पहली बार सही विभाग तक पहुंचती है आपकी शिकायत।",
+                  "Now the grievance can be lodged just by Voice based utility tool. AI ensures your complaint reaches the RIGHT department the FIRST TIME."
                 )}
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              {/* CTA group */}
+              <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
                 <Link
-                  to="/file-complaint"
-                  className="flex items-center justify-center gap-2 px-8 py-4 bg-white text-indigo-700 font-bold rounded-xl text-lg hover:bg-indigo-50 transition-colors shadow-lg"
+                  to="/signup"
+                  className="btn-gov-accent"
+                  style={{ padding: "14px 32px", fontSize: "15px" }}
                 >
-                  ✍️ {t("शिकायत दर्ज करें", "File a Complaint")}
+                  👤 {t("पंजीकरण / लॉगिन करें", "Register / Login")}
                 </Link>
                 <Link
-                  to="/how-it-works"
-                  className="flex items-center justify-center gap-2 px-8 py-4 bg-white/15 text-white font-semibold rounded-xl text-lg hover:bg-white/25 transition-colors border border-white/30"
+                  to="/dashboard"
+                  className="flex items-center justify-center gap-2 px-6 py-3 font-semibold rounded text-sm"
+                  style={{ background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.35)", color: "white" }}
                 >
-                  🎯 {t("यह कैसे काम करता है?", "How It Works?")}
+                  🔍 {t("शिकायत स्थिति देखें", "View Grievance Status")}
                 </Link>
               </div>
+
+              {/* Disclaimer note */}
+              <p className="text-xs mt-5 opacity-70">
+                ⚠️ {t(
+                  "ईमेल द्वारा भेजी गई कोई भी शिकायत स्वीकार नहीं की जाएगी। कृपया इस पोर्टल पर दर्ज करें।",
+                  "Grievances sent via email will not be attended. Please lodge only on this portal."
+                )}
+              </p>
             </div>
 
-            {/* Hero card preview */}
-            <div className="flex-1 max-w-sm w-full">
-              <div className="bg-white rounded-2xl shadow-2xl p-6 text-gray-900">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-3 h-3 rounded-full bg-red-400"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-400"></div>
-                  <span className="text-xs text-gray-400 ml-2">AI Routing Preview</span>
+            {/* AI Demo Card */}
+            <div className="flex-shrink-0 w-full max-w-sm">
+              <div className="bg-white rounded text-gray-900 shadow-2xl overflow-hidden">
+                <div className="px-4 py-3 flex items-center gap-2" style={{ background: "#1a237e" }}>
+                  <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
+                  <span className="text-xs text-blue-200 ml-2 font-mono">CPGRAMS AI · Live Routing Demo</span>
                 </div>
-                <div className="bg-gray-50 rounded-lg p-3 text-sm text-gray-600 mb-4 border">
-                  "My pension hasn't arrived for 3 months..."
-                </div>
-                <div className="flex items-center gap-2 text-xs text-gray-400 mb-3">
-                  <span className="w-4 h-4 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></span>
-                  AI analyzing complaint...
-                </div>
-                <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
-                  <div className="flex items-center gap-2 text-emerald-700 font-bold mb-1">
-                    ✅ EPFO — {t("पेंशन प्रभाग", "Pension Division")}
+                <div className="p-4">
+                  <div className="bg-gray-50 border rounded p-3 text-sm text-gray-600 mb-3">
+                    "My pension hasn't arrived for 3 months. I am an EPFO member..."
                   </div>
-                  <div className="text-xs text-emerald-600">Confidence: 96% · 1800-180-1111</div>
-                  <div className="text-xs text-gray-500 mt-2">
-                    {t("EPF पेंशन केवल EPFO संभालता है।", "EPF pension is solely handled by EPFO.")}
+                  <div className="flex items-center gap-2 text-xs text-gray-400 mb-3">
+                    <span className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin inline-block" />
+                    <span>AI analyzing complaint...</span>
+                  </div>
+                  <div className="ai-route-badge">
+                    <div className="flex items-center gap-2 font-bold text-green-800 mb-1 text-sm">
+                      ✅ EPFO — {t("पेंशन प्रभाग", "Pension Division")}
+                    </div>
+                    <div className="text-xs text-green-700">Confidence: 96% · Helpline: 1800-180-1111</div>
+                    <div className="text-xs text-gray-500 mt-1.5">
+                      {t("EPF पेंशन केवल EPFO संभालता है।", "EPF pension is solely handled by EPFO.")}
+                    </div>
+                  </div>
+                  <div className="mt-3 flex gap-2">
+                    <Link
+                      to="/file-complaint"
+                      className="flex-1 text-center py-2.5 text-sm font-bold rounded text-white transition-colors"
+                      style={{ background: "#1a237e" }}
+                    >
+                      {t("शिकायत दर्ज करें", "Lodge Grievance")}
+                    </Link>
+                    <Link
+                      to="/how-it-works"
+                      className="px-3 py-2.5 text-sm font-semibold rounded border border-gray-300 text-gray-700 hover:bg-gray-50"
+                    >
+                      {t("और जानें", "Learn more")}
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -109,135 +197,255 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="py-10 bg-gray-50 border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* ── 3 PRIMARY ACTION TILES ── */}
+      <section className="py-10 bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <Link to="/signup" className="action-tile">
+              <div className="action-tile-icon">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="32" height="32" rx="16" fill="#e8eaf6"/>
+                  <path d="M10 22v-1a6 6 0 0112 0v1" stroke="#1a237e" strokeWidth="2" strokeLinecap="round"/>
+                  <circle cx="16" cy="12" r="4" stroke="#1a237e" strokeWidth="2"/>
+                  <path d="M20 18l2 2 4-4" stroke="#2e7d32" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <div>
+                <div className="font-bold text-gray-900 text-base">{t("पंजीकरण / लॉगिन", "Register / Login")}</div>
+                <div className="text-xs text-gray-500 mt-0.5">{t("खाता बनाएं और शुरू करें", "Create account to get started")}</div>
+              </div>
+            </Link>
+
+            <Link to="/dashboard" className="action-tile" style={{ borderTopColor: "#2e7d32" }}>
+              <div className="action-tile-icon" style={{ background: "#e8f5e9" }}>
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="32" height="32" rx="16" fill="#e8f5e9"/>
+                  <circle cx="16" cy="16" r="8" stroke="#2e7d32" strokeWidth="2"/>
+                  <path d="M12 16l3 3 5-5" stroke="#2e7d32" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <div>
+                <div className="font-bold text-gray-900 text-base">{t("शिकायत स्थिति देखें", "View Status")}</div>
+                <div className="text-xs text-gray-500 mt-0.5">{t("पंजीकरण ID से ट्रैक करें", "Track using Registration ID")}</div>
+              </div>
+            </Link>
+
+            <Link to="/help" className="action-tile" style={{ borderTopColor: "#e65100" }}>
+              <div className="action-tile-icon" style={{ background: "#fff3e0" }}>
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="32" height="32" rx="16" fill="#fff3e0"/>
+                  <path d="M16 8a8 8 0 100 16A8 8 0 0016 8z" stroke="#e65100" strokeWidth="2"/>
+                  <path d="M16 14a2 2 0 011.732 3c-.346.6-1.732 2-1.732 2" stroke="#e65100" strokeWidth="2" strokeLinecap="round"/>
+                  <circle cx="16" cy="22" r="1" fill="#e65100"/>
+                </svg>
+              </div>
+              <div>
+                <div className="font-bold text-gray-900 text-base">{t("संपर्क करें", "Contact Us")}</div>
+                <div className="text-xs text-gray-500 mt-0.5">{t("सहायता और हेल्पलाइन", "Help & Helpline Numbers")}</div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── ABOUT CPGRAMS + WHAT'S NEW ── */}
+      <section className="py-10 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* About (2/3) */}
+            <div className="lg:col-span-2">
+              <h2 className="section-title text-lg">
+                {t("CPGRAMS के बारे में", "About CPGRAMS")}
+              </h2>
+              <div className="text-sm text-gray-700 leading-relaxed space-y-3">
+                <p>
+                  {t(
+                    "Centralised Public Grievance Redress and Monitoring System (CPGRAMS) एक ऑनलाइन प्लेटफॉर्म है जो नागरिकों को 24×7 अपनी शिकायत दर्ज करने की सुविधा देता है। यह एकल पोर्टल भारत के सभी मंत्रालयों/विभागों से जुड़ा है।",
+                    "Centralised Public Grievance Redress and Monitoring System (CPGRAMS) is an online platform available to the citizens 24×7 to lodge their grievances to the public authorities on any subject related to service delivery. It is a single portal connected to all the Ministries/Departments of Government of India and States."
+                  )}
+                </p>
+                <p>
+                  {t(
+                    "CPGRAMS AI इस प्रणाली को AI-संचालित रूटिंग के साथ अपग्रेड करता है — कीवर्ड मिलान की बजाय वास्तविक समस्या को समझकर पहली बार सही विभाग को शिकायत भेजता है।",
+                    "CPGRAMS AI upgrades this system with AI-powered routing — instead of keyword matching, it understands the actual problem and routes to the correct ministry on first submission, eliminating delays from wrong routing."
+                  )}
+                </p>
+              </div>
+
+              {/* Issues NOT taken up */}
+              <div className="mt-6 bg-orange-50 border border-orange-200 rounded p-4">
+                <p className="text-sm font-semibold text-orange-800 mb-2">
+                  ⚠️ {t("जिन मामलों पर शिकायत नहीं की जाती:", "Issues which are not taken up for redress:")}
+                </p>
+                <ul className="space-y-1">
+                  {notTakenUp.map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-xs text-orange-700">
+                      <span className="mt-0.5 flex-shrink-0">▶</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Note */}
+              <div className="mt-4 bg-blue-50 border border-blue-200 rounded p-4">
+                <p className="text-xs font-semibold text-blue-800 mb-1">{t("नोट:", "Note:")}</p>
+                <ol className="list-decimal list-inside space-y-1 text-xs text-blue-700">
+                  <li>
+                    {t(
+                      "यदि आप DPOG के अधीन मंत्रालयों/विभागों से संतोषजनक निवारण नहीं पाते हैं, तो Cabinet Secretariat, GOI में DPG की सहायता ली जा सकती है।",
+                      "If you have not got a satisfactory redress within reasonable time relating to Ministries/Departments under DPG purview, you may seek help of DPG in resolution."
+                    )}
+                  </li>
+                  <li>
+                    {t(
+                      "Government is not charging fee from the public for filing grievances. All money being paid by the public for filing grievance is going only to M/s CSC only",
+                      "Government is not charging fee from the public for filing grievances. All money being paid by the public for filing grievance is going only to M/s CSC only"
+                    )}
+                  </li>
+                </ol>
+              </div>
+            </div>
+
+            {/* What's New (1/3) */}
+            <div>
+              <h2 className="section-title text-lg">{t("नया क्या है?", "What's New")}</h2>
+              <div className="space-y-3">
+                {whatsNew.map((item, i) => (
+                  <div key={i} className="flex gap-3 bg-gray-50 border border-gray-200 rounded p-3 hover:bg-blue-50 hover:border-blue-200 transition-colors cursor-pointer">
+                    <div
+                      className="flex-shrink-0 text-center rounded px-2 py-1 text-white text-xs font-bold leading-tight"
+                      style={{ background: "var(--gov-navy)", minWidth: "52px" }}
+                    >
+                      {item.date.split(" ")[0]}<br />
+                      <span className="font-normal text-blue-200">{item.date.split(" ").slice(1).join(" ")}</span>
+                    </div>
+                    <p className="text-xs text-gray-700 leading-relaxed">{item.title}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── STATS BAR ── */}
+      <section className="py-8 border-t border-b border-gray-200" style={{ background: "#f0f2ff" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-gray-200">
             {stats.map((s) => (
-              <div key={s.label} className="text-center py-4">
-                <div className="text-3xl mb-1">{s.icon}</div>
-                <div className="text-2xl sm:text-3xl font-extrabold text-indigo-700">{lang === "hi" ? s.value : s.valueEn}</div>
-                <div className="text-xs sm:text-sm text-gray-500 mt-1">{s.label}</div>
+              <div key={s.label} className="bg-white text-center py-6 px-4">
+                <div className="text-2xl mb-2">{s.icon}</div>
+                <div className="text-2xl sm:text-3xl font-extrabold mb-1" style={{ color: s.color }}>{s.value}</div>
+                <div className="text-xs text-gray-500 leading-snug">{s.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Comparison: Old vs New */}
-      <section className="py-16 max-w-6xl mx-auto px-4 sm:px-6">
-        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-3">
-          {t("क्या बदला?", "What Changed?")}
-        </h2>
-        <p className="text-gray-500 text-center mb-10">{t("पुराना बनाम नया — रात और दिन का फर्क", "Old vs. New — Night and Day Difference")}</p>
+      {/* ── CITIZEN JOURNEY ── */}
+      <section className="py-14 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-10">
+            <h2 className="section-title text-xl inline-block">
+              {t("नागरिक यात्रा — शुरू से अंत तक", "Citizen Journey — End to End")}
+            </h2>
+            <p className="text-sm text-gray-500 mt-2">
+              {t("5 सरल चरणों में अपनी शिकायत का समाधान पाएं", "Get your grievance resolved in 5 simple steps")}
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Old System */}
-          <div className="bg-red-50 border border-red-200 rounded-2xl p-6">
-            <div className="flex items-center gap-2 text-red-700 font-bold text-lg mb-5">
-              ❌ {t("पुराना सिस्टम", "OLD SYSTEM")}
-            </div>
-            <ol className="space-y-3">
-              {[
-                t("शिकायत टाइप करो", "Type complaint"),
-                t("कीवर्ड मिलान → गलत विभाग", "Keyword match → Wrong dept"),
-                t("विभाग 2 को उछाल दिया गया", "Bounce to dept 2"),
-                t("विभाग 3 को उछाल दिया गया", "Bounce to dept 3"),
-                t("3 महीने बाद छोड़ दिया", "Abandoned after 3 months"),
-              ].map((step, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <span className="w-6 h-6 rounded-full bg-red-200 text-red-700 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
-                    {i + 1}
-                  </span>
-                  <span className="text-sm text-red-800">{step}</span>
-                </li>
+          <div className="relative">
+            {/* Connector line */}
+            <div
+              className="absolute top-10 left-0 right-0 h-0.5 hidden lg:block"
+              style={{ background: "linear-gradient(to right, #1a237e, #2196f3, #1a237e)", zIndex: 0, margin: "0 8%" }}
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-6 relative z-10">
+              {journey.map((step) => (
+                <div key={step.step} className="flex flex-col items-center text-center">
+                  <div
+                    className="w-20 h-20 rounded-full flex items-center justify-center text-3xl mb-4 border-4 bg-white shadow-md"
+                    style={{ borderColor: "var(--gov-navy)" }}
+                  >
+                    {step.icon}
+                  </div>
+                  <div
+                    className="text-xs font-extrabold mb-1 px-2 py-0.5 rounded"
+                    style={{ background: "var(--gov-navy)", color: "white" }}
+                  >
+                    STEP {step.step}
+                  </div>
+                  <div className="font-bold text-gray-900 text-sm mb-1">{step.title}</div>
+                  <div className="text-xs text-gray-500 leading-relaxed">{step.desc}</div>
+                </div>
               ))}
-            </ol>
-            <div className="mt-5 text-sm text-red-600 font-semibold">
-              ⏱️ {t("औसत समय: 15 मिनट भरने + 3 महीने इंतजार", "Avg time: 15 min to fill + 3 months waiting")}
             </div>
           </div>
 
-          {/* New System */}
-          <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6">
-            <div className="flex items-center gap-2 text-emerald-700 font-bold text-lg mb-5">
-              ✅ {t("नया AI सिस्टम", "NEW AI SYSTEM")}
-            </div>
-            <ol className="space-y-3">
-              {[
-                t("शिकायत बोलो या टाइप करो", "Speak or type complaint"),
-                t("AI असली समस्या समझता है", "AI understands actual problem"),
-                t("सही विभाग को रूट करता है", "Routes to CORRECT dept"),
-                t("पहली बार में समाधान", "Gets resolved first time"),
-                t("हफ्तों में समाधान", "Resolved in weeks"),
-              ].map((step, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <span className="w-6 h-6 rounded-full bg-emerald-200 text-emerald-700 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
-                    {i + 1}
-                  </span>
-                  <span className="text-sm text-emerald-800">{step}</span>
-                </li>
-              ))}
-            </ol>
-            <div className="mt-5 text-sm text-emerald-600 font-semibold">
-              ⚡ {t("औसत समय: 3-5 मिनट भरना + 18 दिन समाधान", "Avg time: 3-5 min to file + 18 day resolution")}
-            </div>
+          <div className="flex justify-center mt-10">
+            <Link to="/file-complaint" className="btn-gov-primary" style={{ padding: "13px 36px", fontSize: "15px" }}>
+              ✍️ {t("अभी शिकायत दर्ज करें", "Lodge Grievance Now")}
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="py-12 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">
-            {t("किस विषय की शिकायत है?", "What's Your Complaint About?")}
-          </h2>
-          <p className="text-gray-500 text-center text-sm mb-8">{t("एक चुनें और शुरू करें", "Choose a category to get started")}</p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {categories.map((cat) => (
-              <Link
-                key={cat.type}
-                to={`/file-complaint?type=${cat.type}`}
-                className="flex flex-col items-center gap-2 bg-white border border-gray-200 rounded-xl p-4 hover:border-indigo-400 hover:shadow-md transition-all text-center group"
-              >
-                <span className="text-3xl">{cat.icon}</span>
-                <span className="text-sm font-semibold text-gray-700 group-hover:text-indigo-700">{cat.label}</span>
-              </Link>
-            ))}
+      {/* ── OLD vs NEW COMPARISON ── */}
+      <section className="py-12" style={{ background: "var(--gov-navy-light)" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-8">
+            <h2 className="section-title text-xl inline-block">{t("क्या बदला?", "What Changed?")}</h2>
+            <p className="text-sm text-gray-500 mt-1">{t("पुराना बनाम नया — AI का प्रभाव", "Old vs New — The AI difference")}</p>
           </div>
-        </div>
-      </section>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="bg-red-50 border border-red-200 rounded p-5">
+              <div className="flex items-center gap-2 font-bold text-red-700 mb-4 text-sm uppercase tracking-wide">
+                ❌ {t("पुरानी प्रणाली", "Old System")}
+              </div>
+              <ol className="space-y-2.5">
+                {[
+                  t("शिकायत टाइप करो", "Type complaint"),
+                  t("कीवर्ड मिलान → गलत विभाग", "Keyword match → Wrong department"),
+                  t("विभाग 2 को उछाल दिया गया", "Bounced to Department 2"),
+                  t("विभाग 3 को उछाल दिया गया", "Bounced to Department 3"),
+                  t("3 महीने बाद बिना समाधान छोड़ दिया", "Abandoned after 3 months"),
+                ].map((step, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-red-800">
+                    <span className="w-5 h-5 rounded-full bg-red-200 text-red-700 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i + 1}</span>
+                    {step}
+                  </li>
+                ))}
+              </ol>
+              <div className="mt-4 text-xs text-red-600 font-semibold pt-3 border-t border-red-200">
+                ⏱️ {t("औसत: 15 मिनट भरने + 3+ महीने इंतजार", "Avg: 15 min to fill + 3+ months wait")}
+              </div>
+            </div>
 
-      {/* About section */}
-      <section className="py-16 max-w-4xl mx-auto px-4 sm:px-6 text-center">
-        <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6" style={{ background: "#EEF2FF" }}>
-          🎯
-        </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("CPGRAMS AI के बारे में", "About CPGRAMS AI")}</h2>
-        <p className="text-gray-600 leading-relaxed text-lg mb-4">
-          {t(
-            "वर्तमान CPGRAMS कठोर कीवर्ड मिलान का उपयोग करता है जिससे शिकायतें गलत विभागों में चली जाती हैं। हमारा AI वास्तविक समस्या को पढ़ता है और पहली बार में सही मंत्रालय को रूट करता है।",
-            "Current CPGRAMS uses rigid keyword matching that bounces complaints between wrong departments. Our AI reads the actual problem and routes to the correct ministry on first submission — no bouncing, no delays."
-          )}
-        </p>
-        <p className="text-gray-500 text-base">
-          {t("7 करोड़ भारतीयों के लिए — डिजिटल साक्षरता की जरूरत नहीं।", "Designed for 70 million Indians — no digital literacy required.")}
-        </p>
-
-        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            to="/file-complaint"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-white text-lg"
-            style={{ background: "var(--primary)" }}
-          >
-            ✍️ {t("अभी शिकायत दर्ज करें", "File Complaint Now")}
-          </Link>
-          <Link
-            to="/dashboard"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-gray-700 text-lg bg-gray-100 hover:bg-gray-200 transition-colors"
-          >
-            📋 {t("मेरे केस देखें", "View My Cases")}
-          </Link>
+            <div className="bg-green-50 border border-green-200 rounded p-5">
+              <div className="flex items-center gap-2 font-bold text-green-700 mb-4 text-sm uppercase tracking-wide">
+                ✅ {t("नया AI सिस्टम", "New AI System")}
+              </div>
+              <ol className="space-y-2.5">
+                {[
+                  t("शिकायत बोलो या टाइप करो", "Speak or type complaint"),
+                  t("AI असली समस्या समझता है", "AI understands actual problem"),
+                  t("सही विभाग को सीधे रूट करता है", "Routes directly to CORRECT department"),
+                  t("पहली बार में समाधान", "Gets resolved on first attempt"),
+                  t("हफ्तों में समाधान — पारदर्शी ट्रैकिंग", "Resolved in weeks — transparent tracking"),
+                ].map((step, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-green-800">
+                    <span className="w-5 h-5 rounded-full bg-green-200 text-green-700 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i + 1}</span>
+                    {step}
+                  </li>
+                ))}
+              </ol>
+              <div className="mt-4 text-xs text-green-600 font-semibold pt-3 border-t border-green-200">
+                ⚡ {t("औसत: 3-5 मिनट भरना + 18 दिन समाधान", "Avg: 3-5 min to file + 18-day resolution")}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>

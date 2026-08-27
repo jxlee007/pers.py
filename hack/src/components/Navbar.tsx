@@ -8,14 +8,14 @@ export default function Navbar() {
   const loc = useLocation();
   const navigate = useNavigate();
 
-  const links = [
+  const navLinks = [
     { to: "/", label: t("होम", "Home") },
-    { to: "/file-complaint", label: t("शिकायत दर्ज करें", "File Complaint") },
-    { to: "/dashboard", label: t("मेरे केस", "My Cases") },
-    { to: "/directory", label: t("अधिकारी", "Directory") },
-    { to: "/appeals", label: t("अपील", "Appeals") },
-    { to: "/how-it-works", label: t("यह कैसे काम करता है", "How It Works") },
-    { to: "/help", label: t("मदद", "Help") },
+    { to: "/file-complaint", label: t("शिकायत दर्ज करें", "Lodge Grievance"), highlight: true },
+    { to: "/dashboard", label: t("स्थिति देखें", "View Status") },
+    { to: "/directory", label: t("नोडल PG अधिकारी", "Nodal PG Officers") },
+    { to: "/how-it-works", label: t("निवारण प्रक्रिया", "Redress Process") },
+    { to: "/appeals", label: t("अपील", "Appeal") },
+    { to: "/help", label: t("सहायता", "Help") },
   ];
 
   const isActive = (to: string) => loc.pathname === to;
@@ -27,134 +27,190 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-lg flex items-center justify-center text-lg" style={{ background: "var(--primary)" }}>
-              🎯
+    <header>
+      {/* ── TOP UTILITY STRIP ── */}
+      <div className="gov-util-strip">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-7">
+          <div className="flex items-center gap-4 text-xs">
+            <span className="hidden sm:inline">
+              {t("भारत सरकार", "Government of India")} | {t("कार्मिक, लोक शिकायत और पेंशन मंत्रालय", "Ministry of Personnel, Public Grievances & Pensions")}
+            </span>
+            <span className="sm:hidden text-xs">{t("भारत सरकार", "Govt. of India")}</span>
+          </div>
+          <div className="flex items-center gap-3 text-xs">
+            <a href="#main-content" className="sr-only focus:not-sr-only focus:text-white text-xs underline">
+              {t("मुख्य सामग्री पर जाएं", "Skip to main content")}
+            </a>
+            <a href="#" className="hidden sm:inline">{t("होम", "Home")}</a>
+            <a href="#" className="hidden sm:inline">{t("संपर्क करें", "Contact Us")}</a>
+            <a href="#" className="hidden sm:inline">{t("हमारे बारे में", "About Us")}</a>
+            <a href="#" className="hidden sm:inline">{t("सहायता", "FAQs/Help")}</a>
+            <a href="#" className="hidden sm:inline">{t("साइट मैप", "Site Map")}</a>
+          </div>
+        </div>
+      </div>
+
+      {/* ── DEPARTMENT HEADER BAR ── */}
+      <div className="gov-header-bar">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between py-2">
+          {/* Left: Emblem + Dept Name */}
+          <Link to="/" className="flex items-center gap-3">
+            {/* Ashoka Emblem SVG placeholder */}
+            <div className="w-14 h-14 flex-shrink-0 flex items-center justify-center">
+              <svg viewBox="0 0 56 56" width="56" height="56" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="28" cy="28" r="27" fill="#1a237e" stroke="#e8eaf6" strokeWidth="1"/>
+                <circle cx="28" cy="28" r="14" fill="none" stroke="#ff6f00" strokeWidth="1.5"/>
+                <circle cx="28" cy="28" r="3" fill="#ff6f00"/>
+                {[...Array(24)].map((_, i) => {
+                  const angle = (i * 15 * Math.PI) / 180;
+                  const x1 = 28 + 11 * Math.sin(angle);
+                  const y1 = 28 - 11 * Math.cos(angle);
+                  const x2 = 28 + 14 * Math.sin(angle);
+                  const y2 = 28 - 14 * Math.cos(angle);
+                  return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#ff6f00" strokeWidth="1"/>;
+                })}
+                <text x="28" y="52" textAnchor="middle" fontSize="5" fill="#1a237e" fontWeight="bold">INDIA</text>
+              </svg>
             </div>
-            <div className="hidden sm:block">
-              <div className="font-bold text-gray-900 text-sm leading-tight">CPGRAMS AI</div>
-              <div className="text-xs text-gray-500 leading-tight">{t("स्मार्ट शिकायत राउटर", "Smart Complaint Router")}</div>
+            <div>
+              <div className="text-xs text-gray-500 leading-tight">
+                {t("प्रशासनिक सुधार और लोक शिकायत विभाग", "Department of Administrative Reforms & Public Grievances")}
+              </div>
+              <div className="text-sm sm:text-base font-bold text-[#1a237e] leading-tight">
+                {t("CPGRAMS", "CPGRAMS")}
+              </div>
+              <div className="text-xs text-gray-500 leading-tight hidden sm:block">
+                {t("केंद्रीकृत लोक शिकायत निवारण और निगरानी प्रणाली", "Centralized Public Grievance Redress And Monitoring System")}
+              </div>
             </div>
-            <div className="sm:hidden font-bold text-gray-900 text-sm">CPGRAMS AI</div>
           </Link>
 
-          <div className="hidden lg:flex items-center gap-1">
-            {links.map((l) => (
-              <Link
-                key={l.to}
-                to={l.to}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                  isActive(l.to) ? "bg-indigo-50 text-indigo-700" : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                }`}
-              >
-                {l.label}
-              </Link>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-2">
+          {/* Right: CPGRAMS Badge + Language + Auth */}
+          <div className="flex items-center gap-3">
+            {/* Language Toggle */}
             <button
               onClick={() => setLang(lang === "hi" ? "en" : "hi")}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 rounded text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
               aria-label="Toggle language"
             >
-              🇮🇳 {lang === "hi" ? "EN" : "हि"}
+              🌐 {lang === "hi" ? "English" : "हिंदी"}
             </button>
 
             {currentUser ? (
               <div className="hidden sm:flex items-center gap-2">
                 <Link
                   to="/profile"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 border border-gray-200 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 border border-gray-300 rounded transition-colors"
                 >
                   <span>👤</span>
-                  <span className="max-w-20 truncate">{currentUser.name.split(" ")[0]}</span>
+                  <span className="max-w-24 truncate">{currentUser.name.split(" ")[0]}</span>
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="px-3 py-1.5 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 border border-red-200 transition-colors"
+                  className="px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-50 border border-red-200 rounded transition-colors"
                 >
-                  {t("लॉगआउट", "Logout")}
+                  {t("लॉगआउट", "Sign Out")}
                 </button>
               </div>
             ) : (
-              <div className="hidden sm:flex items-center gap-2">
-                <Link
-                  to="/login"
-                  className="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 border border-gray-200 transition-colors"
-                >
-                  {t("लॉगिन", "Login")}
-                </Link>
-                <Link
-                  to="/signup"
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-colors"
-                  style={{ background: "var(--primary)" }}
-                >
-                  {t("खाता बनाएं", "Sign Up")}
-                </Link>
-              </div>
+              <Link
+                to="/login"
+                className="hidden sm:flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white rounded transition-colors"
+                style={{ background: "var(--gov-saffron)" }}
+              >
+                <span>→</span>
+                {t("साइन इन", "Sign In")}
+              </Link>
             )}
 
-            <Link
-              to="/file-complaint"
-              className="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-colors"
-              style={{ background: currentUser ? "var(--primary)" : "#6B7280" }}
-            >
-              <span>+</span>
-              <span>{t("शिकायत करें", "File Complaint")}</span>
-            </Link>
+            {/* CPGRAMS logo block */}
+            <div className="hidden lg:block border-l border-gray-200 pl-4 text-right">
+              <div className="text-xl font-extrabold tracking-wide" style={{ color: "var(--gov-navy)" }}>CPGRAMS</div>
+              <div className="text-[10px] text-gray-500 leading-tight max-w-36">AI-Powered Smart Routing</div>
+            </div>
 
+            {/* Mobile hamburger */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="sm:hidden p-2 rounded hover:bg-gray-100 transition-colors"
               aria-label="Toggle menu"
             >
-              <div className="w-5 h-0.5 bg-gray-600 mb-1.5"></div>
-              <div className="w-5 h-0.5 bg-gray-600 mb-1.5"></div>
-              <div className="w-5 h-0.5 bg-gray-600"></div>
+              <div className="w-5 h-0.5 bg-gray-600 mb-1.5" />
+              <div className="w-5 h-0.5 bg-gray-600 mb-1.5" />
+              <div className="w-5 h-0.5 bg-gray-600" />
             </button>
           </div>
         </div>
       </div>
 
-      {menuOpen && (
-        <div className="lg:hidden border-t border-gray-100 bg-white">
-          <div className="px-4 py-3 space-y-1">
-            {links.map((l) => (
+      {/* ── MAIN NAVIGATION BAR ── */}
+      <nav className="gov-nav hidden sm:block">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex items-center">
+            {navLinks.map((link) => (
               <Link
-                key={l.to}
-                to={l.to}
-                onClick={() => setMenuOpen(false)}
-                className={`block px-3 py-3 rounded-lg text-base font-medium transition-colors ${
-                  isActive(l.to) ? "bg-indigo-50 text-indigo-700" : "text-gray-700 hover:bg-gray-50"
-                }`}
+                key={link.to}
+                to={link.to}
+                className={`gov-nav-link ${isActive(link.to) ? "active" : ""} ${link.highlight ? "font-bold" : ""}`}
+                style={link.highlight && !isActive(link.to) ? { color: "#ffd54f" } : {}}
               >
-                {l.label}
+                {link.label}
               </Link>
             ))}
-            <div className="border-t border-gray-100 pt-2 mt-2">
+            <div className="ml-auto flex items-center gap-2 py-1">
+              <Link
+                to="/file-complaint"
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-white rounded transition-colors"
+                style={{ background: "var(--gov-saffron)" }}
+              >
+                ✍️ {t("शिकायत दर्ज करें", "Lodge Grievance")}
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* ── MOBILE MENU ── */}
+      {menuOpen && (
+        <div className="sm:hidden border-t border-gray-200 bg-white shadow-lg z-50">
+          <div className="px-4 py-2 space-y-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                onClick={() => setMenuOpen(false)}
+                className={`block px-3 py-3 rounded text-sm font-medium transition-colors ${
+                  isActive(link.to)
+                    ? "bg-blue-50 text-[#1a237e] font-bold"
+                    : "text-gray-700 hover:bg-gray-50"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="border-t border-gray-100 pt-2 mt-2 space-y-1">
+              <button
+                onClick={() => { setLang(lang === "hi" ? "en" : "hi"); setMenuOpen(false); }}
+                className="block w-full text-left px-3 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded"
+              >
+                🌐 {lang === "hi" ? "Switch to English" : "हिंदी में बदलें"}
+              </button>
               {currentUser ? (
                 <>
-                  <Link to="/profile" onClick={() => setMenuOpen(false)} className="block px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-50">
+                  <Link to="/profile" onClick={() => setMenuOpen(false)} className="block px-3 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded">
                     👤 {currentUser.name}
                   </Link>
-                  <Link to="/privacy" onClick={() => setMenuOpen(false)} className="block px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-50">
-                    🔒 {t("गोपनीयता और डेटा", "Privacy & Data")}
-                  </Link>
-                  <button onClick={handleLogout} className="w-full text-left px-3 py-3 rounded-lg text-base font-medium text-red-600 hover:bg-red-50">
-                    {t("लॉगआउट", "Logout")}
+                  <button onClick={handleLogout} className="w-full text-left px-3 py-3 text-sm font-medium text-red-600 hover:bg-red-50 rounded">
+                    {t("लॉगआउट", "Sign Out")}
                   </button>
                 </>
               ) : (
                 <>
-                  <Link to="/login" onClick={() => setMenuOpen(false)} className="block px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-50">
-                    {t("लॉगिन", "Login")}
+                  <Link to="/login" onClick={() => setMenuOpen(false)} className="block px-3 py-3 text-sm font-medium text-[#1a237e] hover:bg-blue-50 rounded">
+                    {t("लॉगिन करें", "Sign In")}
                   </Link>
-                  <Link to="/signup" onClick={() => setMenuOpen(false)} className="block px-3 py-3 rounded-lg text-base font-medium text-indigo-700 hover:bg-indigo-50">
-                    {t("खाता बनाएं", "Sign Up")}
+                  <Link to="/signup" onClick={() => setMenuOpen(false)} className="block px-3 py-3 text-sm font-bold text-white rounded text-center" style={{ background: "var(--gov-saffron)" }}>
+                    {t("पंजीकरण करें", "Register")}
                   </Link>
                 </>
               )}
@@ -162,6 +218,6 @@ export default function Navbar() {
           </div>
         </div>
       )}
-    </nav>
+    </header>
   );
 }

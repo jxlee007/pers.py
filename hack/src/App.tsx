@@ -26,7 +26,7 @@ import PrivacyGrievance from "./pages/PrivacyGrievance";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "var(--surface)" }}>
+    <div className="min-h-screen flex flex-col" style={{ background: "var(--background)" }}>
       <Navbar />
       <main className="flex-1">{children}</main>
       <Footer />

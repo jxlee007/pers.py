@@ -5,6 +5,24 @@ import { sendOtp, verifyOtp, findUserByContact } from "../services/authService";
 
 type Step = "contact" | "otp";
 
+const HERO_SLIDES = [
+  {
+    icon: "🎤",
+    title: "CPGRAMS AI Chatbot",
+    desc: "Now the Grievance can be lodged just by Voice based Utility tool. Currently supports 22 Eighth Schedule languages.",
+  },
+  {
+    icon: "🚀",
+    title: "AI-Powered Smart Routing",
+    desc: "Your complaint reaches the RIGHT department the FIRST TIME — no bouncing, no delays.",
+  },
+  {
+    icon: "📡",
+    title: "Real-Time Status Tracking",
+    desc: "Track your grievance status 24×7 using your unique Registration ID from any device.",
+  },
+];
+
 export default function Login() {
   const { t, login } = useApp();
   const navigate = useNavigate();
@@ -16,6 +34,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [attempts, setAttempts] = useState(0);
   const [resendCooldown, setResendCooldown] = useState(0);
+  const [slideIndex, setSlideIndex] = useState(0);
 
   async function handleSendOtp(e: React.FormEvent) {
     e.preventDefault();
@@ -75,117 +94,164 @@ export default function Login() {
     }, 1000);
   }
 
+  const slide = HERO_SLIDES[slideIndex];
+
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4" style={{ background: "var(--primary)" }}>
-            🎯
+    <div className="min-h-[calc(100vh-180px)] flex" style={{ background: "var(--background)" }}>
+      {/* ── LEFT: Hero Panel ── */}
+      <div
+        className="hidden md:flex flex-col justify-center flex-1 p-10 relative overflow-hidden"
+        style={{ background: "linear-gradient(135deg, #0d1757 0%, #1a237e 60%, #1565c0 100%)" }}
+      >
+        {/* Background pattern */}
+        <div className="absolute inset-0 opacity-5" style={{
+          backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)",
+          backgroundSize: "30px 30px",
+        }} />
+
+        <div className="relative z-10 max-w-md">
+          <div className="text-6xl mb-5">{slide.icon}</div>
+          <h2 className="text-2xl font-extrabold text-white mb-3">{slide.title}</h2>
+          <p className="text-blue-200 text-sm leading-relaxed mb-8">{slide.desc}</p>
+
+          {/* Slide dots */}
+          <div className="flex gap-2 mb-10">
+            {HERO_SLIDES.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setSlideIndex(i)}
+                className="transition-all rounded-full"
+                style={{
+                  width: i === slideIndex ? "24px" : "8px",
+                  height: "8px",
+                  background: i === slideIndex ? "white" : "rgba(255,255,255,0.35)",
+                }}
+              />
+            ))}
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">{t("वापस स्वागत है", "Welcome back")}</h1>
-          <p className="text-gray-500 mt-1 text-sm">{t("अपने खाते में लॉगिन करें", "Sign in to your account")}</p>
+
+          {/* Portal info */}
+          <div className="border-t border-white/20 pt-6 space-y-2">
+            <div className="flex items-center gap-2 text-xs text-blue-200">
+              <span>🏛️</span>
+              <span>{t("प्रशासनिक सुधार और लोक शिकायत विभाग", "Dept. of Administrative Reforms & Public Grievances")}</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs text-blue-200">
+              <span>🔒</span>
+              <span>{t("OTP-आधारित सुरक्षित प्रमाणीकरण", "OTP-based secure authentication")}</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs text-blue-200">
+              <span>🌐</span>
+              <span>{t("22+ भारतीय भाषाएं समर्थित", "22+ Indian languages supported")}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── RIGHT: Login Form ── */}
+      <div className="flex flex-col justify-center w-full md:w-[420px] md:flex-shrink-0 p-6 sm:p-10 bg-white border-l border-gray-200">
+        <div className="mb-7">
+          <div className="text-sm text-gray-500 mb-1">{t("CPGRAMS · भारत सरकार", "CPGRAMS · Govt of India")}</div>
+          <h1 className="text-2xl font-extrabold text-gray-900">{t("उपयोगकर्ता लॉगिन", "User Login")}</h1>
+          <p className="text-sm text-gray-500 mt-1">{t("मोबाइल नंबर / ईमेल / यूजरनेम से लॉगिन करें", "Login with Mobile / Email / Username")}</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-          {step === "contact" ? (
-            <form onSubmit={handleSendOtp} className="space-y-4">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                  {t("मोबाइल नंबर या ईमेल", "Mobile number or email")}
-                </label>
-                <input
-                  type="text"
-                  value={contact}
-                  onChange={(e) => setContact(e.target.value)}
-                  placeholder={t("उदा. 9876543210 या rahul@example.com", "e.g. 9876543210 or rahul@example.com")}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  autoFocus
-                  required
-                />
-                <p className="text-xs text-gray-500 mt-1">{t("Demo: rahul@example.com या priya@example.com", "Demo: rahul@example.com or priya@example.com")}</p>
-              </div>
+        {step === "contact" ? (
+          <form onSubmit={handleSendOtp} className="space-y-4">
+            <div className="form-field">
+              <label>{t("मोबाइल नंबर / ईमेल / यूजरनेम", "Mobile No / Email Id / Username")} <span className="req">*</span></label>
+              <input
+                type="text"
+                value={contact}
+                onChange={(e) => setContact(e.target.value)}
+                placeholder={t("मोबाइल नंबर या ईमेल दर्ज करें", "Mobile No / Email Id / Username")}
+                autoFocus
+                required
+              />
+              <div className="field-hint">{t("Demo: rahul@example.com या priya@example.com", "Demo: rahul@example.com or priya@example.com")}</div>
+            </div>
 
-              <button
-                type="submit"
-                disabled={loading || !contact.trim()}
-                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                {loading ? <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : null}
-                {t("OTP भेजें", "Send OTP")}
+            <button
+              type="submit"
+              disabled={loading || !contact.trim()}
+              className="btn-gov-primary w-full"
+              style={{ padding: "12px", fontSize: "14px", justifyContent: "center" }}
+            >
+              {loading ? <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-block" /> : null}
+              {t("OTP से लॉगिन करें", "Login with OTP")}
+            </button>
+
+            <div className="flex items-center gap-2 my-1">
+              <div className="flex-1 h-px bg-gray-200" />
+              <span className="text-xs text-gray-400">{t("या", "OR")}</span>
+              <div className="flex-1 h-px bg-gray-200" />
+            </div>
+
+            <Link
+              to="/signup"
+              className="btn-gov-secondary w-full text-center"
+              style={{ padding: "10px", fontSize: "14px", justifyContent: "center" }}
+            >
+              {t("नया पंजीकरण करें", "Click here to Register")}
+            </Link>
+
+            <div className="border-t border-gray-100 pt-4 flex flex-col gap-2">
+              <Link to="/privacy" className="text-xs text-center text-blue-700 hover:underline">
+                {t("गोपनीयता सूचना", "Privacy Notice")}
+              </Link>
+            </div>
+          </form>
+        ) : (
+          <form onSubmit={handleVerifyOtp} className="space-y-4">
+            <div className="bg-blue-50 border border-blue-200 rounded p-3 text-sm text-blue-800">
+              <p>{t("OTP भेजा गया:", "OTP sent to:")} <span className="font-bold">{maskedDest}</span></p>
+              <p className="text-xs text-blue-600 mt-0.5">{t("Demo OTP: 123456", "Demo OTP: 123456")}</p>
+            </div>
+
+            <div className="form-field">
+              <label>{t("6-अंकीय OTP दर्ज करें", "Enter 6-digit OTP")} <span className="req">*</span></label>
+              <input
+                type="text"
+                inputMode="numeric"
+                maxLength={6}
+                value={otp}
+                onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+                placeholder="● ● ● ● ● ●"
+                className="text-2xl text-center tracking-[0.6em] font-mono"
+                style={{ letterSpacing: "0.5em" }}
+                autoFocus
+              />
+            </div>
+
+            {error && (
+              <div className="bg-red-50 border border-red-200 rounded px-3 py-2 text-sm text-red-700">
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading || otp.length !== 6 || attempts >= 3}
+              className="btn-gov-primary w-full"
+              style={{ padding: "12px", fontSize: "14px", justifyContent: "center" }}
+            >
+              {loading ? <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-block" /> : null}
+              {t("सत्यापित करें और लॉगिन करें", "Verify & Login")}
+            </button>
+
+            <div className="flex justify-between items-center text-xs">
+              <button type="button" onClick={() => { setStep("contact"); setOtp(""); setError(""); }} className="text-blue-700 hover:underline">
+                {t("मोबाइल/ईमेल बदलें", "Change mobile/email")}
               </button>
-
-              <div className="text-center space-y-2 pt-2">
-                <Link to="/signup" className="block text-sm text-indigo-600 hover:underline font-medium">
-                  {t("नया खाता बनाएं", "Create account")}
-                </Link>
-                <Link to="/privacy" className="block text-xs text-gray-500 hover:underline">
-                  {t("गोपनीयता सूचना", "Privacy Notice")}
-                </Link>
-              </div>
-            </form>
-          ) : (
-            <form onSubmit={handleVerifyOtp} className="space-y-4">
-              <div className="text-center mb-2">
-                <p className="text-sm text-gray-600">
-                  {t("OTP भेजा गया:", "OTP sent to:")} <span className="font-semibold text-gray-900">{maskedDest}</span>
-                </p>
-                <p className="text-xs text-gray-400 mt-0.5">{t("Demo OTP: 123456", "Demo OTP: 123456")}</p>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                  {t("6-अंकीय OTP दर्ज करें", "Enter 6-digit OTP")}
-                </label>
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={6}
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                  placeholder="000000"
-                  className="w-full px-4 py-4 border border-gray-300 rounded-xl text-2xl text-center tracking-[0.5em] font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  autoFocus
-                />
-              </div>
-
-              {error && (
-                <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-700">
-                  {error}
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={loading || otp.length !== 6 || attempts >= 3}
-                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                {loading ? <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : null}
-                {t("सत्यापित करें और लॉगिन करें", "Verify & Login")}
+              <button type="button" onClick={handleResend} disabled={resendCooldown > 0} className="text-blue-700 hover:underline disabled:text-gray-400">
+                {resendCooldown > 0 ? `${t("पुनः भेजें", "Resend")} (${resendCooldown}s)` : t("OTP पुनः भेजें", "Resend OTP")}
               </button>
+            </div>
+          </form>
+        )}
 
-              <div className="flex justify-between items-center text-sm">
-                <button
-                  type="button"
-                  onClick={() => { setStep("contact"); setOtp(""); setError(""); }}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  {t("मोबाइल/ईमेल बदलें", "Change mobile/email")}
-                </button>
-                <button
-                  type="button"
-                  onClick={handleResend}
-                  disabled={resendCooldown > 0}
-                  className="text-indigo-600 hover:underline disabled:text-gray-400 disabled:no-underline font-medium"
-                >
-                  {resendCooldown > 0 ? `${t("पुनः भेजें", "Resend")} (${resendCooldown}s)` : t("OTP पुनः भेजें", "Resend OTP")}
-                </button>
-              </div>
-            </form>
-          )}
-        </div>
-
-        <p className="text-center text-xs text-gray-400 mt-6">
-          {t("CPGRAMS AI · भारत सरकार · DARPG", "CPGRAMS AI · Government of India · DARPG")}
+        <p className="text-center text-xs text-gray-400 mt-6 border-t border-gray-100 pt-4">
+          {t("यह साइट NIC, MeitY, GOI द्वारा डिज़ाइन और होस्ट की गई है।", "This site is designed, developed & hosted by NIC, Ministry of Electronics & IT (MeitY), Govt of India.")}
         </p>
       </div>
     </div>

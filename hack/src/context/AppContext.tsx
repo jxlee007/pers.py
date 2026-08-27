@@ -12,8 +12,6 @@ interface AppContextType {
   setRoutingResult: (r: RoutingResult | null) => void;
   complaintText: string;
   setComplaintText: (t: string) => void;
-  apiKey: string;
-  setApiKey: (k: string) => void;
   currentUser: User | null;
   login: (user: User) => void;
   logout: () => void;
@@ -28,7 +26,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Language>(stored || "en");
   const [routingResult, setRoutingResult] = useState<RoutingResult | null>(null);
   const [complaintText, setComplaintText] = useState("");
-  const [apiKey, setApiKey] = useState(localStorage.getItem("openai_key") || "");
   const [currentUser, setCurrentUser] = useState<User | null>(getSessionUser());
   const [newCaseId, setNewCaseId] = useState<string | null>(null);
 
@@ -56,7 +53,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AppContext.Provider value={{ lang, setLang, t, routingResult, setRoutingResult, complaintText, setComplaintText, apiKey, setApiKey, currentUser, login, logout, newCaseId, setNewCaseId }}>
+    <AppContext.Provider value={{ lang, setLang, t, routingResult, setRoutingResult, complaintText, setComplaintText, currentUser, login, logout, newCaseId, setNewCaseId }}>
       {children}
     </AppContext.Provider>
   );
