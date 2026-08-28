@@ -1216,4 +1216,105 @@ export const caseOfficerMap: Record<string, string> = {
   "CPG_20260725_005": "deepa_pillai_pwd",
 };
 
+// ─── SOCIAL MEDIA IMPACT ──────────────────────────────────────────────────────
+
+export const socialMediaImpact = {
+  hashtag: "#CPGRAMSTransparency",
+  total_posts: 23547,
+  total_impressions: 1247000,
+  total_shares: 1247,
+  total_reach: 87000,
+  engagement_rate: 8.2,
+
+  platform_breakdown: {
+    twitter:   { shares: 512,  reach: 41200, engagement: 4893 },
+    whatsapp:  { shares: 389,  reach: 28600, engagement: 2340 },
+    linkedin:  { shares: 201,  reach: 11800, engagement: 980  },
+    facebook:  { shares: 145,  reach: 5400,  engagement: 430  },
+  },
+
+  share_rate_by_rating: {
+    star_5:  { label: "⭐⭐⭐⭐⭐", rate: 40, count: 498, tone: "praise"    },
+    star_4:  { label: "⭐⭐⭐⭐",  rate: 15, count: 187, tone: "praise"    },
+    star_3:  { label: "⭐⭐⭐",   rate:  8, count:  99, tone: "neutral"   },
+    star_2:  { label: "⭐⭐",    rate: 60, count: 248, tone: "escalation" },
+    star_1:  { label: "⭐",     rate: 85, count: 215, tone: "escalation" },
+  },
+
+  media_coverage: {
+    articles: 47,
+    major_outlets: ["Times of India", "The Hindu", "Indian Express", "Hindustan Times"],
+    total_media_reach: 5200000,
+  },
+
+  behavioral_impact: {
+    officers_improved: 234,
+    officers_escalated: 12,
+    systemic_issues_exposed: 8,
+  },
+
+  trending: {
+    rank: 3,
+    category: "Government & Civic",
+    peak_date: "2026-08-24",
+    peak_impressions: 98400,
+  },
+};
+
+export const topSharedCases = [
+  {
+    caseId: "CPG_20260825_001",
+    rating: 5,
+    snippetEn: '"6-day pension resolution. Officer was proactive."',
+    snippetHi: '"6 दिन में पेंशन समाधान। अधिकारी सक्रिय थे।"',
+    total_shares: 5234,
+    officer: "Rajesh Kumar",
+    department: "EPFO",
+    tone: "praise" as const,
+    reach: 38400,
+  },
+  {
+    caseId: "CPG_20260820_002",
+    rating: 1,
+    snippetEn: '"Case bounced 4 times. Paper closure, problem still exists."',
+    snippetHi: '"केस 4 बार उछला। कागजी बंद, समस्या अभी भी है।"',
+    total_shares: 3890,
+    officer: "Anand Mishra",
+    department: "CBDT",
+    tone: "escalation" as const,
+    reach: 27100,
+  },
+  {
+    caseId: "CPG_20260810_003",
+    rating: 4,
+    snippetEn: '"License approved in 3 weeks. Smooth process overall."',
+    snippetHi: '"3 हफ्तों में लाइसेंस मिला। प्रक्रिया ठीक रही।"',
+    total_shares: 1892,
+    officer: "Priya Sharma",
+    department: "RTO",
+    tone: "praise" as const,
+    reach: 11200,
+  },
+  {
+    caseId: "CPG_20260725_005",
+    rating: 2,
+    snippetEn: '"Road repair still pending after 33 days. Budget sanctioned, no action."',
+    snippetHi: '"33 दिन बाद भी सड़क मरम्मत नहीं। बजट स्वीकृत, काम नहीं।"',
+    total_shares: 1247,
+    officer: "Deepa Pillai",
+    department: "PWD",
+    tone: "escalation" as const,
+    reach: 8900,
+  },
+];
+
+export const officerSocialMentions: Record<string, { positive: number; negative: number; neutral: number; top_tweet_reach: number }> = {
+  rajesh_kumar_epfo:    { positive: 4823, negative:   89, neutral: 234, top_tweet_reach: 12400 },
+  anand_mishra_cbdt:    { positive:  234, negative: 1890, neutral: 312, top_tweet_reach: 8900  },
+  priya_sharma_rto:     { positive: 1234, negative:  312, neutral: 456, top_tweet_reach: 4200  },
+  sunita_verma_uidai:   { positive:  892, negative:   98, neutral: 180, top_tweet_reach: 3100  },
+  deepa_pillai_pwd:     { positive:  123, negative:  890, neutral: 245, top_tweet_reach: 6800  },
+};
+
+
 

@@ -1,7 +1,7 @@
-// src/services/voiceService.ts - Complete Sarvam AI & Web Speech Fallback Service
+// src/services/voiceService.ts - Real Sarvam Speech-to-Text & Translation Engine
 
-const SARVAM_API_KEY = import.meta.env.VITE_SARVAM_API_KEY || "sk_62gk7ler_2F3Ys9zo07Pp4DS4KxZI26a7";
-const SARVAM_BASE_URL = "https://api.sarvam.ai/";
+export const SARVAM_API_KEY = import.meta.env.VITE_SARVAM_API_KEY || "sk_62gk7ler_2F3Ys9zo07Pp4DS4KxZI26a7";
+export const SARVAM_BASE_URL = "https://api.sarvam.ai/";
 
 export interface TranscriptionResult {
   text: string;
@@ -17,9 +17,127 @@ export interface TranslationResult {
   success: boolean;
 }
 
+export interface SarvamConfig {
+  apiKey?: string;
+  language?: string;
+  sampleRate?: number;
+}
+
 /**
- * SARVAM TRANSCRIPTION
- * Handles speech-to-text with Sarvam API (saaras:v3 / saaras:v4) or Web Speech fallback
+ * SarvamSTTService Class
+ * Audio capture with echo cancellation, noise suppression, and Sarvam REST STT
+ */
+export class SarvamSTTService {
+  private mediaRecorder: MediaRecorder | null = null;
+  private audioChunks: Blob[] = [];
+  private stream: MediaStream | null = null;
+  private apiKey: string;
+  private language: string;
+
+  constructor(config?: SarvamConfig) {
+    this.apiKey = config?.apiKey || SARVAM_API_KEY;
+    this.language = config?.language || "hi";
+  }
+
+  /**
+   * Set active language
+   */
+  setLanguage(lang: string) {
+    this.language = lang;
+  }
+
+  /**
+   * START RECORDING
+   * Requests mic permissions with 16kHz sample rate, noise suppression & echo cancellation
+   */
+  async startRecording(): Promise<{ success: boolean; error?: string }> {
+    try {
+      this.stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+          sampleRate: 16000,
+        },
+      });
+
+      const mimeType = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
+        ? "audio/webm;codecs=opus"
+        : "audio/wav";
+
+      this.mediaRecorder = new MediaRecorder(this.stream, { mimeType });
+      this.audioChunks = [];
+
+      this.mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          this.audioChunks.push(event.data);
+        }
+      };
+
+      this.mediaRecorder.start();
+      return { success: true };
+    } catch (error) {
+      console.error("Microphone access error:", error);
+      const errorMsg = error instanceof Error ? error.message : "Microphone access denied";
+      return {
+        success: false,
+        error: `Microphone access denied. Please enable microphone permissions. (${errorMsg})`,
+      };
+    }
+  }
+
+  /**
+   * STOP RECORDING
+   * Stops audio capture, releases stream tracks, and returns audio Blob
+   */
+  stopRecording(): Promise<Blob | null> {
+    if (!this.mediaRecorder) return Promise.resolve(null);
+
+    return new Promise((resolve) => {
+      if (!this.mediaRecorder) {
+        resolve(null);
+        return;
+      }
+
+      this.mediaRecorder.onstop = () => {
+        const mimeType = this.mediaRecorder?.mimeType || "audio/wav";
+        const audioBlob = new Blob(this.audioChunks, { type: mimeType });
+        this.audioChunks = [];
+
+        if (this.stream) {
+          this.stream.getTracks().forEach((track) => track.stop());
+          this.stream = null;
+        }
+
+        resolve(audioBlob);
+      };
+
+      this.mediaRecorder.stop();
+    });
+  }
+
+  /**
+   * SEND TO SARVAM API
+   */
+  async sendToSarvamAPI(audioBlob: Blob, langCode?: string): Promise<{ success: boolean; text?: string; error?: string }> {
+    try {
+      const languageToUse = langCode || this.language;
+      const res = await transcribeWithSarvam(audioBlob, languageToUse);
+      if (res.text) {
+        return { success: true, text: res.text };
+      }
+      return { success: false, error: "No transcription received" };
+    } catch (err) {
+      return {
+        success: false,
+        error: err instanceof Error ? err.message : "Transcription failed",
+      };
+    }
+  }
+}
+
+/**
+ * SARVAM TRANSCRIPTION (saaras:v3 / saaras:v4)
  * Endpoint: POST https://api.sarvam.ai/speech-to-text
  */
 export const transcribeWithSarvam = async (
@@ -32,7 +150,6 @@ export const transcribeWithSarvam = async (
   if (activeKey && activeKey !== "your_key_or_leave_empty") {
     try {
       const formData = new FormData();
-      // Ensure file has valid extension and content type for Sarvam parser
       const audioFile = new File([audioBlob], "audio.wav", { type: audioBlob.type || "audio/wav" });
       formData.append("file", audioFile);
       
@@ -71,7 +188,6 @@ export const transcribeWithSarvam = async (
       return fallbackWebSpeechTranscription(languageCode);
     }
   } else {
-    // Fallback to Web Speech API or heuristic simulation
     return fallbackWebSpeechTranscription(languageCode);
   }
 };

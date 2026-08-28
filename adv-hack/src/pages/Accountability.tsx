@@ -8,6 +8,8 @@ import {
   escalations,
   escalationRules,
   officerEscalationMetrics,
+  socialMediaImpact,
+  topSharedCases,
   type EscalationRecord,
 } from "../data/mockData";
 
@@ -1168,6 +1170,226 @@ export default function Accountability() {
           </div>
         </div>
       </div>
+      {/* ── SECTION 4: SOCIAL MEDIA IMPACT ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-10 mb-12">
+        <div className="bg-white dark:bg-[#141e2e] border border-gray-200 dark:border-gray-700 rounded shadow-sm overflow-hidden">
+
+          {/* Header */}
+          <div className="p-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#111827]">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+              <div>
+                <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                  <span>📱</span>
+                  <span>{t("सोशल मीडिया जवाबदेही प्रभाव", "Social Media Accountability Impact")}</span>
+                  <span className="text-xs font-normal px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-700 ml-1">
+                    {socialMediaImpact.hashtag}
+                  </span>
+                </h2>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                  {t(
+                    "नागरिकों के शेयर से जवाबदेही वायरल होती है। हर शेयर अधिकारी पर सामाजिक दबाव बनाता है।",
+                    "Citizen shares make accountability viral. Each share amplifies pressure on officers beyond the internal dashboard."
+                  )}
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs px-3 py-1.5 rounded-lg font-bold bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400 border border-amber-200 dark:border-amber-800/50">
+                  🔥 Trending #{socialMediaImpact.trending.rank} — {socialMediaImpact.trending.category}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-5 space-y-6">
+
+            {/* Top KPI row */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {[
+                { label: t("कुल शेयर", "Total Shares"),         value: socialMediaImpact.total_shares.toLocaleString(),      icon: "🔁", color: "text-indigo-700 dark:text-indigo-300" },
+                { label: t("कुल पहुंच", "Total Reach"),          value: `${(socialMediaImpact.total_reach / 1000).toFixed(0)}K`, icon: "👥", color: "text-blue-700 dark:text-blue-300" },
+                { label: t("कुल इम्प्रेशन", "Total Impressions"),  value: `${(socialMediaImpact.total_impressions / 1000000).toFixed(1)}M`, icon: "📣", color: "text-emerald-700 dark:text-emerald-400" },
+                { label: t("एंगेजमेंट दर", "Engagement Rate"),    value: `${socialMediaImpact.engagement_rate}%`,              icon: "⚡", color: "text-amber-700 dark:text-amber-400" },
+              ].map((kpi) => (
+                <div key={kpi.label} className="border border-gray-200 dark:border-gray-700 rounded-lg p-3 bg-gray-50 dark:bg-[#192334]">
+                  <div className="text-lg">{kpi.icon}</div>
+                  <div className={`text-xl font-black mt-1 ${kpi.color}`}>{kpi.value}</div>
+                  <div className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">{kpi.label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Two-column: Platform breakdown + Share rate by rating */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+              {/* Platform Breakdown */}
+              <div>
+                <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
+                  {t("प्लेटफ़ॉर्म-वार शेयर:", "Shares by Platform:")}
+                </h3>
+                <div className="space-y-2.5">
+                  {([
+                    { key: "twitter",  icon: "𝕏",  label: "X (Twitter)",  bg: "bg-gray-900",        text: "text-white" },
+                    { key: "whatsapp", icon: "💬", label: "WhatsApp",      bg: "bg-[#25D366]",      text: "text-white" },
+                    { key: "linkedin", icon: "in", label: "LinkedIn",      bg: "bg-[#0A66C2]",      text: "text-white" },
+                    { key: "facebook", icon: "f",  label: "Facebook",      bg: "bg-[#1877F2]",      text: "text-white" },
+                  ] as const).map((p) => {
+                    const d = socialMediaImpact.platform_breakdown[p.key];
+                    const maxShares = 512;
+                    const pct = Math.round((d.shares / maxShares) * 100);
+                    return (
+                      <div key={p.key} className="flex items-center gap-3">
+                        <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0 ${p.bg} ${p.text}`}>
+                          {p.icon}
+                        </span>
+                        <div className="flex-1">
+                          <div className="flex justify-between text-xs mb-1">
+                            <span className="font-semibold text-gray-800 dark:text-gray-200">{p.label}</span>
+                            <span className="text-gray-500 dark:text-gray-400">{d.shares.toLocaleString()} shares · {(d.reach / 1000).toFixed(0)}K reach</span>
+                          </div>
+                          <div className="w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                            <div className="h-full rounded-full bg-indigo-500" style={{ width: `${pct}%` }} />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Share Rate by Rating */}
+              <div>
+                <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
+                  {t("रेटिंग-अनुसार शेयर दर (वायरल मैकेनिक्स):", "Share Rate by Star Rating (Viral Mechanics):")}
+                </h3>
+                <div className="space-y-2">
+                  {Object.values(socialMediaImpact.share_rate_by_rating).reverse().map((r) => (
+                    <div key={r.label} className="flex items-center gap-3 text-xs">
+                      <span className="w-20 flex-shrink-0 text-right">{r.label}</span>
+                      <div className="flex-1 h-4 bg-gray-100 dark:bg-gray-800 rounded overflow-hidden relative">
+                        <div
+                          className={`h-full rounded transition-all ${
+                            r.tone === "escalation" ? "bg-red-500" : r.tone === "neutral" ? "bg-gray-400" : "bg-emerald-500"
+                          }`}
+                          style={{ width: `${r.rate}%` }}
+                        />
+                        <span className="absolute right-2 top-0 bottom-0 flex items-center text-[10px] font-bold text-gray-700 dark:text-gray-300">{r.rate}%</span>
+                      </div>
+                      <span className="w-16 text-gray-500 dark:text-gray-400 flex-shrink-0">{r.count.toLocaleString()} posts</span>
+                    </div>
+                  ))}
+                  <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-1">
+                    {t("ध्यान दें: नकारात्मक अनुभव अधिक शेयर होते हैं — यही जवाबदेही का वायरल तंत्र है।", "Note: Negative experiences share 2× more — that's the accountability pressure mechanism.")}
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Top Shared Cases */}
+            <div>
+              <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
+                {t("सर्वाधिक शेयर किए गए केस:", "Top Shared Cases:")}
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {topSharedCases.map((c) => (
+                  <Link
+                    key={c.caseId}
+                    to={`/case/${c.caseId}`}
+                    className={`border rounded-lg p-3.5 hover:shadow-md transition-all block ${
+                      c.tone === "praise"
+                        ? "border-emerald-200 dark:border-emerald-800/50 bg-emerald-50/60 dark:bg-emerald-950/20 hover:border-emerald-400"
+                        : "border-red-200 dark:border-red-800/50 bg-red-50/60 dark:bg-red-950/20 hover:border-red-400"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-mono text-xs font-bold text-gray-500 dark:text-gray-400">{c.caseId}</span>
+                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                        c.tone === "praise"
+                          ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-400"
+                          : "bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-400"
+                      }`}>
+                        {"★".repeat(c.rating)}{"☆".repeat(5 - c.rating)}
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-700 dark:text-gray-300 italic mb-2">
+                      {t(c.snippetHi, c.snippetEn)}
+                    </p>
+                    <div className="flex items-center justify-between text-[10px] text-gray-500 dark:text-gray-400">
+                      <span>🏛️ {c.officer} · {c.department}</span>
+                      <span className="font-semibold">
+                        🔁 {c.total_shares.toLocaleString()} shares · 👥 {(c.reach / 1000).toFixed(0)}K reach
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Behavioral Impact + Media Coverage */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-4 rounded-lg border border-indigo-200 dark:border-indigo-800/50 bg-indigo-50/50 dark:bg-indigo-950/20">
+                <h4 className="text-xs font-bold text-indigo-800 dark:text-indigo-400 uppercase tracking-wider mb-3">
+                  🎯 {t("व्यावहारिक सुधार प्रभाव:", "Behavioral Change Driven by Sharing:")}
+                </h4>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600 dark:text-gray-400">{t("अधिकारियों ने सुधार किया", "Officers who improved")}</span>
+                    <span className="font-bold text-emerald-700 dark:text-emerald-400">{socialMediaImpact.behavioral_impact.officers_improved}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600 dark:text-gray-400">{t("एस्केलेट किए गए अधिकारी", "Officers escalated via social pressure")}</span>
+                    <span className="font-bold text-red-600 dark:text-red-400">{socialMediaImpact.behavioral_impact.officers_escalated}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600 dark:text-gray-400">{t("प्रणालीगत समस्याएं उजागर", "Systemic issues exposed")}</span>
+                    <span className="font-bold text-amber-700 dark:text-amber-400">{socialMediaImpact.behavioral_impact.systemic_issues_exposed}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#192334]">
+                <h4 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
+                  📰 {t("मीडिया कवरेज:", "Media Coverage Generated:")}
+                </h4>
+                <div className="text-2xl font-black text-gray-900 dark:text-white mb-1">
+                  {socialMediaImpact.media_coverage.articles} {t("लेख", "Articles")}
+                </div>
+                <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                  {(socialMediaImpact.media_coverage.total_media_reach / 1000000).toFixed(1)}M {t("मीडिया पहुंच", "media reach")}
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {socialMediaImpact.media_coverage.major_outlets.map((outlet) => (
+                    <span key={outlet} className="text-[10px] px-2 py-0.5 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium">
+                      {outlet}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* CTA to give feedback */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-indigo-950/30 dark:to-blue-950/30 border border-indigo-200 dark:border-indigo-800/50">
+              <div>
+                <div className="font-bold text-indigo-900 dark:text-indigo-300 text-sm">
+                  {t("अपना अनुभव साझा करें", "Share your experience — add to the accountability record")}
+                </div>
+                <p className="text-xs text-indigo-700 dark:text-indigo-400 mt-0.5">
+                  {t("रेटिंग दें → सोशल मीडिया पर शेयर करें → वायरल जवाबदेही बनाएं", "Rate → Share on social media → Create viral accountability")}
+                </p>
+              </div>
+              <Link
+                to="/feedback"
+                className="btn-gov-primary text-sm px-5 py-2 whitespace-nowrap flex-shrink-0"
+              >
+                ⭐ {t("फीडबैक एवं शेयर", "Rate & Share")}
+              </Link>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div />
     </div>
   );
 }

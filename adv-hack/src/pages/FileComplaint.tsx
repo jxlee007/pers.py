@@ -183,8 +183,20 @@ export default function FileComplaint() {
 
     try {
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        const mediaRecorder = new MediaRecorder(stream);
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true,
+            sampleRate: 16000,
+          },
+        });
+        
+        const mimeType = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
+          ? "audio/webm;codecs=opus"
+          : "audio/wav";
+
+        const mediaRecorder = new MediaRecorder(stream, { mimeType });
         mediaRecorderRef.current = mediaRecorder;
         audioChunksRef.current = [];
 
@@ -220,7 +232,8 @@ export default function FileComplaint() {
             } catch {
               // ignore
             }
-            const audioBlob = new Blob(audioChunksRef.current, { type: "audio/wav" });
+            const mimeType = mediaRecorderRef.current?.mimeType || "audio/wav";
+            const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
             const result = await transcribeWithSarvam(audioBlob, selectedVoiceLang);
             transcribedText = result.text;
             resolve();
@@ -243,8 +256,9 @@ export default function FileComplaint() {
       const english = translation.text || transcribedText;
       setEnglishVoiceText(english);
 
-      // Auto-populate form
-      setText(transcribedText);
+      // Auto-populate / append to form field (allows multiple recordings or manual edits)
+      setText((prev) => (prev ? `${prev} ${transcribedText}` : transcribedText));
+      
       if (!grievanceTitle) {
         setGrievanceTitle(transcribedText.slice(0, 80));
       }
