@@ -311,18 +311,18 @@ export default function Accountability() {
 
       {/* ── SECTION 2.5: PUBLIC AUTO-ESCALATION RADAR & CPGRAMS STATUTORY OVERSIGHT ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-10">
-        <div className="bg-white border border-gray-200 rounded shadow-sm overflow-hidden border-t-4 border-t-[#c62828]">
+        <div className="bg-white dark:bg-[#182236] border border-gray-200 dark:border-gray-700/80 rounded shadow-sm overflow-hidden border-t-4 border-t-[#c62828]">
           {/* Section Header */}
-          <div className="p-5 border-b border-gray-200 bg-gradient-to-r from-red-50/40 via-white to-amber-50/30">
+          <div className="p-5 border-b border-gray-200 dark:border-gray-700/80 bg-gradient-to-r from-red-50/40 via-white to-amber-50/30 dark:from-red-950/30 dark:via-[#182236] dark:to-amber-950/20">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
               <div>
-                <div className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-0.5 rounded uppercase tracking-wider bg-red-100 text-red-800 border border-red-200 mb-1.5">
+                <div className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-0.5 rounded uppercase tracking-wider bg-red-100 dark:bg-red-950/60 text-red-800 dark:text-red-300 border border-red-200 dark:border-red-800/60 mb-1.5">
                   🚨 {t("CPGRAMS वैधानिक स्वतः एस्केलेशन रडार", "CPGRAMS Statutory Auto-Escalation Radar")}
                 </div>
-                <h2 className="text-lg sm:text-xl font-bold text-gray-900 flex items-center gap-2">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
                   <span>{t("कागजी खानापूर्ति पर रोक: स्वतः एस्केलेशन प्रणाली", "Ending Paper Compliance: The Auto-Escalation Loop")}</span>
                 </h2>
-                <p className="text-xs text-gray-600 mt-1 max-w-3xl leading-relaxed">
+                <p className="text-xs text-gray-600 dark:text-gray-300 mt-1 max-w-3xl leading-relaxed">
                   {t(
                     "जब कोई नागरिक शिकायत बंद होने के बाद 1-2 स्टार (खराब) रेटिंग देता है या 'समस्या ठीक नहीं हुई' दर्ज करता है, तो मामला स्वतः राज्य नोडल पीजी अधिकारी एवं नोडल अपीलीय प्राधिकरण को 24-48 घंटे में एस्केलेट होता है।",
                     "When a citizen rates ≤ 2 stars ('Poor') or reports 'problem not fixed', CPGRAMS auto-escalates to State Nodal PG Officers & the Nodal Appellate Authority within 24-48h."
@@ -332,33 +332,33 @@ export default function Accountability() {
 
               {/* Status Summary Pills */}
               <div className="flex flex-wrap items-center gap-2 self-start lg:self-auto">
-                <div className="bg-white border border-red-200 shadow-2xs rounded px-3 py-1.5 text-center">
-                  <div className="text-[10px] uppercase tracking-wider text-red-600 font-bold">{t("सक्रिय एस्केलेशन", "Active Escalations")}</div>
-                  <div className="text-lg font-black text-red-700">{systemHealth.activeEscalations}</div>
+                <div className="bg-white dark:bg-[#111827] border border-red-200 dark:border-red-800/60 shadow-2xs rounded px-3 py-1.5 text-center">
+                  <div className="text-[10px] uppercase tracking-wider text-red-600 dark:text-red-400 font-bold">{t("सक्रिय एस्केलेशन", "Active Escalations")}</div>
+                  <div className="text-lg font-black text-red-700 dark:text-red-300">{systemHealth.activeEscalations}</div>
                 </div>
-                <div className="bg-white border border-green-200 shadow-2xs rounded px-3 py-1.5 text-center">
-                  <div className="text-[10px] uppercase tracking-wider text-green-600 font-bold">{t("इस माह निवारित", "Redressed (Month)")}</div>
-                  <div className="text-lg font-black text-green-700">{systemHealth.escalationsResolvedThisMonth}</div>
+                <div className="bg-white dark:bg-[#111827] border border-green-200 dark:border-green-800/60 shadow-2xs rounded px-3 py-1.5 text-center">
+                  <div className="text-[10px] uppercase tracking-wider text-green-600 dark:text-green-400 font-bold">{t("इस माह निवारित", "Redressed (Month)")}</div>
+                  <div className="text-lg font-black text-green-700 dark:text-green-300">{systemHealth.escalationsResolvedThisMonth}</div>
                 </div>
-                <div className="bg-white border border-blue-200 shadow-2xs rounded px-3 py-1.5 text-center">
-                  <div className="text-[10px] uppercase tracking-wider text-blue-600 font-bold">{t("राष्ट्रीय एस्केलेशन दर", "National Rate")}</div>
-                  <div className="text-lg font-black text-[#1a237e]">{systemHealth.escalationRate}%</div>
+                <div className="bg-white dark:bg-[#111827] border border-blue-200 dark:border-blue-800/60 shadow-2xs rounded px-3 py-1.5 text-center">
+                  <div className="text-[10px] uppercase tracking-wider text-blue-600 dark:text-blue-400 font-bold">{t("राष्ट्रीय एस्केलेशन दर", "National Rate")}</div>
+                  <div className="text-lg font-black text-[#1a237e] dark:text-blue-300">{systemHealth.escalationRate}%</div>
                 </div>
               </div>
             </div>
 
             {/* Radar Navigation Tabs */}
-            <div className="flex gap-2 mt-5 overflow-x-auto pb-1 border-t border-gray-200/80 pt-4">
+            <div className="flex gap-2 mt-5 overflow-x-auto pb-1 border-t border-gray-200/80 dark:border-gray-700/80 pt-4">
               <button
                 onClick={() => setEscalationTab("active")}
                 className={`flex items-center gap-2 px-3.5 py-1.5 rounded text-xs font-bold transition-all ${
                   escalationTab === "active"
                     ? "bg-[#c62828] text-white shadow-xs"
-                    : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"
+                    : "bg-white dark:bg-[#111827] text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
                 }`}
               >
                 <span>🚨 {t("सक्रिय एस्केलेशन", "Active Escalations")}</span>
-                <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${escalationTab === "active" ? "bg-white/30 text-white" : "bg-red-100 text-red-800"}`}>
+                <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${escalationTab === "active" ? "bg-white/30 text-white" : "bg-red-100 dark:bg-red-950/60 text-red-800 dark:text-red-300"}`}>
                   {escalations.filter((e) => e.status === "active").length}
                 </span>
               </button>
@@ -368,11 +368,11 @@ export default function Accountability() {
                 className={`flex items-center gap-2 px-3.5 py-1.5 rounded text-xs font-bold transition-all ${
                   escalationTab === "resolved"
                     ? "bg-[#2e7d32] text-white shadow-xs"
-                    : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"
+                    : "bg-white dark:bg-[#111827] text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
                 }`}
               >
                 <span>✅ {t("नोडल अधिकारियों द्वारा हल", "Resolved by Nodal Officers")}</span>
-                <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${escalationTab === "resolved" ? "bg-white/30 text-white" : "bg-green-100 text-green-800"}`}>
+                <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${escalationTab === "resolved" ? "bg-white/30 text-white" : "bg-green-100 dark:bg-green-950/60 text-green-800 dark:text-green-300"}`}>
                   {escalations.filter((e) => e.status === "closed").length}
                 </span>
               </button>
@@ -382,11 +382,11 @@ export default function Accountability() {
                 className={`flex items-center gap-2 px-3.5 py-1.5 rounded text-xs font-bold transition-all ${
                   escalationTab === "rules"
                     ? "bg-[#1a237e] text-white shadow-xs"
-                    : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"
+                    : "bg-white dark:bg-[#111827] text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
                 }`}
               >
                 <span>⚖️ {t("CPGRAMS पदानुक्रम एवं नियम", "CPGRAMS Hierarchy & Rules")}</span>
-                <span className="text-[10px] px-1.5 py-0.2 rounded bg-indigo-100 text-indigo-900 font-semibold">
+                <span className="text-[10px] px-1.5 py-0.2 rounded bg-indigo-100 dark:bg-indigo-950/60 text-indigo-900 dark:text-indigo-200 font-semibold">
                   3 {t("नियम", "Rules")}
                 </span>
               </button>

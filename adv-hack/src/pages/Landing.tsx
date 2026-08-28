@@ -317,13 +317,13 @@ export default function Landing() {
               </div>
 
               {/* Issues NOT taken up */}
-              <div className="mt-6 bg-orange-50 border border-orange-200 rounded p-4">
-                <p className="text-sm font-semibold text-orange-800 mb-2">
+              <div className="mt-6 bg-orange-50 dark:bg-amber-950/40 border border-orange-200 dark:border-amber-800/60 rounded p-4">
+                <p className="text-sm font-semibold text-orange-800 dark:text-amber-300 mb-2">
                   ⚠️ {t("जिन मामलों पर शिकायत नहीं की जाती:", "Issues which are not taken up for redress:")}
                 </p>
                 <ul className="space-y-1">
                   {notTakenUp.map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-xs text-orange-700">
+                    <li key={i} className="flex items-start gap-2 text-xs text-orange-700 dark:text-amber-200">
                       <span className="mt-0.5 flex-shrink-0">▶</span>
                       <span>{item}</span>
                     </li>
@@ -332,9 +332,9 @@ export default function Landing() {
               </div>
 
               {/* Note */}
-              <div className="mt-4 bg-blue-50 border border-blue-200 rounded p-4">
-                <p className="text-xs font-semibold text-blue-800 mb-1">{t("नोट:", "Note:")}</p>
-                <ol className="list-decimal list-inside space-y-1 text-xs text-blue-700">
+              <div className="mt-4 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/60 rounded p-4">
+                <p className="text-xs font-semibold text-blue-800 dark:text-blue-300 mb-1">{t("नोट:", "Note:")}</p>
+                <ol className="list-decimal list-inside space-y-1 text-xs text-blue-700 dark:text-blue-200">
                   <li>
                     {t(
                       "यदि आप DPOG के अधीन मंत्रालयों/विभागों से संतोषजनक निवारण नहीं पाते हैं, तो Cabinet Secretariat, GOI में DPG की सहायता ली जा सकती है।",
@@ -356,7 +356,7 @@ export default function Landing() {
               <h2 className="section-title text-lg">{t("नया क्या है?", "What's New")}</h2>
               <div className="space-y-3">
                 {whatsNew.map((item, i) => (
-                  <div key={i} className="flex gap-3 bg-gray-50 border border-gray-200 rounded p-3 hover:bg-blue-50 hover:border-blue-200 transition-colors cursor-pointer">
+                  <div key={i} className="flex gap-3 bg-gray-50 dark:bg-[#182236] border border-gray-200 dark:border-gray-700 rounded p-3 hover:bg-blue-50 dark:hover:bg-blue-950/40 hover:border-blue-200 transition-colors cursor-pointer">
                     <div
                       className="flex-shrink-0 text-center rounded px-2 py-1 text-white text-xs font-bold leading-tight"
                       style={{ background: "var(--gov-navy)", minWidth: "52px" }}
@@ -364,7 +364,7 @@ export default function Landing() {
                       {item.date.split(" ")[0]}<br />
                       <span className="font-normal text-blue-200">{item.date.split(" ").slice(1).join(" ")}</span>
                     </div>
-                    <p className="text-xs text-gray-700 leading-relaxed">{item.title}</p>
+                    <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed">{item.title}</p>
                   </div>
                 ))}
               </div>
@@ -374,14 +374,14 @@ export default function Landing() {
       </section>
 
       {/* ── STATS BAR ── */}
-      <section className="py-8 border-t border-b border-gray-200" style={{ background: "#f0f2ff" }}>
+      <section className="py-8 border-t border-b border-gray-200 dark:border-gray-800" style={{ background: "var(--surface)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-gray-200">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-gray-200 dark:bg-gray-700">
             {stats.map((s) => (
-              <div key={s.label} className="bg-white text-center py-6 px-4">
+              <div key={s.label} className="bg-white dark:bg-[#182236] text-center py-6 px-4">
                 <div className="text-2xl mb-2">{s.icon}</div>
                 <div className="text-2xl sm:text-3xl font-extrabold mb-1" style={{ color: s.color }}>{s.value}</div>
-                <div className="text-xs text-gray-500 leading-snug">{s.label}</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400 leading-snug">{s.label}</div>
               </div>
             ))}
           </div>
@@ -389,13 +389,13 @@ export default function Landing() {
       </section>
 
       {/* ── CITIZEN JOURNEY ── */}
-      <section className="py-14 bg-white">
+      <section className="py-14 bg-white dark:bg-[#0b0f19]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
             <h2 className="section-title text-xl inline-block">
               {t("नागरिक यात्रा — शुरू से अंत तक", "Citizen Journey — End to End")}
             </h2>
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
               {t("5 सरल चरणों में अपनी शिकायत का समाधान पाएं", "Get your grievance resolved in 5 simple steps")}
             </p>
           </div>
@@ -410,7 +410,7 @@ export default function Landing() {
               {journey.map((step) => (
                 <div key={step.step} className="flex flex-col items-center text-center">
                   <div
-                    className="w-20 h-20 rounded-full flex items-center justify-center text-3xl mb-4 border-4 bg-white shadow-md"
+                    className="w-20 h-20 rounded-full flex items-center justify-center text-3xl mb-4 border-4 bg-white dark:bg-[#182236] shadow-md"
                     style={{ borderColor: "var(--gov-navy)" }}
                   >
                     {step.icon}
@@ -421,8 +421,8 @@ export default function Landing() {
                   >
                     STEP {step.step}
                   </div>
-                  <div className="font-bold text-gray-900 text-sm mb-1">{step.title}</div>
-                  <div className="text-xs text-gray-500 leading-relaxed">{step.desc}</div>
+                  <div className="font-bold text-gray-900 dark:text-white text-sm mb-1">{step.title}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{step.desc}</div>
                 </div>
               ))}
             </div>
@@ -437,15 +437,15 @@ export default function Landing() {
       </section>
 
       {/* ── OLD vs NEW COMPARISON ── */}
-      <section className="py-12" style={{ background: "var(--gov-navy-light)" }}>
+      <section className="py-12 bg-gray-50 dark:bg-[#0f172a] border-t border-gray-200 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-8">
             <h2 className="section-title text-xl inline-block">{t("क्या बदला?", "What Changed?")}</h2>
-            <p className="text-sm text-gray-500 mt-1">{t("पुराना बनाम नया — AI का प्रभाव", "Old vs New — The AI difference")}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t("पुराना बनाम नया — AI का प्रभाव", "Old vs New — The AI difference")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <div className="bg-red-50 border border-red-200 rounded p-5">
-              <div className="flex items-center gap-2 font-bold text-red-700 mb-4 text-sm uppercase tracking-wide">
+            <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/60 rounded p-5">
+              <div className="flex items-center gap-2 font-bold text-red-700 dark:text-red-300 mb-4 text-sm uppercase tracking-wide">
                 ❌ {t("पुरानी प्रणाली", "Old System")}
               </div>
               <ol className="space-y-2.5">
@@ -456,19 +456,19 @@ export default function Landing() {
                   t("विभाग 3 को उछाल दिया गया", "Bounced to Department 3"),
                   t("3 महीने बाद बिना समाधान छोड़ दिया", "Abandoned after 3 months"),
                 ].map((step, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-red-800">
-                    <span className="w-5 h-5 rounded-full bg-red-200 text-red-700 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i + 1}</span>
+                  <li key={i} className="flex items-start gap-2 text-sm text-red-800 dark:text-red-200">
+                    <span className="w-5 h-5 rounded-full bg-red-200 dark:bg-red-900/70 text-red-700 dark:text-red-200 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i + 1}</span>
                     {step}
                   </li>
                 ))}
               </ol>
-              <div className="mt-4 text-xs text-red-600 font-semibold pt-3 border-t border-red-200">
+              <div className="mt-4 text-xs text-red-600 dark:text-red-400 font-semibold pt-3 border-t border-red-200 dark:border-red-800/50">
                 ⏱️ {t("औसत: 15 मिनट भरने + 3+ महीने इंतजार", "Avg: 15 min to fill + 3+ months wait")}
               </div>
             </div>
 
-            <div className="bg-green-50 border border-green-200 rounded p-5">
-              <div className="flex items-center gap-2 font-bold text-green-700 mb-4 text-sm uppercase tracking-wide">
+            <div className="bg-green-50 dark:bg-emerald-950/40 border border-green-200 dark:border-emerald-800/60 rounded p-5">
+              <div className="flex items-center gap-2 font-bold text-green-700 dark:text-emerald-300 mb-4 text-sm uppercase tracking-wide">
                 ✅ {t("नया AI सिस्टम", "New AI System")}
               </div>
               <ol className="space-y-2.5">
@@ -479,13 +479,13 @@ export default function Landing() {
                   t("पहली बार में समाधान", "Gets resolved on first attempt"),
                   t("हफ्तों में समाधान — पारदर्शी ट्रैकिंग", "Resolved in weeks — transparent tracking"),
                 ].map((step, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-green-800">
-                    <span className="w-5 h-5 rounded-full bg-green-200 text-green-700 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i + 1}</span>
+                  <li key={i} className="flex items-start gap-2 text-sm text-green-800 dark:text-emerald-200">
+                    <span className="w-5 h-5 rounded-full bg-green-200 dark:bg-emerald-900/70 text-green-700 dark:text-emerald-200 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i + 1}</span>
                     {step}
                   </li>
                 ))}
               </ol>
-              <div className="mt-4 text-xs text-green-600 font-semibold pt-3 border-t border-green-200">
+              <div className="mt-4 text-xs text-green-600 dark:text-emerald-400 font-semibold pt-3 border-t border-green-200 dark:border-emerald-800/50">
                 ⚡ {t("औसत: 3-5 मिनट भरना + 18 दिन समाधान", "Avg: 3-5 min to file + 18-day resolution")}
               </div>
             </div>

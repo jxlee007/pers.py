@@ -5,10 +5,10 @@ import { dashboardCases, caseOfficerMap, officerProfiles } from "../data/mockDat
 import Card, { StatCard } from "../components/Card";
 
 const statusColors: Record<string, string> = {
-  "In Progress": "bg-amber-100 text-amber-800",
-  "Escalated": "bg-red-100 text-red-800",
-  "Resolved": "bg-emerald-100 text-emerald-800",
-  "Awaiting Action": "bg-purple-100 text-purple-800",
+  "In Progress": "bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60",
+  "Escalated": "bg-red-100 dark:bg-red-950/60 text-red-800 dark:text-red-300 border border-red-200 dark:border-red-800/60",
+  "Resolved": "bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60",
+  "Awaiting Action": "bg-purple-100 dark:bg-purple-950/60 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800/60",
 };
 
 const priorityMap: Record<string, "critical" | "high" | "medium" | "low"> = {
@@ -97,7 +97,9 @@ export default function Dashboard() {
               key={f.id}
               onClick={() => setFilter(f.id)}
               className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                filter === f.id ? "bg-indigo-600 text-white" : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"
+                filter === f.id
+                  ? "bg-indigo-600 text-white"
+                  : "bg-white dark:bg-[#182236] text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
               }`}
             >
               {f.label}
@@ -205,23 +207,23 @@ export default function Dashboard() {
               })()}
 
               {/* Actions */}
-              <div className="flex gap-2 pt-2 border-t border-gray-100">
+              <div className="flex gap-2 pt-2 border-t border-gray-100 dark:border-gray-700/60">
                 <button
                   onClick={(e) => { e.stopPropagation(); navigate(`/case/${c.id}`); }}
-                  className="flex-1 py-2 text-xs font-semibold text-[#1a237e] bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+                  className="flex-1 py-2 text-xs font-semibold text-[#1a237e] dark:text-blue-300 bg-blue-50 dark:bg-blue-950/40 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors border border-blue-100 dark:border-blue-800/40"
                 >
                   {t("विस्तार देखें", "View Details")}
                 </button>
                 <button
                   onClick={(e) => { e.stopPropagation(); navigate("/feedback"); }}
-                  className="py-2 px-2.5 text-xs font-semibold text-green-700 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
+                  className="py-2 px-2.5 text-xs font-semibold text-green-700 dark:text-emerald-300 bg-green-50 dark:bg-emerald-950/40 rounded-lg hover:bg-green-100 dark:hover:bg-emerald-900/50 transition-colors border border-green-100 dark:border-emerald-800/40"
                   title={t("समाधान गुणवत्ता रेटिंग दें", "Rate resolution quality")}
                 >
                   ★ {t("रेटिंग", "Rate")}
                 </button>
                 <button
                   onClick={(e) => { e.stopPropagation(); navigate("/appeals"); }}
-                  className="py-2 px-2.5 text-xs font-semibold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                  className="py-2 px-2.5 text-xs font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-700"
                 >
                   {t("अपील", "Appeal")}
                 </button>

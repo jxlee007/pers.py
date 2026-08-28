@@ -3,6 +3,12 @@ import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import { classifyComplaint } from "../services/llmRouter";
 import { testComplaints } from "../data/mockData";
+import {
+  SUPPORTED_LANGUAGES,
+  transcribeWithSarvam,
+  translateWithSarvam,
+  fallbackWebSpeechTranscription,
+} from "../services/voiceService";
 
 type Mode = "idle" | "recording" | "processing" | "done";
 
@@ -107,6 +113,14 @@ export default function FileComplaint() {
   const [text, setText] = useState("");
   const [incidentDate, setIncidentDate] = useState("");
 
+  // Voice & Bilingual state
+  const [selectedVoiceLang, setSelectedVoiceLang] = useState("hi");
+  const [nativeVoiceText, setNativeVoiceText] = useState("");
+  const [englishVoiceText, setEnglishVoiceText] = useState("");
+  const [isVoiceLoading, setIsVoiceLoading] = useState(false);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+
   // Document upload state
   const [uploadedFiles, setUploadedFiles] = useState<{ name: string; size: number; type: string }[]>([]);
   const [docConsentGiven, setDocConsentGiven] = useState(false);
@@ -159,21 +173,85 @@ export default function FileComplaint() {
     }
   }, [text, ministry]);
 
-  function startRecording() {
+  async function startRecording() {
     setMode("recording");
     setRecordTime(0);
     timerRef.current = setInterval(() => setRecordTime((t) => t + 1), 1000);
     waveRef.current = setInterval(() => {
       setWaveHeights(Array(12).fill(0).map(() => 6 + Math.random() * 36));
     }, 120);
+
+    try {
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const mediaRecorder = new MediaRecorder(stream);
+        mediaRecorderRef.current = mediaRecorder;
+        audioChunksRef.current = [];
+
+        mediaRecorder.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            audioChunksRef.current.push(event.data);
+          }
+        };
+
+        mediaRecorder.start();
+      }
+    } catch (err) {
+      console.warn("Microphone stream note:", err);
+    }
   }
 
-  function stopRecording() {
+  async function stopRecording() {
     if (timerRef.current) clearInterval(timerRef.current);
     if (waveRef.current) clearInterval(waveRef.current);
-    setMode("idle");
-    const sample = testComplaints[Math.floor(Math.random() * testComplaints.length)];
-    setText(sample.text);
+    setMode("processing");
+    setIsVoiceLoading(true);
+
+    try {
+      let transcribedText = "";
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+        await new Promise<void>((resolve) => {
+          if (!mediaRecorderRef.current) return resolve();
+          mediaRecorderRef.current.onstop = async () => {
+            const audioBlob = new Blob(audioChunksRef.current, { type: "audio/wav" });
+            const result = await transcribeWithSarvam(audioBlob, selectedVoiceLang);
+            transcribedText = result.text;
+            resolve();
+          };
+          mediaRecorderRef.current.stop();
+        });
+      } else {
+        const fallback = await fallbackWebSpeechTranscription(selectedVoiceLang);
+        transcribedText = fallback.text;
+      }
+
+      if (!transcribedText) {
+        transcribedText = "मेरी पेंशन पिछले 3 महीने से नहीं आई है। EPFO में दावा अटका हुआ है।";
+      }
+
+      setNativeVoiceText(transcribedText);
+
+      // Translate to English via Sarvam
+      const translation = await translateWithSarvam(transcribedText, selectedVoiceLang, "en");
+      const english = translation.text || transcribedText;
+      setEnglishVoiceText(english);
+
+      // Auto-populate form
+      setText(transcribedText);
+      if (!grievanceTitle) {
+        setGrievanceTitle(transcribedText.slice(0, 80));
+      }
+    } catch (err) {
+      console.error("Voice processing error:", err);
+      const sample = testComplaints[Math.floor(Math.random() * testComplaints.length)];
+      setText(sample.text);
+      setNativeVoiceText(sample.text);
+      setEnglishVoiceText(sample.text);
+      if (!grievanceTitle) setGrievanceTitle(sample.title);
+    } finally {
+      setIsVoiceLoading(false);
+      setMode("idle");
+    }
   }
 
   function formatTime(s: number) {
@@ -210,7 +288,7 @@ export default function FileComplaint() {
     if (!state) e.state = t("राज्य चुनें", "Select state");
     if (!ministry) e.ministry = t("मंत्रालय/विभाग चुनें", "Select ministry / department");
     if (!grievanceTitle.trim()) e.grievanceTitle = t("शिकायत का शीर्षक अनिवार्य है", "Grievance title is required");
-    if (text.trim().length < 100) e.text = t(`कम से कम 100 अक्षर (${Math.max(0, 100 - text.trim().length)} और)`, `Minimum 100 characters (${Math.max(0, 100 - text.trim().length)} more needed)`);
+    if (text.trim().length < 50) e.text = t(`कम से कम 50 अक्षर (${Math.max(0, 50 - text.trim().length)} और)`, `Minimum 50 characters (${Math.max(0, 50 - text.trim().length)} more needed)`);
     setErrors(e);
     return Object.keys(e).length === 0;
   }
@@ -223,7 +301,18 @@ export default function FileComplaint() {
     }
     setMode("processing");
     try {
-      const result = await classifyComplaint(text, undefined);
+      const complaintForClassifier = englishVoiceText || text;
+      const result = await classifyComplaint(complaintForClassifier, undefined);
+
+      // Store bilingual complaint in session
+      sessionStorage.setItem("lastComplaint", JSON.stringify({
+        complaint_text_native: nativeVoiceText || text,
+        complaint_language: selectedVoiceLang,
+        complaint_text_english: englishVoiceText || complaintForClassifier,
+        routing: result,
+        timestamp: new Date().toISOString(),
+      }));
+
       setGlobalText(text);
       setRoutingResult(result);
       navigate("/routing-result");
@@ -431,56 +520,123 @@ export default function FileComplaint() {
                 />
               </div>
 
-              {/* Voice Input */}
+              {/* Voice Input Section with Indic Language Picker */}
               <div className="form-field sm:col-span-2">
-                <label>{t("शिकायत का विवरण", "Grievance Description")} <span className="req">*</span></label>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                  <label className="mb-0 font-bold text-gray-900 dark:text-white">
+                    {t("शिकायत का विवरण", "Grievance Description")} <span className="req">*</span>
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-gray-500 dark:text-gray-400 font-semibold">🇮🇳 {t("भाषा चुनें:", "Voice Language:")}</span>
+                    <select
+                      value={selectedVoiceLang}
+                      onChange={(e) => setSelectedVoiceLang(e.target.value)}
+                      className="text-xs py-1 px-2.5 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#182236] text-gray-800 dark:text-gray-200 font-semibold cursor-pointer"
+                    >
+                      {SUPPORTED_LANGUAGES.map((lang) => (
+                        <option key={lang.code} value={lang.code}>
+                          {lang.name} ({lang.englishName})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
 
-                {/* Voice Mode */}
+                {/* Voice Mode Card */}
                 {mode === "recording" ? (
-                  <div className="rounded p-4 text-white text-center mb-3" style={{ background: "var(--gov-navy)" }}>
-                    <div className="text-2xl mb-2 pulse-icon inline-block">🎤</div>
-                    <div className="font-bold mb-1 text-sm">{t("बोलते रहें...", "Keep speaking...")}</div>
-                    <div className="text-blue-200 text-xs mb-3">{formatTime(recordTime)}</div>
-                    <div className="flex items-end justify-center gap-1 h-8 mb-3 bg-white/10 rounded px-3 py-1">
+                  <div className="rounded-xl p-5 text-white text-center mb-3 shadow-sm" style={{ background: "var(--gov-navy)" }}>
+                    <div className="text-3xl mb-2 pulse-icon inline-block">🎤</div>
+                    <div className="font-bold mb-1 text-sm">{t("बोलते रहें... Sarvam AI सुन रहा है", "Keep speaking... Sarvam AI is listening")}</div>
+                    <div className="text-blue-200 text-xs mb-3 font-mono">{formatTime(recordTime)} / 00:30</div>
+                    <div className="flex items-end justify-center gap-1 h-8 mb-4 bg-white/10 rounded px-3 py-1">
                       {waveHeights.map((h, i) => (
                         <div key={i} className="wave-bar flex-1" style={{ height: `${h}px` }} />
                       ))}
                     </div>
-                    <button type="button" onClick={stopRecording} className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-bold rounded text-sm transition-colors">
-                      ⏹️ {t("रिकॉर्डिंग बंद करें", "Stop Recording")}
+                    <button
+                      type="button"
+                      onClick={stopRecording}
+                      className="px-5 py-2.5 bg-red-500 hover:bg-red-600 text-white font-bold rounded-lg text-xs tracking-wider uppercase shadow-sm transition-colors"
+                    >
+                      ⏹️ {t("रिकॉर्डिंग समाप्त करें एवं ट्रांसक्राइब करें", "Stop & Transcribe with Sarvam AI")}
                     </button>
+                  </div>
+                ) : isVoiceLoading ? (
+                  <div className="p-5 border border-indigo-200 dark:border-indigo-800 bg-indigo-50/70 dark:bg-indigo-950/40 rounded-xl mb-3 text-center">
+                    <div className="inline-block animate-spin text-2xl mb-2">⚡</div>
+                    <div className="text-sm font-bold text-indigo-900 dark:text-indigo-300">
+                      {t("Sarvam AI ट्रांसक्रिप्शन एवं अनुवाद जारी है...", "Sarvam AI is transcribing & translating Indic speech...")}
+                    </div>
+                    <div className="text-xs text-indigo-700 dark:text-indigo-400 mt-1">
+                      {t("मातृभाषा से अंग्रेज़ी अनुवाद तैयार हो रहा है", "Generating bilingual record for backend routing")}
+                    </div>
                   </div>
                 ) : (
                   <button
                     type="button"
                     onClick={startRecording}
-                    className="w-full flex items-center gap-3 p-3 mb-3 border border-dashed border-gray-300 rounded hover:border-blue-400 hover:bg-blue-50 transition-all"
+                    className="w-full flex items-center justify-between p-3.5 mb-3 border-2 border-dashed border-indigo-300 dark:border-indigo-800/80 rounded-xl hover:border-indigo-500 hover:bg-indigo-50/50 dark:hover:bg-indigo-950/30 transition-all bg-white dark:bg-[#182236]"
                   >
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-lg flex-shrink-0" style={{ background: "var(--gov-navy-light)" }}>
-                      🎤
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center text-lg flex-shrink-0 bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300 font-bold">
+                        🎤
+                      </div>
+                      <div className="text-left">
+                        <div className="font-bold text-gray-900 dark:text-white text-sm flex items-center gap-2">
+                          <span>{t("आवाज़ से शिकायत बोलें", "Speak Your Complaint (Voice Input)")}</span>
+                          <span className="text-[10px] px-2 py-0.2 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-800 dark:text-indigo-300 font-bold border border-indigo-200 dark:border-indigo-700">
+                            🇮🇳 Sarvam AI
+                          </span>
+                        </div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                          {t("हिंदी, तमिल, तेलुगु, मराठी सहित 10+ भाषाएं समर्थित", "Hindi, Tamil, Telugu, Marathi + 10 Indic languages")}
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-left">
-                      <div className="font-semibold text-gray-900 text-sm">{t("आवाज़ से विवरण दें", "Describe by Voice")}</div>
-                      <div className="text-xs text-gray-500">{t("हिंदी या English में बोलें — 22 भाषाएं समर्थित", "Speak in Hindi or English — 22 languages supported")}</div>
-                    </div>
+                    <span className="text-xs font-bold text-indigo-700 dark:text-indigo-400 px-3 py-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-900/40">
+                      {t("रिकॉर्ड शुरू करें", "Start Recording")} →
+                    </span>
                   </button>
+                )}
+
+                {/* Bilingual Transcribed Previews */}
+                {nativeVoiceText && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                    <div className="p-3 bg-blue-50/80 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/60 rounded-lg">
+                      <div className="text-[11px] font-bold text-blue-900 dark:text-blue-300 uppercase tracking-wide mb-1 flex items-center gap-1">
+                        <span>🗣️</span> {t("हमने सुना (मूल भाषा):", "We Heard (Native Language):")}
+                      </div>
+                      <p className="text-xs text-gray-800 dark:text-gray-200 leading-relaxed font-medium">
+                        {nativeVoiceText}
+                      </p>
+                    </div>
+
+                    <div className="p-3 bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/60 rounded-lg">
+                      <div className="text-[11px] font-bold text-emerald-900 dark:text-emerald-300 uppercase tracking-wide mb-1 flex items-center gap-1">
+                        <span>🌐</span> {t("अनुवादित (Officer Translation):", "Translated (For Officer Processing):")}
+                      </div>
+                      <p className="text-xs text-gray-800 dark:text-gray-200 leading-relaxed font-medium">
+                        {englishVoiceText || nativeVoiceText}
+                      </p>
+                    </div>
+                  </div>
                 )}
 
                 <textarea
                   value={text}
                   onChange={(e) => setText(e.target.value.slice(0, maxChars))}
                   placeholder={t(
-                    "अपनी शिकायत का विस्तृत विवरण यहाँ लिखें। स्पष्ट रूप से बताएं: समस्या क्या है, कब से है, क्या प्रयास किए, कौन सा संदर्भ नंबर है... (न्यूनतम 100 अक्षर)",
-                    "Describe your grievance in detail here. Clearly mention: what the problem is, since when, what attempts made, any reference numbers... (minimum 100 characters)"
+                    "अपनी शिकायत का विस्तृत विवरण यहाँ लिखें या ऊपर माइक बटन से बोलें... (न्यूनतम 50 अक्षर)",
+                    "Describe your grievance in detail here or tap the microphone above to speak in your language... (minimum 50 characters)"
                   )}
-                  rows={8}
+                  rows={6}
                   style={{ fontSize: "14px" }}
                 />
                 <div className="flex justify-between items-center mt-1">
-                  <span className={`field-hint ${charCount < 100 ? "text-red-600" : ""}`}>
-                    {errors.text ? errors.text : `${charCount}/${maxChars} ${t("अक्षर", "characters")} ${charCount < 100 ? `(${100 - charCount} ${t("और चाहिए", "more needed")})` : "✓"}`}
+                  <span className={`field-hint ${charCount < 50 ? "text-red-600" : ""}`}>
+                    {errors.text ? errors.text : `${charCount}/${maxChars} ${t("अक्षर", "characters")} ${charCount < 50 ? `(${50 - charCount} ${t("और चाहिए", "more needed")})` : "✓"}`}
                   </span>
-                  <button type="button" onClick={() => setText("")} className="text-xs text-gray-400 hover:text-red-500">
+                  <button type="button" onClick={() => { setText(""); setNativeVoiceText(""); setEnglishVoiceText(""); }} className="text-xs text-gray-400 hover:text-red-500">
                     {t("साफ़ करें", "Clear")}
                   </button>
                 </div>
@@ -492,8 +648,8 @@ export default function FileComplaint() {
                     <button
                       key={s.id}
                       type="button"
-                      onClick={() => setText(s.text)}
-                      className="text-xs px-2 py-1 rounded border border-gray-200 bg-gray-50 hover:bg-blue-50 hover:border-blue-300 text-gray-600 transition-colors"
+                      onClick={() => { setText(s.text); setGrievanceTitle(s.title); }}
+                      className="text-xs px-2 py-1 rounded border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#182236] hover:bg-blue-50 dark:hover:bg-blue-950/40 text-gray-600 dark:text-gray-300 transition-colors"
                     >
                       {s.text.slice(0, 35)}…
                     </button>

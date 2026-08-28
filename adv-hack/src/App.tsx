@@ -61,6 +61,7 @@ export default function App() {
             <Route path="/help" element={<Help />} />
             <Route path="/feedback" element={<Feedback />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/approach" element={<HowItWorks />} />
             <Route path="/accountability" element={<Accountability />} />
             <Route path="/accountability/state/:stateName" element={<StateDetail />} />
             <Route path="/officer/:officerId" element={<OfficerProfile />} />

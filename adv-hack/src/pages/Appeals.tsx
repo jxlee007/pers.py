@@ -32,9 +32,9 @@ export default function Appeals() {
   }[tab];
 
   const statusBadge: Record<string, string> = {
-    "Under Review": "bg-amber-100 text-amber-800",
-    "Approved": "bg-emerald-100 text-emerald-800",
-    "Rejected": "bg-red-100 text-red-800",
+    "Under Review": "bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60",
+    "Approved": "bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60",
+    "Rejected": "bg-red-100 dark:bg-red-950/60 text-red-800 dark:text-red-300 border border-red-200 dark:border-red-800/60",
   };
 
   const processSteps = [

@@ -14,7 +14,7 @@ export default function Navbar() {
     { to: "/dashboard", label: t("स्थिति देखें", "View Status") },
     { to: "/accountability", label: t("पारदर्शिता", "Transparency") },
     { to: "/directory", label: t("नोडल PG अधिकारी", "Nodal PG Officers") },
-    { to: "/how-it-works", label: t("निवारण प्रक्रिया", "Redress Process") },
+    { to: "/how-it-works", label: t("हमारा दृष्टिकोण", "Our Approach") },
     { to: "/appeals", label: t("अपील", "Appeal") },
     { to: "/help", label: t("सहायता", "Help") },
   ];

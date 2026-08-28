@@ -87,21 +87,12 @@ html, body, #root { height: 100%; }
   color: var(--text) !important;
 }
 
-.dark .text-gray-900 {
-  color: #f8fafc !important;
-}
-.dark .text-gray-800 {
-  color: #f1f5f9 !important;
-}
-.dark .text-gray-700 {
-  color: #e2e8f0 !important;
-}
-.dark .text-gray-600 {
-  color: #cbd5e1 !important;
-}
-.dark .text-gray-500 {
-  color: #94a3b8 !important;
-}
+.dark .text-gray-900 { color: #f8fafc !important; }
+.dark .text-gray-800 { color: #f1f5f9 !important; }
+.dark .text-gray-700 { color: #e2e8f0 !important; }
+.dark .text-gray-600 { color: #cbd5e1 !important; }
+.dark .text-gray-500 { color: #94a3b8 !important; }
+.dark .text-gray-400 { color: #64748b !important; }
 
 .dark .border-gray-200,
 .dark .border-gray-300,
@@ -112,6 +103,107 @@ html, body, #root { height: 100%; }
 .dark .bg-gray-50,
 .dark .bg-gray-100 {
   background-color: var(--surface) !important;
+}
+.dark .bg-gray-200 {
+  background-color: var(--border) !important;
+}
+
+/* ── Alert & Tinted Backgrounds in Dark Mode ── */
+.dark .bg-blue-50,
+.dark .bg-blue-50\/80,
+.dark .bg-blue-50\/70,
+.dark .bg-blue-50\/60,
+.dark .bg-blue-100 {
+  background-color: rgba(30, 58, 138, 0.28) !important;
+  border-color: rgba(59, 130, 246, 0.35) !important;
+}
+
+.dark .bg-red-50,
+.dark .bg-red-50\/80,
+.dark .bg-red-50\/70,
+.dark .bg-red-50\/40,
+.dark .bg-red-100 {
+  background-color: rgba(127, 29, 29, 0.3) !important;
+  border-color: rgba(239, 68, 68, 0.35) !important;
+}
+
+.dark .bg-green-50,
+.dark .bg-green-50\/80,
+.dark .bg-green-100,
+.dark .bg-emerald-50,
+.dark .bg-emerald-100 {
+  background-color: rgba(6, 78, 59, 0.3) !important;
+  border-color: rgba(16, 185, 129, 0.35) !important;
+}
+
+.dark .bg-amber-50,
+.dark .bg-amber-50\/80,
+.dark .bg-amber-100,
+.dark .bg-orange-50,
+.dark .bg-orange-100,
+.dark .bg-yellow-50 {
+  background-color: rgba(120, 53, 15, 0.3) !important;
+  border-color: rgba(245, 158, 11, 0.35) !important;
+}
+
+.dark .bg-indigo-50,
+.dark .bg-indigo-100,
+.dark .bg-purple-50 {
+  background-color: rgba(49, 46, 129, 0.35) !important;
+  border-color: rgba(99, 102, 241, 0.4) !important;
+}
+
+/* ── Tinted Text Colors in Dark Mode ── */
+.dark .text-blue-900,
+.dark .text-blue-800,
+.dark .text-blue-700,
+.dark .text-[#1a237e] {
+  color: #93c5fd !important;
+}
+
+.dark .text-red-900,
+.dark .text-red-800,
+.dark .text-red-700,
+.dark .text-red-600,
+.dark .text-[#c62828] {
+  color: #fca5a5 !important;
+}
+
+.dark .text-green-900,
+.dark .text-green-800,
+.dark .text-green-700,
+.dark .text-green-600,
+.dark .text-emerald-700,
+.dark .text-[#2e7d32] {
+  color: #6ee7b7 !important;
+}
+
+.dark .text-amber-900,
+.dark .text-amber-800,
+.dark .text-amber-700,
+.dark .text-amber-600,
+.dark .text-orange-800,
+.dark .text-orange-700 {
+  color: #fcd34d !important;
+}
+
+.dark .text-indigo-900,
+.dark .text-indigo-800,
+.dark .text-indigo-700 {
+  color: #c7d2fe !important;
+}
+
+/* ── Border Tint Overrides in Dark Mode ── */
+.dark .border-blue-200, .dark .border-blue-300 { border-color: rgba(59, 130, 246, 0.4) !important; }
+.dark .border-red-200, .dark .border-red-300 { border-color: rgba(239, 68, 68, 0.4) !important; }
+.dark .border-green-200, .dark .border-green-300, .dark .border-emerald-200 { border-color: rgba(16, 185, 129, 0.4) !important; }
+.dark .border-amber-200, .dark .border-amber-300, .dark .border-orange-200 { border-color: rgba(245, 158, 11, 0.4) !important; }
+.dark .border-indigo-200, .dark .border-indigo-300 { border-color: rgba(99, 102, 241, 0.4) !important; }
+
+/* ── Gradients with via-white in Dark Mode ── */
+.dark .via-white {
+  --tw-gradient-via-position: 50%;
+  --tw-gradient-stops: var(--tw-gradient-from), #182236 var(--tw-gradient-via-position), var(--tw-gradient-to) !important;
 }
 
 .dark .form-section {
@@ -128,12 +220,12 @@ html, body, #root { height: 100%; }
 }
 
 .dark .action-tile {
-  background: var(--card);
-  border-color: var(--border);
+  background: var(--card) !important;
+  border-color: var(--border) !important;
 }
 
 .dark .action-tile-icon {
-  background: var(--surface);
+  background: var(--surface) !important;
 }
 
 .dark .btn-gov-secondary {
@@ -143,6 +235,24 @@ html, body, #root { height: 100%; }
 }
 .dark .btn-gov-secondary:hover {
   background: rgba(59, 130, 246, 0.15);
+}
+
+/* ── Tables in Dark Mode ── */
+.dark table thead th {
+  background-color: #0f172a !important;
+  color: #cbd5e1 !important;
+  border-color: var(--border) !important;
+}
+.dark table tbody tr {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+.dark table tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+}
+.dark table td {
+  border-color: var(--border) !important;
+  color: #e2e8f0 !important;
 }
 
 
