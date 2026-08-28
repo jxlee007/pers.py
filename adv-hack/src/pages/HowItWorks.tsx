@@ -230,6 +230,7 @@ export default function HowItWorks() {
               </p>
             </div>
           </div>
+        </div>
       </section>
 
       {/* Comparison table */}

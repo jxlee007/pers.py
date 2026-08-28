@@ -280,6 +280,8 @@ export default function Signup() {
                   </div>
                 </div>
               </div>
+            </div>
+
             {/* Proof-of-Work (PoW) Cryptographic CAPTCHA (from pow.md) */}
             <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-3 bg-gray-50/80 dark:bg-[#111827] flex items-center justify-between gap-3 text-xs">
               <div className="flex items-center gap-2.5">
