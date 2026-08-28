@@ -5,17 +5,19 @@ html, body, #root { height: 100%; }
 
 /* ═══════════════════════════════════════════════════
    GOI COLOR TOKENS — CPGRAMS 2.0
-   Navy blue + Saffron + Deep Maroon
+   Slate-Navy + Steel-Blue + Warm Saffron
+   Designed for: calm, neutral, professional, trustworthy
+   Both light & dark modes share the same hue family
    ═══════════════════════════════════════════════════ */
 :root {
-  --gov-navy:        #1a237e;   /* Primary govt blue */
-  --gov-navy-dark:   #0d1757;
-  --gov-navy-light:  #e8eaf6;
-  --gov-maroon:      #880e4f;   /* DARPG maroon accent */
-  --gov-saffron:     #ff6f00;   /* Indian saffron */
-  --gov-saffron-lt:  #fff3e0;
-  --gov-teal:        #006064;   /* secondary action */
-  --gov-teal-light:  #e0f7fa;
+  --gov-navy:        #1e3a5f;   /* Calm deep navy — not too cold, not too harsh */
+  --gov-navy-dark:   #132a47;
+  --gov-navy-light:  #eef2f8;   /* Very light slate, not harsh blue */
+  --gov-maroon:      #7b2d52;
+  --gov-saffron:     #d97706;   /* Warm amber-saffron — more muted than pure orange */
+  --gov-saffron-lt:  #fef3c7;   /* Warm cream, not blinding yellow */
+  --gov-teal:        #0e6073;
+  --gov-teal-light:  #e6f4f7;
 
   --primary:        var(--gov-navy);
   --primary-dark:   var(--gov-navy-dark);
@@ -23,53 +25,80 @@ html, body, #root { height: 100%; }
   --accent:         var(--gov-saffron);
   --maroon:         var(--gov-maroon);
 
-  --success:        #2e7d32;
-  --success-light:  #e8f5e9;
-  --error:          #c62828;
-  --error-light:    #ffebee;
-  --warning:        #e65100;
-  --warning-light:  #fff3e0;
-  --info:           #01579b;
-  --info-light:     #e1f5fe;
+  /* Semantic colors — muted, not harsh */
+  --success:        #1f6b43;
+  --success-light:  #ecf7f0;
+  --error:          #b42b2b;
+  --error-light:    #fdf0f0;
+  --warning:        #b45309;
+  --warning-light:  #fef9ec;
+  --info:           #1e4d8c;
+  --info-light:     #eef4fd;
 
-  --background:     #f4f6f9;
-  --surface:        #f4f6f9;
+  /* Surface & text — warm-neutral slate */
+  --background:     #f5f7fa;   /* Off-white, not harsh white */
+  --surface:        #f5f7fa;
   --card:           #ffffff;
-  --border:         #d1d5db;
-  --border-strong:  #9ca3af;
-  --text:           #1a1a2e;
-  --text-secondary: #4a5568;
-  --text-muted:     #6b7280;
+  --border:         #dde3ec;   /* Soft blue-grey border */
+  --border-strong:  #b0bac7;
+  --text:           #1c2635;   /* Dark slate, not pure black */
+  --text-secondary: #475569;
+  --text-muted:     #718096;
 
-  /* Utility strip */
-  --util-bg:        #2b2b2b;
+  /* Chrome */
+  --util-bg:        #1c2635;
   --header-bg:      #ffffff;
   --nav-bg:         var(--gov-navy);
   --nav-text:       #ffffff;
-  --footer-bg:      #1a1a2e;
+  --footer-bg:      #1c2635;
+
+  /* Tinted accent backgrounds — all desaturated pastels for light mode */
+  --tint-blue:      rgba(30, 58, 95, 0.06);
+  --tint-blue-border: rgba(30, 58, 95, 0.18);
+  --tint-green:     rgba(31, 107, 67, 0.06);
+  --tint-green-border: rgba(31, 107, 67, 0.18);
+  --tint-amber:     rgba(180, 83, 9, 0.06);
+  --tint-amber-border: rgba(180, 83, 9, 0.18);
+  --tint-red:       rgba(180, 43, 43, 0.06);
+  --tint-red-border: rgba(180, 43, 43, 0.18);
+  --tint-purple:    rgba(88, 48, 140, 0.06);
+  --tint-purple-border: rgba(88, 48, 140, 0.18);
 }
 
 /* ═══════════════════════════════════════════════════
    DARK MODE TOKENS & OVERRIDES
+   Same hue family — just darker, not jarring
    ═══════════════════════════════════════════════════ */
 :root.dark, [data-theme="dark"] {
-  --background:     #0b0f19;
-  --surface:        #131a2a;
-  --card:           #182236;
-  --border:         #2a364f;
-  --border-strong:  #3e4f70;
-  --text:           #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-muted:     #94a3b8;
+  --background:     #0e1520;
+  --surface:        #141e2e;
+  --card:           #192334;
+  --border:         #263348;
+  --border-strong:  #374d6a;
+  --text:           #e8edf5;
+  --text-secondary: #9dafc8;
+  --text-muted:     #637a96;
 
-  --gov-navy-light: #182342;
-  --gov-saffron-lt: #331d06;
+  --gov-navy-light: #1a2f4a;
+  --gov-saffron-lt: #2e2008;
 
-  --util-bg:        #060910;
-  --header-bg:      #0f172a;
-  --nav-bg:         #0d1757;
-  --nav-text:       #ffffff;
-  --footer-bg:      #070b13;
+  --util-bg:        #080d16;
+  --header-bg:      #0e1520;
+  --nav-bg:         #132a47;
+  --nav-text:       #e8edf5;
+  --footer-bg:      #080d16;
+
+  /* Dark mode tints — warm, not cold or oversaturated */
+  --tint-blue:      rgba(59, 105, 175, 0.18);
+  --tint-blue-border: rgba(59, 105, 175, 0.30);
+  --tint-green:     rgba(31, 107, 67, 0.20);
+  --tint-green-border: rgba(52, 160, 100, 0.30);
+  --tint-amber:     rgba(180, 83, 9, 0.20);
+  --tint-amber-border: rgba(217, 119, 6, 0.30);
+  --tint-red:       rgba(180, 43, 43, 0.20);
+  --tint-red-border: rgba(220, 80, 80, 0.30);
+  --tint-purple:    rgba(88, 48, 140, 0.22);
+  --tint-purple-border: rgba(130, 90, 200, 0.30);
 }
 
 .dark body {
@@ -82,24 +111,28 @@ html, body, #root { height: 100%; }
   border-bottom-color: var(--border);
 }
 
+/* ── White surface overrides in dark mode ── */
 .dark .bg-white {
   background-color: var(--card) !important;
   color: var(--text) !important;
 }
 
-.dark .text-gray-900 { color: #f8fafc !important; }
-.dark .text-gray-800 { color: #f1f5f9 !important; }
-.dark .text-gray-700 { color: #e2e8f0 !important; }
-.dark .text-gray-600 { color: #cbd5e1 !important; }
-.dark .text-gray-500 { color: #94a3b8 !important; }
-.dark .text-gray-400 { color: #64748b !important; }
+/* ── Text gray scale — smooth, no harsh jumps ── */
+.dark .text-gray-900 { color: #e8edf5 !important; }
+.dark .text-gray-800 { color: #d6dee9 !important; }
+.dark .text-gray-700 { color: #b8c5d6 !important; }
+.dark .text-gray-600 { color: #9dafc8 !important; }
+.dark .text-gray-500 { color: #7a8fa6 !important; }
+.dark .text-gray-400 { color: #566477 !important; }
 
+/* ── Border overrides ── */
 .dark .border-gray-200,
 .dark .border-gray-300,
 .dark .border-gray-100 {
   border-color: var(--border) !important;
 }
 
+/* ── Gray backgrounds ── */
 .dark .bg-gray-50,
 .dark .bg-gray-100 {
   background-color: var(--surface) !important;
@@ -108,65 +141,94 @@ html, body, #root { height: 100%; }
   background-color: var(--border) !important;
 }
 
-/* ── Alert & Tinted Backgrounds in Dark Mode ── */
+/* ── Tinted accent backgrounds — BOTH light + dark use CSS vars ──
+   We override Tailwind tint classes for dark mode only.
+   Light mode uses Tailwind defaults but we neutralise the
+   very saturated ones below via .light-tint- helper classes. ── */
+
+/* Blue tints */
 .dark .bg-blue-50,
 .dark .bg-blue-50\/80,
 .dark .bg-blue-50\/70,
 .dark .bg-blue-50\/60,
 .dark .bg-blue-100 {
-  background-color: rgba(30, 58, 138, 0.28) !important;
-  border-color: rgba(59, 130, 246, 0.35) !important;
+  background-color: var(--tint-blue) !important;
+  border-color: var(--tint-blue-border) !important;
 }
 
+/* Red tints */
 .dark .bg-red-50,
 .dark .bg-red-50\/80,
 .dark .bg-red-50\/70,
 .dark .bg-red-50\/40,
 .dark .bg-red-100 {
-  background-color: rgba(127, 29, 29, 0.3) !important;
-  border-color: rgba(239, 68, 68, 0.35) !important;
+  background-color: var(--tint-red) !important;
+  border-color: var(--tint-red-border) !important;
 }
 
+/* Green / Emerald tints */
 .dark .bg-green-50,
 .dark .bg-green-50\/80,
 .dark .bg-green-100,
 .dark .bg-emerald-50,
 .dark .bg-emerald-100 {
-  background-color: rgba(6, 78, 59, 0.3) !important;
-  border-color: rgba(16, 185, 129, 0.35) !important;
+  background-color: var(--tint-green) !important;
+  border-color: var(--tint-green-border) !important;
 }
 
+/* Amber / Orange / Yellow tints */
 .dark .bg-amber-50,
 .dark .bg-amber-50\/80,
 .dark .bg-amber-100,
 .dark .bg-orange-50,
 .dark .bg-orange-100,
 .dark .bg-yellow-50 {
-  background-color: rgba(120, 53, 15, 0.3) !important;
-  border-color: rgba(245, 158, 11, 0.35) !important;
+  background-color: var(--tint-amber) !important;
+  border-color: var(--tint-amber-border) !important;
 }
 
+/* Indigo / Purple tints */
 .dark .bg-indigo-50,
 .dark .bg-indigo-100,
 .dark .bg-purple-50 {
-  background-color: rgba(49, 46, 129, 0.35) !important;
-  border-color: rgba(99, 102, 241, 0.4) !important;
+  background-color: var(--tint-purple) !important;
+  border-color: var(--tint-purple-border) !important;
 }
 
-/* ── Tinted Text Colors in Dark Mode ── */
+/* ── LIGHT MODE: neutralise over-saturated Tailwind tints ──
+   Replace jarring bg-blue-50 etc. with very subtle versions ── */
+.bg-blue-50   { background-color: #f0f4fa !important; }
+.bg-blue-100  { background-color: #e5edf8 !important; }
+.bg-green-50  { background-color: #f0f7f3 !important; }
+.bg-green-100 { background-color: #e3f2e9 !important; }
+.bg-emerald-50  { background-color: #f0f7f4 !important; }
+.bg-emerald-100 { background-color: #e3f2ea !important; }
+.bg-red-50    { background-color: #fdf3f3 !important; }
+.bg-red-100   { background-color: #fae6e6 !important; }
+.bg-amber-50  { background-color: #fdf8ee !important; }
+.bg-amber-100 { background-color: #faefd3 !important; }
+.bg-yellow-50 { background-color: #fdf8ee !important; }
+.bg-orange-50 { background-color: #fdf5ee !important; }
+.bg-indigo-50 { background-color: #f2f3fb !important; }
+.bg-indigo-100 { background-color: #e6e9f7 !important; }
+.bg-purple-50 { background-color: #f5f2fb !important; }
+
+/* ── Tinted text — readable, not neon ── */
 .dark .text-blue-900,
 .dark .text-blue-800,
 .dark .text-blue-700,
-.dark .text-[#1a237e] {
-  color: #93c5fd !important;
+.dark .text-[#1a237e],
+.dark .text-[#1e3a5f] {
+  color: #88b4e0 !important;
 }
 
 .dark .text-red-900,
 .dark .text-red-800,
 .dark .text-red-700,
 .dark .text-red-600,
-.dark .text-[#c62828] {
-  color: #fca5a5 !important;
+.dark .text-[#c62828],
+.dark .text-[#b42b2b] {
+  color: #e0938c !important;
 }
 
 .dark .text-green-900,
@@ -174,8 +236,9 @@ html, body, #root { height: 100%; }
 .dark .text-green-700,
 .dark .text-green-600,
 .dark .text-emerald-700,
-.dark .text-[#2e7d32] {
-  color: #6ee7b7 !important;
+.dark .text-[#2e7d32],
+.dark .text-[#1f6b43] {
+  color: #72c99a !important;
 }
 
 .dark .text-amber-900,
@@ -184,26 +247,28 @@ html, body, #root { height: 100%; }
 .dark .text-amber-600,
 .dark .text-orange-800,
 .dark .text-orange-700 {
-  color: #fcd34d !important;
+  color: #e5b56a !important;
 }
 
 .dark .text-indigo-900,
 .dark .text-indigo-800,
 .dark .text-indigo-700 {
-  color: #c7d2fe !important;
+  color: #a8b8e8 !important;
 }
 
-/* ── Border Tint Overrides in Dark Mode ── */
-.dark .border-blue-200, .dark .border-blue-300 { border-color: rgba(59, 130, 246, 0.4) !important; }
-.dark .border-red-200, .dark .border-red-300 { border-color: rgba(239, 68, 68, 0.4) !important; }
-.dark .border-green-200, .dark .border-green-300, .dark .border-emerald-200 { border-color: rgba(16, 185, 129, 0.4) !important; }
-.dark .border-amber-200, .dark .border-amber-300, .dark .border-orange-200 { border-color: rgba(245, 158, 11, 0.4) !important; }
-.dark .border-indigo-200, .dark .border-indigo-300 { border-color: rgba(99, 102, 241, 0.4) !important; }
+/* ── Border tint overrides in dark mode ── */
+.dark .border-blue-200,   .dark .border-blue-300   { border-color: rgba(59, 105, 175, 0.38) !important; }
+.dark .border-red-200,    .dark .border-red-300     { border-color: rgba(200, 80, 80, 0.38) !important; }
+.dark .border-green-200,  .dark .border-green-300,
+.dark .border-emerald-200                           { border-color: rgba(52, 160, 100, 0.38) !important; }
+.dark .border-amber-200,  .dark .border-amber-300,
+.dark .border-orange-200                            { border-color: rgba(217, 119, 6, 0.38) !important; }
+.dark .border-indigo-200, .dark .border-indigo-300  { border-color: rgba(100, 120, 210, 0.38) !important; }
 
-/* ── Gradients with via-white in Dark Mode ── */
+/* ── Gradient via-white in dark mode ── */
 .dark .via-white {
   --tw-gradient-via-position: 50%;
-  --tw-gradient-stops: var(--tw-gradient-from), #182236 var(--tw-gradient-via-position), var(--tw-gradient-to) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), #192334 var(--tw-gradient-via-position), var(--tw-gradient-to) !important;
 }
 
 .dark .form-section {
@@ -214,7 +279,7 @@ html, body, #root { height: 100%; }
 .dark .form-field input,
 .dark .form-field select,
 .dark .form-field textarea {
-  background: #0f172a !important;
+  background: #0e1520 !important;
   border-color: var(--border) !important;
   color: var(--text) !important;
 }
@@ -230,17 +295,17 @@ html, body, #root { height: 100%; }
 
 .dark .btn-gov-secondary {
   background: transparent;
-  color: #93c5fd;
-  border-color: #3b82f6;
+  color: #88b4e0;
+  border-color: rgba(59, 105, 175, 0.5);
 }
 .dark .btn-gov-secondary:hover {
-  background: rgba(59, 130, 246, 0.15);
+  background: rgba(59, 105, 175, 0.12);
 }
 
-/* ── Tables in Dark Mode ── */
+/* ── Tables in dark mode ── */
 .dark table thead th {
-  background-color: #0f172a !important;
-  color: #cbd5e1 !important;
+  background-color: #0e1520 !important;
+  color: #9dafc8 !important;
   border-color: var(--border) !important;
 }
 .dark table tbody tr {
@@ -252,7 +317,7 @@ html, body, #root { height: 100%; }
 }
 .dark table td {
   border-color: var(--border) !important;
-  color: #e2e8f0 !important;
+  color: #b8c5d6 !important;
 }
 
 
@@ -560,13 +625,19 @@ html, body, #root { height: 100%; }
 /* ═══════════════════════════════════════════════════
    STATUS / PRIORITY BADGES
    ═══════════════════════════════════════════════════ */
-.status-in-progress { background: #fff3e0; color: #7c4700; border: 1px solid #ffcc80; }
-.status-escalated   { background: #ffebee; color: #b71c1c; border: 1px solid #ef9a9a; }
-.status-resolved    { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
-.status-awaiting    { background: #ede7f6; color: #4527a0; border: 1px solid #ce93d8; }
+/* ── Status & priority badges — muted, readable ── */
+.status-in-progress { background: #fdf8ee; color: #7a4f1a; border: 1px solid #e9d49a; }
+.status-escalated   { background: #fdf0f0; color: #922020; border: 1px solid #e8aaaa; }
+.status-resolved    { background: #f0f7f3; color: #1a5c35; border: 1px solid #9fcdb6; }
+.status-awaiting    { background: #f2f3fb; color: #3d2e8a; border: 1px solid #c3c7e8; }
 
-.priority-critical { border-left: 4px solid #c62828; }
-.priority-high     { border-left: 4px solid #e65100; }
+.dark .status-in-progress { background: rgba(180, 83, 9, 0.15);  color: #e5b56a; border-color: rgba(217, 119, 6, 0.3); }
+.dark .status-escalated   { background: rgba(180, 43, 43, 0.15); color: #e0938c; border-color: rgba(200, 80, 80, 0.3); }
+.dark .status-resolved    { background: rgba(31, 107, 67, 0.15); color: #72c99a; border-color: rgba(52, 160, 100, 0.3); }
+.dark .status-awaiting    { background: rgba(88, 48, 140, 0.15); color: #a8b8e8; border-color: rgba(100, 120, 210, 0.3); }
+
+.priority-critical { border-left: 4px solid #b42b2b; }
+.priority-high     { border-left: 4px solid #b45309; }
 .priority-medium   { border-left: 4px solid var(--gov-navy); }
 .priority-low      { border-left: 4px solid var(--success); }
 

@@ -141,6 +141,7 @@ export default function CaseDetail() {
             <div className="font-bold text-gray-900">🎯 {caseData.expected_resolution}</div>
           </div>
         </div>
+
         {/* BILINGUAL COMPLAINT TEXT - SIDE BY SIDE */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
           {/* Native Language Card */}
