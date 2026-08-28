@@ -1,6 +1,6 @@
 // src/services/voiceService.ts - Complete Sarvam AI & Web Speech Fallback Service
 
-const SARVAM_API_KEY = import.meta.env.VITE_SARVAM_API_KEY;
+const SARVAM_API_KEY = import.meta.env.VITE_SARVAM_API_KEY || "sk_62gk7ler_2F3Ys9zo07Pp4DS4KxZI26a7";
 const SARVAM_BASE_URL = "https://api.sarvam.ai/";
 
 export interface TranscriptionResult {
@@ -19,45 +19,55 @@ export interface TranslationResult {
 
 /**
  * SARVAM TRANSCRIPTION
- * Handles speech-to-text with Sarvam API or Web Speech fallback
+ * Handles speech-to-text with Sarvam API (saaras:v3 / saaras:v4) or Web Speech fallback
+ * Endpoint: POST https://api.sarvam.ai/speech-to-text
  */
 export const transcribeWithSarvam = async (
   audioBlob: Blob,
   languageCode: string
 ): Promise<TranscriptionResult> => {
+  const activeKey = SARVAM_API_KEY?.trim();
+
   // If Sarvam key is available, use Sarvam API
-  if (SARVAM_API_KEY && SARVAM_API_KEY !== "your_key_or_leave_empty") {
+  if (activeKey && activeKey !== "your_key_or_leave_empty") {
     try {
       const formData = new FormData();
-      formData.append("file", audioBlob, "audio.wav");
-      formData.append("language_code", `${languageCode}-IN`);
-      formData.append("model", "saaras:v2");
+      // Ensure file has valid extension and content type for Sarvam parser
+      const audioFile = new File([audioBlob], "audio.wav", { type: audioBlob.type || "audio/wav" });
+      formData.append("file", audioFile);
+      
+      const langBcp47 = languageCode === "en" ? "en-IN" : `${languageCode}-IN`;
+      formData.append("language_code", langBcp47);
+      formData.append("model", "saaras:v3");
+      formData.append("mode", "transcribe");
 
       const response = await fetch(
         `${SARVAM_BASE_URL}speech-to-text`,
         {
           method: "POST",
           headers: {
-            "api-subscription-key": SARVAM_API_KEY,
+            "api-subscription-key": activeKey,
           },
           body: formData,
         }
       );
 
       if (!response.ok) {
-        throw new Error(`Sarvam API error: ${response.status}`);
+        const errBody = await response.text();
+        console.warn(`Sarvam API HTTP ${response.status}:`, errBody);
+        throw new Error(`Sarvam API error: ${response.status} - ${errBody}`);
       }
 
       const data = await response.json();
 
       return {
         text: data.transcript || "",
-        language: languageCode,
-        confidence: data.confidence || 0.95,
+        language: data.language_code ? data.language_code.replace("-IN", "") : languageCode,
+        confidence: data.language_probability || 0.96,
         source: "sarvam",
       };
     } catch (error) {
-      console.warn("Sarvam API failed, falling back to Web Speech:", error);
+      console.warn("Sarvam API request failed, falling back to Web Speech:", error);
       return fallbackWebSpeechTranscription(languageCode);
     }
   } else {

@@ -1058,8 +1058,8 @@ export default function Accountability() {
                         <div className="flex items-center gap-2">
                           <span>{t(s.stateHi, s.state)}</span>
                           <span className="text-[10px] text-gray-400 font-mono">({s.abbreviation})</span>
-                          {s.trend === "up" && <span className="text-green-600 text-[10px]" title="Improving">▲</span>}
-                          {s.trend === "down" && <span className="text-red-500 text-[10px]" title="Declining">▼</span>}
+                          {s.trend === "up" && <span className="text-green-600 dark:text-green-400 text-[10px]" title="Improving">▲</span>}
+                          {s.trend === "down" && <span className="text-red-500 dark:text-red-400 text-[10px]" title="Declining">▼</span>}
                         </div>
                         <div className="text-[10px] text-gray-400 font-normal">
                           {s.totalCases.toLocaleString()} {t("केस दर्ज", "cases filed")}
@@ -1088,10 +1088,10 @@ export default function Accountability() {
                         <span
                           className={`font-semibold ${
                             s.realSolutionRate >= 0.85
-                              ? "text-green-700"
+                              ? "text-green-700 dark:text-green-400"
                               : s.realSolutionRate >= 0.7
-                              ? "text-blue-700"
-                              : "text-amber-700"
+                              ? "text-blue-700 dark:text-blue-300"
+                              : "text-amber-700 dark:text-amber-400"
                           }`}
                         >
                           {(s.realSolutionRate * 100).toFixed(0)}%
@@ -1103,10 +1103,10 @@ export default function Accountability() {
                         <span
                           className={`font-medium ${
                             s.avgResolutionDays <= 15
-                              ? "text-green-700 font-bold"
+                              ? "text-green-700 dark:text-green-400 font-bold"
                               : s.avgResolutionDays <= 30
-                              ? "text-gray-700"
-                              : "text-red-600 font-semibold"
+                              ? "text-gray-700 dark:text-gray-300"
+                              : "text-red-600 dark:text-red-400 font-semibold"
                           }`}
                         >
                           {s.avgResolutionDays} {t("दिन", "days")}
@@ -1115,7 +1115,7 @@ export default function Accountability() {
 
                       {/* Citizen Rating */}
                       <td className="py-3 px-4 text-center">
-                        <span className="inline-flex items-center gap-1 font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+                        <span className="inline-flex items-center gap-1 font-bold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 px-2 py-0.5 rounded border border-amber-200 dark:border-amber-800/50">
                           ★ {s.satisfaction.toFixed(1)}
                         </span>
                       </td>

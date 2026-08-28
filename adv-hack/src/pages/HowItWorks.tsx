@@ -260,7 +260,7 @@ export default function HowItWorks() {
           <div className="p-5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#111827] font-mono text-xs text-gray-800 dark:text-gray-200 leading-relaxed overflow-x-auto mb-6">
             <div className="text-indigo-600 dark:text-indigo-400 font-bold mb-2">⚡ VOICE-TO-ROUTED-COMPLAINT FLOW:</div>
             <div>Citizen speaks (Hindi / Tamil / Telugu / etc.)</div>
-            <div>└── 🎤 MediaRecorder (audio/wav) → Sarvam AI Speech-to-Text (`saaras:v2`)</div>
+            <div>└── 🎤 MediaRecorder (audio/wav) → Sarvam AI Speech-to-Text (`saaras:v3`)</div>
             <div>    └── 📝 Native Transcript: &quot;मेरी पेंशन 3 महीने से नहीं आई है...&quot;</div>
             <div>        └── 🌐 Sarvam AI Translate (`mayura:v1`) → English: &quot;My pension hasn&apos;t arrived for 3 months...&quot;</div>
             <div>            └── 🧠 LLM Classifier (GPT-4 / Sonnet) → Ministry: EPFO, Confidence: 96%</div>

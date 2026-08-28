@@ -444,8 +444,8 @@ export default function Landing() {
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t("पुराना बनाम नया — AI का प्रभाव", "Old vs New — The AI difference")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/60 rounded p-5">
-              <div className="flex items-center gap-2 font-bold text-red-700 dark:text-red-300 mb-4 text-sm uppercase tracking-wide">
+            <div className="bg-red-50 dark:bg-[#1e1214] border border-red-200 dark:border-red-900/50 rounded p-5">
+              <div className="flex items-center gap-2 font-bold text-red-700 dark:text-red-400 mb-4 text-sm uppercase tracking-wide">
                 ❌ {t("पुरानी प्रणाली", "Old System")}
               </div>
               <ol className="space-y-2.5">
@@ -456,19 +456,19 @@ export default function Landing() {
                   t("विभाग 3 को उछाल दिया गया", "Bounced to Department 3"),
                   t("3 महीने बाद बिना समाधान छोड़ दिया", "Abandoned after 3 months"),
                 ].map((step, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-red-800 dark:text-red-200">
-                    <span className="w-5 h-5 rounded-full bg-red-200 dark:bg-red-900/70 text-red-700 dark:text-red-200 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i + 1}</span>
+                  <li key={i} className="flex items-start gap-2 text-sm text-red-800 dark:text-red-300">
+                    <span className="w-5 h-5 rounded-full bg-red-200 dark:bg-red-900/50 text-red-700 dark:text-red-300 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i + 1}</span>
                     {step}
                   </li>
                 ))}
               </ol>
-              <div className="mt-4 text-xs text-red-600 dark:text-red-400 font-semibold pt-3 border-t border-red-200 dark:border-red-800/50">
+              <div className="mt-4 text-xs text-red-600 dark:text-red-400 font-semibold pt-3 border-t border-red-200 dark:border-red-900/40">
                 ⏱️ {t("औसत: 15 मिनट भरने + 3+ महीने इंतजार", "Avg: 15 min to fill + 3+ months wait")}
               </div>
             </div>
 
-            <div className="bg-green-50 dark:bg-emerald-950/40 border border-green-200 dark:border-emerald-800/60 rounded p-5">
-              <div className="flex items-center gap-2 font-bold text-green-700 dark:text-emerald-300 mb-4 text-sm uppercase tracking-wide">
+            <div className="bg-green-50 dark:bg-[#0f1a14] border border-green-200 dark:border-green-900/50 rounded p-5">
+              <div className="flex items-center gap-2 font-bold text-green-700 dark:text-green-400 mb-4 text-sm uppercase tracking-wide">
                 ✅ {t("नया AI सिस्टम", "New AI System")}
               </div>
               <ol className="space-y-2.5">
@@ -479,13 +479,13 @@ export default function Landing() {
                   t("पहली बार में समाधान", "Gets resolved on first attempt"),
                   t("हफ्तों में समाधान — पारदर्शी ट्रैकिंग", "Resolved in weeks — transparent tracking"),
                 ].map((step, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-green-800 dark:text-emerald-200">
-                    <span className="w-5 h-5 rounded-full bg-green-200 dark:bg-emerald-900/70 text-green-700 dark:text-emerald-200 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i + 1}</span>
+                  <li key={i} className="flex items-start gap-2 text-sm text-green-800 dark:text-green-300">
+                    <span className="w-5 h-5 rounded-full bg-green-200 dark:bg-green-900/50 text-green-700 dark:text-green-300 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i + 1}</span>
                     {step}
                   </li>
                 ))}
               </ol>
-              <div className="mt-4 text-xs text-green-600 dark:text-emerald-400 font-semibold pt-3 border-t border-green-200 dark:border-emerald-800/50">
+              <div className="mt-4 text-xs text-green-600 dark:text-green-400 font-semibold pt-3 border-t border-green-200 dark:border-green-900/40">
                 ⚡ {t("औसत: 3-5 मिनट भरना + 18 दिन समाधान", "Avg: 3-5 min to file + 18-day resolution")}
               </div>
             </div>

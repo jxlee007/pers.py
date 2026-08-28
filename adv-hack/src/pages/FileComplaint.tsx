@@ -213,6 +213,13 @@ export default function FileComplaint() {
         await new Promise<void>((resolve) => {
           if (!mediaRecorderRef.current) return resolve();
           mediaRecorderRef.current.onstop = async () => {
+            try {
+              if (mediaRecorderRef.current?.stream) {
+                mediaRecorderRef.current.stream.getTracks().forEach((track) => track.stop());
+              }
+            } catch {
+              // ignore
+            }
             const audioBlob = new Blob(audioChunksRef.current, { type: "audio/wav" });
             const result = await transcribeWithSarvam(audioBlob, selectedVoiceLang);
             transcribedText = result.text;
