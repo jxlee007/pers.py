@@ -317,6 +317,31 @@ export const testComplaints = [
 // ACCOUNTABILITY ENGINE DATA
 // ═══════════════════════════════════════════════════
 
+export interface EscalationHistoryItem {
+  id: string;
+  caseId: string;
+  year: string;
+  date: string;
+  reason: string;
+  reasonHi: string;
+  escalatedTo: string;
+  resolution: string;
+  resolutionHi: string;
+  outcome: "resolved" | "active" | "under_review";
+  durationDays?: number;
+  impact?: string;
+  impactHi?: string;
+}
+
+export interface OfficerEscalationMetrics {
+  escalationsTotal: number;
+  escalationsResolved: number;
+  escalationRate: number;
+  currentEscalations: number;
+  redFlag: boolean;
+  riskLevel: "low" | "medium" | "high";
+}
+
 export interface OfficerProfile {
   id: string;
   name: string;
@@ -342,6 +367,8 @@ export interface OfficerProfile {
     feedbackCount: number;
     performanceTrend: "improving" | "stable" | "declining";
   };
+  escalationMetrics: OfficerEscalationMetrics;
+  escalationHistory: EscalationHistoryItem[];
   feedback: {
     caseId: string;
     rating: number;
@@ -373,6 +400,31 @@ export const officerProfiles: OfficerProfile[] = [
       appealRate: 0.012, avgResolutionDays: 6, mandatedDays: 21,
       avgRating: 4.9, feedbackCount: 87, performanceTrend: "improving",
     },
+    escalationMetrics: {
+      escalationsTotal: 1,
+      escalationsResolved: 1,
+      escalationRate: 0.4,
+      currentEscalations: 0,
+      redFlag: false,
+      riskLevel: "low",
+    },
+    escalationHistory: [
+      {
+        id: "ESC_001",
+        caseId: "CPG_20260720_045",
+        year: "2026",
+        date: "2026-07-22",
+        reason: "Citizen reported unfixed case: pension arrear documentation given without payment dispatch",
+        reasonHi: "नागरिक ने बिना भुगतान के केवल दस्तावेज़ देने की शिकायत की",
+        escalatedTo: "Nodal Public Grievance Officer (EPFO Maharashtra)",
+        resolution: "Officer clarified record mismatch and expedited arrear disbursement within 48h",
+        resolutionHi: "अधिकारी ने रिकॉर्ड सुधारकर 48 घंटे में बकाया राशि जारी कराई",
+        outcome: "resolved",
+        durationDays: 2,
+        impact: "Case closed satisfactorily. Officer now ensures payment confirmation before closing.",
+        impactHi: "संतोषजनक समाधान। अधिकारी अब भुगतान पुष्टि के बाद ही केस बंद करते हैं।",
+      },
+    ],
     feedback: [
       { caseId: "CPG_20260615_087", rating: 5, text: "Very quick work, problem solved in 5 days!", textHi: "बहुत तेजी से काम किया, 5 दिन में समस्या हल!", citizen: "Ramesh K.", city: "Indore", verified: true },
       { caseId: "CPG_20260620_091", rating: 5, text: "Problem was properly solved. Pension credited.", textHi: "समस्या सही तरीके से हल हुई। पेंशन जमा हो गई।", citizen: "Priya S.", city: "Mumbai", verified: true },
@@ -398,6 +450,46 @@ export const officerProfiles: OfficerProfile[] = [
       appealRate: 0.02, avgResolutionDays: 8, mandatedDays: 21,
       avgRating: 4.7, feedbackCount: 63, performanceTrend: "stable",
     },
+    escalationMetrics: {
+      escalationsTotal: 2,
+      escalationsResolved: 1,
+      escalationRate: 1.1,
+      currentEscalations: 1,
+      redFlag: true,
+      riskLevel: "medium",
+    },
+    escalationHistory: [
+      {
+        id: "ESC_002",
+        caseId: "CPG_20260810_067",
+        year: "2026",
+        date: "2026-08-12",
+        reason: "Still pending after resolution: DL card marked approved on portal but physical card never dispatched",
+        reasonHi: "पोर्टल पर ड्राइविंग लाइसेंस 'स्वीकृत' दिखा रहा है लेकिन कार्ड कभी नहीं भेजा गया",
+        escalatedTo: "Nodal Authority for Appeal (MoRTH)",
+        resolution: "Pending appellate review under 30-day statutory mandate",
+        resolutionHi: "30-दिवसीय वैधानिक अधिदेश के तहत अपीलीय समीक्षाधीन",
+        outcome: "active",
+        durationDays: 14,
+        impact: "Appeal filed by citizen; Appellate Authority auditing front-line postal tracking failure",
+        impactHi: "नागरिक द्वारा अपील दायर; अपीलीय प्राधिकरण डाक ट्रैकिंग विफलता की जांच कर रहा है",
+      },
+      {
+        id: "ESC_006",
+        caseId: "CPG_20251104_011",
+        year: "2025",
+        date: "2025-11-06",
+        reason: "Vehicle NOC delayed beyond 21-day timeline",
+        reasonHi: "वाहन एनओसी में 21 दिन से अधिक विलंब",
+        escalatedTo: "State Nodal Public Grievance Officer (Transport)",
+        resolution: "Supervisory directive issued; NOC issued within 24 hours",
+        resolutionHi: "पर्यवेक्षी निर्देश जारी; 24 घंटे में एनओसी जारी",
+        outcome: "resolved",
+        durationDays: 1,
+        impact: "Clarified documentation protocol with regional desks",
+        impactHi: "क्षेत्रीय डेस्क के साथ दस्तावेज़ीकरण प्रोटोकॉल स्पष्ट किया गया",
+      },
+    ],
     feedback: [
       { caseId: "CPG_20260510_033", rating: 5, text: "DL issued faster than expected. Great officer!", textHi: "DL उम्मीद से जल्दी जारी हुई। बेहतरीन अधिकारी!", citizen: "Suresh M.", city: "Pune", verified: true },
       { caseId: "CPG_20260520_041", rating: 4, text: "Took a bit longer but resolved correctly.", textHi: "थोड़ा समय लगा लेकिन सही तरीके से हल हुआ।", citizen: "Kavita R.", city: "Nashik", verified: true },
@@ -422,6 +514,31 @@ export const officerProfiles: OfficerProfile[] = [
       appealRate: 0.038, avgResolutionDays: 11, mandatedDays: 30,
       avgRating: 4.4, feedbackCount: 104, performanceTrend: "improving",
     },
+    escalationMetrics: {
+      escalationsTotal: 3,
+      escalationsResolved: 3,
+      escalationRate: 1.0,
+      currentEscalations: 0,
+      redFlag: false,
+      riskLevel: "low",
+    },
+    escalationHistory: [
+      {
+        id: "ESC_005",
+        caseId: "CPG_20260712_018",
+        year: "2026",
+        date: "2026-07-14",
+        reason: "Refund computation summary missing statutory interest calculation under section 244A",
+        reasonHi: "धारा 244A के तहत वैधानिक ब्याज गणना को छोड़ दिया गया था",
+        escalatedTo: "Nodal PG Officer (CBDT Hyderabad)",
+        resolution: "Recalculated with interest and credited directly to verified bank account",
+        resolutionHi: "ब्याज सहित पुनर्गणना कर सीधे बैंक खाते में जमा किया गया",
+        outcome: "resolved",
+        durationDays: 3,
+        impact: "Zero loss to taxpayer verified by supervisory audit",
+        impactHi: "पर्यवेक्षी ऑडिट द्वारा करदाता के शून्य नुकसान की पुष्टि",
+      },
+    ],
     feedback: [
       { caseId: "CPG_20260412_019", rating: 5, text: "Refund processed after 2 years — finally resolved!", textHi: "2 साल बाद रिफंड मिला — आखिरकार हल हुआ!", citizen: "Venkat R.", city: "Hyderabad", verified: true },
       { caseId: "CPG_20260505_027", rating: 4, text: "Good resolution but could have been faster.", textHi: "अच्छा समाधान लेकिन और तेज हो सकता था।", citizen: "Lakshmi P.", city: "Warangal", verified: true },
@@ -446,6 +563,31 @@ export const officerProfiles: OfficerProfile[] = [
       appealRate: 0.025, avgResolutionDays: 14, mandatedDays: 21,
       avgRating: 4.5, feedbackCount: 71, performanceTrend: "stable",
     },
+    escalationMetrics: {
+      escalationsTotal: 1,
+      escalationsResolved: 1,
+      escalationRate: 0.6,
+      currentEscalations: 0,
+      redFlag: false,
+      riskLevel: "low",
+    },
+    escalationHistory: [
+      {
+        id: "ESC_007",
+        caseId: "CPG_20260305_042",
+        year: "2026",
+        date: "2026-03-08",
+        reason: "Biometric capture machine repeatedly failing for elderly citizen",
+        reasonHi: "वरिष्ठ नागरिक के लिए बायोमेट्रिक मशीन बार-बार विफल हो रही थी",
+        escalatedTo: "Nodal Public Grievance Officer (UIDAI HQ)",
+        resolution: "Home enrollment kit dispatched; Aadhaar updated",
+        resolutionHi: "गृह नामांकन किट भेजी गई; आधार अपडेट किया गया",
+        outcome: "resolved",
+        durationDays: 4,
+        impact: "Home service protocol established for senior citizens",
+        impactHi: "वरिष्ठ नागरिकों के लिए गृह सेवा प्रोटोकॉल लागू",
+      },
+    ],
     feedback: [
       { caseId: "CPG_20260601_055", rating: 5, text: "Aadhaar issue fixed quickly, very helpful!", textHi: "आधार समस्या जल्दी ठीक हुई, बहुत मददगार!", citizen: "Rakesh T.", city: "Delhi", verified: true },
       { caseId: "CPG_20260614_068", rating: 4, text: "Good follow-up, resolved within 2 weeks.", textHi: "अच्छा फॉलो-अप, 2 हफ्तों में समाधान।", citizen: "Meena G.", city: "Noida", verified: true },
@@ -470,6 +612,31 @@ export const officerProfiles: OfficerProfile[] = [
       appealRate: 0.018, avgResolutionDays: 9, mandatedDays: 21,
       avgRating: 4.6, feedbackCount: 189, performanceTrend: "improving",
     },
+    escalationMetrics: {
+      escalationsTotal: 2,
+      escalationsResolved: 2,
+      escalationRate: 0.5,
+      currentEscalations: 0,
+      redFlag: false,
+      riskLevel: "low",
+    },
+    escalationHistory: [
+      {
+        id: "ESC_008",
+        caseId: "CPG_20260214_031",
+        year: "2026",
+        date: "2026-02-16",
+        reason: "IRCTC gateway error caused double deduction on Tatkal booking",
+        reasonHi: "तत्काल बुकिंग पर IRCTC गेटवे त्रुटि के कारण दोहरा भुगतान कटा",
+        escalatedTo: "Nodal PG Officer (South Central Railway)",
+        resolution: "Banking reconciler cleared duplicate transaction in 48h",
+        resolutionHi: "बैंकिंग सुलहकर्ता ने 48 घंटे में दोहरा लेनदेन वापस कराया",
+        outcome: "resolved",
+        durationDays: 2,
+        impact: "Citizen confirmed automated SMS credit",
+        impactHi: "नागरिक ने स्वचालित क्रेडिट की पुष्टि की",
+      },
+    ],
     feedback: [
       { caseId: "CPG_20260301_012", rating: 5, text: "Train refund got credited within a week!", textHi: "ट्रेन रिफंड एक हफ्ते में आया!", citizen: "Arun K.", city: "Hyderabad", verified: true },
       { caseId: "CPG_20260315_023", rating: 5, text: "Excellent handling of complex refund case.", textHi: "जटिल रिफंड केस का उत्कृष्ट प्रबंधन।", citizen: "Shalini B.", city: "Secunderabad", verified: true },
@@ -494,6 +661,31 @@ export const officerProfiles: OfficerProfile[] = [
       appealRate: 0.065, avgResolutionDays: 38, mandatedDays: 60,
       avgRating: 3.9, feedbackCount: 42, performanceTrend: "declining",
     },
+    escalationMetrics: {
+      escalationsTotal: 4,
+      escalationsResolved: 3,
+      escalationRate: 4.3,
+      currentEscalations: 1,
+      redFlag: true,
+      riskLevel: "high",
+    },
+    escalationHistory: [
+      {
+        id: "ESC_004",
+        caseId: "CPG_20260805_034",
+        year: "2026",
+        date: "2026-08-07",
+        reason: "Paper-only compliance: road marked repaired on portal but large potholes remain dangerous",
+        reasonHi: "कागजी खानापूर्ति: पोर्टल पर सड़क ठीक दिखाई गई लेकिन गड्ढे अभी भी खतरनाक हैं",
+        escalatedTo: "Nodal Authority for Appeal (Delhi PWD)",
+        resolution: "Site inspection ordered by Nodal Appellate Authority within 30-day mandate",
+        resolutionHi: "30-दिवसीय अधिदेश के तहत नोडल अपीलीय प्राधिकरण द्वारा निरीक्षण का आदेश",
+        outcome: "active",
+        durationDays: 9,
+        impact: "Contractor issued show-cause notice; re-surfacing scheduled under supervisory watch",
+        impactHi: "ठेकेदार को कारण बताओ नोटिस; पर्यवेक्षी निगरानी में पुनः कार्य शुरू",
+      },
+    ],
     feedback: [
       { caseId: "CPG_20260201_008", rating: 4, text: "Road got fixed eventually, took longer than expected.", textHi: "सड़क ठीक हुई आखिरकार, उम्मीद से ज्यादा समय लगा।", citizen: "Kuldeep S.", city: "Delhi", verified: true },
       { caseId: "CPG_20260220_014", rating: 3, text: "Resolution was only partial — pothole still remains.", textHi: "समाधान आंशिक ही रहा — गड्ढा अभी भी है।", citizen: "Neha T.", city: "Gurugram", verified: true },
@@ -518,6 +710,31 @@ export const officerProfiles: OfficerProfile[] = [
       appealRate: 0.07, avgResolutionDays: 24, mandatedDays: 21,
       avgRating: 3.7, feedbackCount: 59, performanceTrend: "stable",
     },
+    escalationMetrics: {
+      escalationsTotal: 6,
+      escalationsResolved: 4,
+      escalationRate: 3.4,
+      currentEscalations: 2,
+      redFlag: true,
+      riskLevel: "high",
+    },
+    escalationHistory: [
+      {
+        id: "ESC_003",
+        caseId: "CPG_20260815_089",
+        year: "2026",
+        date: "2026-08-17",
+        reason: "Recurring issue: same PF claim rejected 3 times with standard automated letter",
+        reasonHi: "पुनरावृत्त समस्या: समान पीएफ दावा बिना स्पष्ट कारण 3 बार खारिज",
+        escalatedTo: "EPFO Ministry Level — Central Nodal PG Officer",
+        resolution: "Supervisory investigation opened for regional bottleneck; case re-assigned",
+        resolutionHi: "क्षेत्रीय अड़चन की पर्यवेक्षी जांच शुरू; मामला पुनः आवंटित",
+        outcome: "active",
+        durationDays: 6,
+        impact: "Officer flagged on Public Accountability Dashboard for administrative review",
+        impactHi: "प्रशासनिक समीक्षा के लिए सार्वजनिक जवाबदेही डैशबोर्ड पर फ्लैग किया गया",
+      },
+    ],
     feedback: [
       { caseId: "CPG_20260410_021", rating: 3, text: "Resolved but had to follow up multiple times.", textHi: "हल हुआ लेकिन कई बार फॉलो-अप करना पड़ा।", citizen: "Shyam L.", city: "Lucknow", verified: true },
       { caseId: "CPG_20260422_029", rating: 4, text: "Eventually got proper resolution after escalation.", textHi: "एस्केलेशन के बाद आखिरकार सही समाधान मिला।", citizen: "Renu M.", city: "Kanpur", verified: true },
@@ -542,6 +759,15 @@ export const officerProfiles: OfficerProfile[] = [
       appealRate: 0.02, avgResolutionDays: 12, mandatedDays: 30,
       avgRating: 4.6, feedbackCount: 93, performanceTrend: "improving",
     },
+    escalationMetrics: {
+      escalationsTotal: 1,
+      escalationsResolved: 1,
+      escalationRate: 0.5,
+      currentEscalations: 0,
+      redFlag: false,
+      riskLevel: "low",
+    },
+    escalationHistory: [],
     feedback: [
       { caseId: "CPG_20260520_044", rating: 5, text: "TDS mismatch resolved in record time!", textHi: "TDS मेल नहीं खाने की समस्या रिकॉर्ड समय में हल!", citizen: "Prasad V.", city: "Hyderabad", verified: true },
     ],
@@ -565,6 +791,15 @@ export const officerProfiles: OfficerProfile[] = [
       appealRate: 0.008, avgResolutionDays: 7, mandatedDays: 21,
       avgRating: 4.8, feedbackCount: 58, performanceTrend: "improving",
     },
+    escalationMetrics: {
+      escalationsTotal: 0,
+      escalationsResolved: 0,
+      escalationRate: 0.0,
+      currentEscalations: 0,
+      redFlag: false,
+      riskLevel: "low",
+    },
+    escalationHistory: [],
     feedback: [
       { caseId: "CPG_20260615_060", rating: 5, text: "Aadhaar corrected in one week, fantastic!", textHi: "आधार एक हफ्ते में सही हुआ, शानदार!", citizen: "Mohammed I.", city: "Mumbai", verified: true },
     ],
@@ -588,6 +823,31 @@ export const officerProfiles: OfficerProfile[] = [
       appealRate: 0.045, avgResolutionDays: 15, mandatedDays: 21,
       avgRating: 4.1, feedbackCount: 34, performanceTrend: "stable",
     },
+    escalationMetrics: {
+      escalationsTotal: 2,
+      escalationsResolved: 2,
+      escalationRate: 2.3,
+      currentEscalations: 0,
+      redFlag: false,
+      riskLevel: "medium",
+    },
+    escalationHistory: [
+      {
+        id: "ESC_009",
+        caseId: "CPG_20260111_029",
+        year: "2026",
+        date: "2026-01-14",
+        reason: "Station amenities complaint marked resolved without water cooler repair",
+        reasonHi: "वॉटर कूलर ठीक किए बिना ही शिकायत बंद की गई",
+        escalatedTo: "Nodal Public Grievance Officer (Divisional Railway)",
+        resolution: "New commercial water cooling plant installed within 5 days",
+        resolutionHi: "5 दिनों में नया वाटर कूलर संयंत्र स्थापित किया गया",
+        outcome: "resolved",
+        durationDays: 5,
+        impact: "Passenger drinking water facility fully restored",
+        impactHi: "यात्री पेयजल सुविधा पूरी तरह बहाल की गई",
+      },
+    ],
     feedback: [
       { caseId: "CPG_20260401_017", rating: 4, text: "Refund received, took slightly longer than expected.", textHi: "रिफंड मिला, उम्मीद से थोड़ा ज्यादा समय लगा।", citizen: "Krishna R.", city: "Vijayawada", verified: true },
     ],
@@ -667,6 +927,284 @@ export const systemHealth = {
   grievancesThisMonth: 142830,
   resolvedThisMonth: 118190,
   lastUpdated: "2026-08-27",
+  // Auto-Escalation & Anti-Paper-Compliance Metrics
+  activeEscalations: 47,
+  stateEscalations: 32,
+  ministryEscalations: 12,
+  appealEscalations: 3,
+  escalationRate: 2.1, // percentage (lower = better frontline officers)
+  escalationsResolvedThisMonth: 134,
+  escalationAvgResolutionDays: 3.2,
+};
+
+// ═══════════════════════════════════════════════════
+// AUTO-ESCALATION ENGINE DATA (BASED ON CPGRAMS STATUTORY RULES)
+// ═══════════════════════════════════════════════════
+
+export interface EscalationRecord {
+  id: string;
+  caseId: string;
+  officerId: string;
+  officerName: string;
+  officerDesignation: string;
+  department: string;
+  ministry: string;
+  state: string;
+  citizenRating: number;
+  feedback: string;
+  feedbackHi: string;
+  escalatedDate: string;
+  escalatedTo: string;
+  escalationLevel: "state" | "ministry" | "appeal";
+  resolution: string;
+  resolutionHi: string;
+  status: "active" | "closed" | "under_review";
+  daysOpen: number;
+  impact: string;
+  impactHi: string;
+  triggerRule: string;
+  triggerRuleHi: string;
+}
+
+export interface EscalationRule {
+  id: string;
+  name: string;
+  nameHi: string;
+  trigger: string;
+  triggerHi: string;
+  action: string;
+  actionHi: string;
+  timeline: string;
+  timelineHi: string;
+  targetRole: string;
+  targetRoleHi: string;
+  legalBasis: string;
+  legalBasisHi: string;
+  slaDays: number;
+}
+
+export const escalationRules: EscalationRule[] = [
+  {
+    id: "RULE_01",
+    name: "Poor Satisfaction Trigger",
+    nameHi: "असंतोषजनक रेटिंग पर स्वतः एस्केलेशन",
+    trigger: "Citizen Rating ≤ 2 Stars (Poor / Very Poor)",
+    triggerHi: "नागरिक रेटिंग ≤ 2 स्टार (खराब / बहुत खराब)",
+    action: "Auto-escalate to State Nodal Public Grievance (PG) Officer & enable portal appeal",
+    actionHi: "राज्य नोडल लोक शिकायत अधिकारी को स्वतः एस्केलेट करें एवं अपीलीय विकल्प सक्रिय करें",
+    timeline: "Within 24 Hours",
+    timelineHi: "24 घंटे के भीतर",
+    targetRole: "State Nodal Public Grievance Officer",
+    targetRoleHi: "राज्य नोडल लोक शिकायत अधिकारी",
+    legalBasis: "CPGRAMS Statutory Rules — Enables formal appeal to Nodal Appellate Authority when citizen registers 'Poor' feedback.",
+    legalBasisHi: "CPGRAMS वैधानिक नियम — शिकायत बंद होने के बाद 'खराब' फीडबैक मिलने पर नोडल अपीलीय प्राधिकरण के समक्ष अपील सक्षम।",
+    slaDays: 1,
+  },
+  {
+    id: "RULE_02",
+    name: "Superficial / Paper Solution Recurring",
+    nameHi: "कागजी खानापूर्ति एवं पुनरावृत्त समस्या",
+    trigger: "Feedback = 'Problem not fixed' OR same issue re-filed ≥ 2x in 30 days",
+    triggerHi: "फीडबैक = 'समस्या हल नहीं हुई' अथवा 30 दिनों में समान समस्या 2 बार दर्ज",
+    action: "Escalate to Central Ministry Nodal PG Officer for systemic root-cause analysis",
+    actionHi: "प्रणालीगत मूल कारण विश्लेषण हेतु केंद्रीय मंत्रालय नोडल पीजी अधिकारी को एस्केलेट करें",
+    timeline: "Within 48 Hours",
+    timelineHi: "48 घंटे के भीतर",
+    targetRole: "Ministry Nodal Public Grievance Officer",
+    targetRoleHi: "मंत्रालय नोडल लोक शिकायत अधिकारी",
+    legalBasis: "Supervisory Oversight Mandate — Nodal PG Officers must audit pendency & examine citizen feedback patterns.",
+    legalBasisHi: "पर्यवेक्षी निगरानी अधिदेश — नोडल अधिकारियों को लंबित मामलों व नागरिक फीडबैक पैटर्न का ऑडिट करना अनिवार्य है।",
+    slaDays: 2,
+  },
+  {
+    id: "RULE_03",
+    name: "Repeat Officer Quality Alert & Red Flag",
+    nameHi: "अधिकारी गुणवत्ता चेतावनी एवं प्रशासनिक समीक्षा",
+    trigger: "> 3 poor ratings in 30 days OR > 5 formal appeals on the same officer",
+    triggerHi: "30 दिनों में > 3 खराब रेटिंग अथवा समान अधिकारी पर > 5 औपचारिक अपीलें",
+    action: "Flag officer on Public Accountability Dashboard for administrative review and case re-routing",
+    actionHi: "सार्वजनिक जवाबदेही डैशबोर्ड पर प्रशासनिक समीक्षा हेतु फ्लैग एवं केस पुनरावंटन",
+    timeline: "Immediate (Real-time)",
+    timelineHi: "तत्काल (रियल-टाइम)",
+    targetRole: "Nodal Appellate Authority & CGA/PMO Audit Cell",
+    targetRoleHi: "नोडल अपीलीय प्राधिकरण एवं CGA/PMO ऑडिट सेल",
+    legalBasis: "Administrative Review & Accountability Directive — Visible public score prevents paper compliance loops.",
+    legalBasisHi: "प्रशासनिक जवाबदेही निर्देश — सार्वजनिक स्कोर कागजी खानापूर्ति पर रोक लगाता है।",
+    slaDays: 30,
+  },
+];
+
+export const escalations: EscalationRecord[] = [
+  {
+    id: "ESC_002",
+    caseId: "CPG_20260810_067",
+    officerId: "priya_sharma_rto",
+    officerName: "Priya Sharma",
+    officerDesignation: "Regional Transport Officer",
+    department: "RTO — Pune",
+    ministry: "MoRTH",
+    state: "Maharashtra",
+    citizenRating: 2,
+    feedback: "DL marked 'Approved' on portal but physical card never dispatched after 3 weeks.",
+    feedbackHi: "पोर्टल पर ड्राइविंग लाइसेंस 'स्वीकृत' दर्ज है लेकिन 3 सप्ताह बाद भी कार्ड डाक द्वारा नहीं भेजा गया।",
+    escalatedDate: "2026-08-12",
+    escalatedTo: "Nodal Authority for Appeal (MoRTH)",
+    escalationLevel: "appeal",
+    resolution: "Pending appellate review under 30-day statutory mandate. Postal dispatch audit initiated.",
+    resolutionHi: "30-दिवसीय वैधानिक अधिदेश के तहत अपीलीय समीक्षाधीन। डाक प्रेषण ऑडिट शुरू।",
+    status: "active",
+    daysOpen: 14,
+    impact: "Appeal actively monitored by Nodal Appellate Authority; frontline tracking failure under scrutiny.",
+    impactHi: "नोडल अपीलीय प्राधिकरण द्वारा निगरानी; फ्रंटलाइन ट्रैकिंग विफलता की जांच जारी।",
+    triggerRule: "Rating ≤ 2 (Poor) → Statutory Appellate Authority Trigger",
+    triggerRuleHi: "रेटिंग ≤ 2 (खराब) → वैधानिक अपीलीय प्राधिकरण ट्रिगर",
+  },
+  {
+    id: "ESC_003",
+    caseId: "CPG_20260815_089",
+    officerId: "mohan_gupta_epfo_up",
+    officerName: "Mohan Gupta",
+    officerDesignation: "Enforcement Officer",
+    department: "Regional Office — Lucknow",
+    ministry: "EPFO",
+    state: "Uttar Pradesh",
+    citizenRating: 1,
+    feedback: "PF transfer rejection was repeated 3 times with standard automated letter without examining ledger.",
+    feedbackHi: "बिना बहीखाते की जांच किए मानक स्वचालित पत्र भेजकर पीएफ दावा 3 बार खारिज किया गया।",
+    escalatedDate: "2026-08-17",
+    escalatedTo: "EPFO Ministry Level — Central Nodal PG Officer",
+    escalationLevel: "ministry",
+    resolution: "Case reassigned to Special Pension Oversight Cell; officer flagged for administrative review.",
+    resolutionHi: "मामला विशेष पेंशन निगरानी सेल को पुनः आवंटित; अधिकारी प्रशासनिक समीक्षाधीन।",
+    status: "active",
+    daysOpen: 6,
+    impact: "Flagged on Public Accountability Dashboard; recurring systemic delay exposed.",
+    impactHi: "सार्वजनिक जवाबदेही डैशबोर्ड पर फ्लैग; आवर्ती प्रणालीगत विलंब उजागर।",
+    triggerRule: "Recurring Issue ≥ 2x + Paper Reply → Ministry Level Oversight",
+    triggerRuleHi: "पुनरावृत्त समस्या ≥ 2 बार + कागजी जवाब → मंत्रालय स्तर पर निगरानी",
+  },
+  {
+    id: "ESC_004",
+    caseId: "CPG_20260805_034",
+    officerId: "deepa_pillai_pwd",
+    officerName: "Deepa Pillai",
+    officerDesignation: "Executive Engineer",
+    department: "Roads & Bridges Division",
+    ministry: "PWD",
+    state: "Delhi",
+    citizenRating: 2,
+    feedback: "Contractor claimed road repaired, but road still broken with deep potholes. Paper compliance only.",
+    feedbackHi: "ठेकेदार ने दावा किया सड़क ठीक हो गई, लेकिन सड़क अभी भी टूटी है। केवल कागजी खानापूर्ति।",
+    escalatedDate: "2026-08-07",
+    escalatedTo: "Nodal Authority for Appeal (Delhi PWD)",
+    escalationLevel: "appeal",
+    resolution: "Physical site inspection ordered by Nodal Appellate Authority; show-cause issued to vendor.",
+    resolutionHi: "नोडल अपीलीय प्राधिकरण द्वारा भौतिक स्थल निरीक्षण का आदेश; वेंडर को कारण बताओ नोटिस जारी।",
+    status: "active",
+    daysOpen: 9,
+    impact: "Re-surfacing scheduled under appellate supervisor watch; 30-day disposal clock ticking.",
+    impactHi: "अपीलीय पर्यवेक्षक की निगरानी में पुनः कार्य निर्धारित; 30-दिवसीय समय सीमा जारी।",
+    triggerRule: "Paper Compliance Detected → Formal Appeal Inspection",
+    triggerRuleHi: "कागजी खानापूर्ति की पहचान → औपचारिक अपील निरीक्षण",
+  },
+  {
+    id: "ESC_001",
+    caseId: "CPG_20260720_045",
+    officerId: "rajesh_kumar_epfo",
+    officerName: "Rajesh Kumar",
+    officerDesignation: "Assistant Commissioner",
+    department: "Claims Processing Division",
+    ministry: "EPFO",
+    state: "Maharashtra",
+    citizenRating: 1,
+    feedback: "Problem not solved, officer just provided departmental guidelines without crediting arrear.",
+    feedbackHi: "समस्या हल नहीं हुई, अधिकारी ने बकाया राशि जमा किए बिना केवल विभागीय नियम थमा दिए।",
+    escalatedDate: "2026-07-22",
+    escalatedTo: "Nodal Public Grievance Officer (EPFO Maharashtra)",
+    escalationLevel: "state",
+    resolution: "Nodal Officer intervened; Officer corrected employer record mismatch and disbursed arrear in 48h.",
+    resolutionHi: "नोडल अधिकारी ने हस्तक्षेप किया; अधिकारी ने रिकॉर्ड त्रुटि सुधारकर 48 घंटे में बकाया राशि जारी कराई।",
+    status: "closed",
+    daysOpen: 2,
+    impact: "Closed satisfactorily with verified citizen confirmation; officer improved closure documentation.",
+    impactHi: "सत्यापित नागरिक पुष्टि के साथ संतोषजनक समाधान; अधिकारी ने क्लोजर प्रक्रिया में सुधार किया।",
+    triggerRule: "Rating ≤ 2 → State Nodal Officer Intervention",
+    triggerRuleHi: "रेटिंग ≤ 2 → राज्य नोडल अधिकारी हस्तक्षेप",
+  },
+  {
+    id: "ESC_005",
+    caseId: "CPG_20260712_018",
+    officerId: "anand_mishra_cbdt",
+    officerName: "Anand Mishra",
+    officerDesignation: "Income Tax Officer",
+    department: "CPC Bangalore",
+    ministry: "CBDT",
+    state: "Telangana",
+    citizenRating: 2,
+    feedback: "Refund computation summary omitted statutory interest calculation under section 244A.",
+    feedbackHi: "धारा 244A के तहत वैधानिक ब्याज गणना को रिफंड सारांश से छोड़ दिया गया था।",
+    escalatedDate: "2026-07-14",
+    escalatedTo: "Nodal PG Officer (CBDT Hyderabad)",
+    escalationLevel: "state",
+    resolution: "Recalculated with full statutory interest and credited directly to verified bank account.",
+    resolutionHi: "वैधानिक ब्याज सहित पुनर्गणना की गई और सीधे सत्यापित बैंक खाते में जमा किया गया।",
+    status: "closed",
+    daysOpen: 3,
+    impact: "Complete taxpayer restitution achieved with zero leakage.",
+    impactHi: "करदाता को पूर्ण ब्याज सहित न्याय प्राप्त हुआ।",
+    triggerRule: "Citizen Rating ≤ 2 → Nodal Supervisory Review",
+    triggerRuleHi: "नागरिक रेटिंग ≤ 2 → नोडल पर्यवेक्षी समीक्षा",
+  },
+];
+
+export const officerEscalationMetrics: Record<string, {
+  escalations_total: number;
+  escalations_resolved: number;
+  escalation_rate: number;
+  current_escalations: number;
+  red_flag: boolean;
+  risk_level: "low" | "medium" | "high";
+}> = {
+  rajesh_kumar_epfo: {
+    escalations_total: 1,
+    escalations_resolved: 1,
+    escalation_rate: 0.4,
+    current_escalations: 0,
+    red_flag: false,
+    risk_level: "low",
+  },
+  priya_sharma_rto: {
+    escalations_total: 2,
+    escalations_resolved: 1,
+    escalation_rate: 1.1,
+    current_escalations: 1,
+    red_flag: true,
+    risk_level: "medium",
+  },
+  anand_mishra_cbdt: {
+    escalations_total: 3,
+    escalations_resolved: 3,
+    escalation_rate: 1.0,
+    current_escalations: 0,
+    red_flag: false,
+    risk_level: "low",
+  },
+  deepa_pillai_pwd: {
+    escalations_total: 4,
+    escalations_resolved: 3,
+    escalation_rate: 4.3,
+    current_escalations: 1,
+    red_flag: true,
+    risk_level: "high",
+  },
+  mohan_gupta_epfo_up: {
+    escalations_total: 6,
+    escalations_resolved: 4,
+    escalation_rate: 3.4,
+    current_escalations: 2,
+    red_flag: true,
+    risk_level: "high",
+  },
 };
 
 // Map case IDs to officer IDs for "My Cases" dashboard
@@ -677,4 +1215,5 @@ export const caseOfficerMap: Record<string, string> = {
   "CPG_20260801_004": "sunita_verma_uidai",
   "CPG_20260725_005": "deepa_pillai_pwd",
 };
+
 

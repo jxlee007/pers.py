@@ -213,6 +213,209 @@ export default function OfficerProfile() {
           </div>
         </div>
 
+        {/* ── ESCALATION STATUS & QUALITY AUDIT ── */}
+        <div className="bg-white border border-gray-200 rounded p-5 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-4 border-b border-gray-100">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-lg">🚨</span>
+                <h2 className="text-sm font-bold text-gray-900 uppercase tracking-wider">
+                  {t("एस्केलेशन स्थिति एवं गुणवत्ता ऑडिट", "Escalation Status & Quality Audit")}
+                </h2>
+                {officer.escalationMetrics.currentEscalations > 0 ? (
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-red-100 text-red-800 border border-red-200 animate-pulse">
+                    ⚠️ {officer.escalationMetrics.currentEscalations} {t("सक्रिय एस्केलेशन", "Active Escalation")}
+                  </span>
+                ) : (
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-green-100 text-green-800 border border-green-200 flex items-center gap-1">
+                    ✓ {t("सक्रिय एस्केलेशन शून्य (स्पष्ट रिकॉर्ड)", "No Active Escalations (Clean Record)")}
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                {t(
+                  "कागजी खानापूर्ति पर रोक: जब नागरिक असंतुष्ट होता है, केस वरिष्ठ नोडल अधिकारियों को स्वतः एस्केलेट होता है।",
+                  "Anti-paper-compliance audit: Cases auto-escalate to supervisory Nodal Officers when citizens report unfixed problems."
+                )}
+              </p>
+            </div>
+
+            {/* Risk Badge */}
+            <div className="flex items-center gap-2 self-start sm:self-auto">
+              <span className="text-xs text-gray-500">{t("पर्यवेक्षी जोखिम स्तर:", "Supervisory Risk:")}</span>
+              <span
+                className={`text-xs font-bold px-2.5 py-1 rounded uppercase tracking-wider border ${
+                  officer.escalationMetrics.riskLevel === "low"
+                    ? "bg-green-50 text-green-700 border-green-200"
+                    : officer.escalationMetrics.riskLevel === "medium"
+                    ? "bg-amber-50 text-amber-800 border-amber-200"
+                    : "bg-red-50 text-red-800 border-red-300"
+                }`}
+              >
+                {officer.escalationMetrics.riskLevel === "low"
+                  ? `🟢 ${t("निम्न जोखिम", "Low Risk")}`
+                  : officer.escalationMetrics.riskLevel === "medium"
+                  ? `🟡 ${t("मध्यम निगरानी", "Moderate Watch")}`
+                  : `🔴 ${t("उच्च समीक्षा (रेड फ्लैग)", "High Audit (Red Flag)")}`}
+              </span>
+            </div>
+          </div>
+
+          {/* Metric Stats */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+            <div className="bg-gray-50 rounded p-3 border border-gray-200">
+              <div className="text-[11px] text-gray-500 uppercase">{t("एस्केलेशन दर", "Escalation Rate")}</div>
+              <div className="text-xl font-bold text-gray-900 mt-0.5">
+                {officer.escalationMetrics.escalationRate}%
+              </div>
+              <div className="text-[10px] text-gray-400 mt-0.5">
+                {t("राष्ट्रीय औसत: 2.1% (कम = बेहतर)", "National avg: 2.1% (Lower is better)")}
+              </div>
+            </div>
+
+            <div className="bg-gray-50 rounded p-3 border border-gray-200">
+              <div className="text-[11px] text-gray-500 uppercase">{t("कुल एस्केलेशन", "Total Escalations")}</div>
+              <div className="text-xl font-bold text-gray-900 mt-0.5">
+                {officer.escalationMetrics.escalationsTotal}
+              </div>
+              <div className="text-[10px] text-gray-400 mt-0.5">
+                {t("पूरे कार्यकाल में दर्ज", "Total recorded over tenure")}
+              </div>
+            </div>
+
+            <div className="bg-gray-50 rounded p-3 border border-gray-200">
+              <div className="text-[11px] text-gray-500 uppercase">{t("सफलतापूर्वक हल", "Nodal Redressed")}</div>
+              <div className="text-xl font-bold text-green-700 mt-0.5">
+                {officer.escalationMetrics.escalationsResolved}
+              </div>
+              <div className="text-[10px] text-green-600 mt-0.5">
+                {t("नोडल हस्तक्षेप से हल हुए", "Resolved upon supervisory intervention")}
+              </div>
+            </div>
+
+            <div className="bg-gray-50 rounded p-3 border border-gray-200">
+              <div className="text-[11px] text-gray-500 uppercase">{t("सक्रिय समीक्षाधीन", "Currently Active")}</div>
+              <div
+                className={`text-xl font-bold mt-0.5 ${
+                  officer.escalationMetrics.currentEscalations > 0 ? "text-red-600" : "text-gray-700"
+                }`}
+              >
+                {officer.escalationMetrics.currentEscalations}
+              </div>
+              <div className="text-[10px] text-gray-400 mt-0.5">
+                {officer.escalationMetrics.currentEscalations > 0
+                  ? t("नोडल अपीलीय जांच जारी", "Appellate review in progress")
+                  : t("कोई लंबित एस्केलेशन नहीं", "Zero pending escalations")}
+              </div>
+            </div>
+          </div>
+
+          {/* Escalation History Items */}
+          <div className="space-y-3">
+            <h3 className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2 flex items-center justify-between">
+              <span>📋 {t("विस्तृत एस्केलेशन इतिहास", "Chronological Escalation Audit Trail")}</span>
+              <span className="text-[11px] font-normal text-gray-400">
+                {officer.escalationHistory.length} {t("रिकॉर्ड उपलब्ध", "records available")}
+              </span>
+            </h3>
+
+            {officer.escalationHistory.length > 0 ? (
+              <div className="space-y-3">
+                {officer.escalationHistory.map((item) => (
+                  <div
+                    key={item.id}
+                    className={`rounded-lg border p-4 transition-all ${
+                      item.outcome === "active"
+                        ? "bg-red-50/40 border-red-200"
+                        : "bg-gray-50/60 border-gray-200"
+                    }`}
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-mono font-bold text-xs px-2 py-0.5 rounded bg-gray-200 text-gray-800">
+                          {item.id}
+                        </span>
+                        <Link
+                          to={`/case/${item.caseId}`}
+                          className="font-mono text-xs font-semibold text-[#1a237e] hover:underline"
+                        >
+                          {item.caseId}
+                        </Link>
+                        <span className="text-xs text-gray-400">• {item.date}</span>
+                      </div>
+
+                      <span
+                        className={`text-[11px] font-bold px-2 py-0.5 rounded flex items-center gap-1 ${
+                          item.outcome === "active"
+                            ? "bg-amber-100 text-amber-800 border border-amber-300"
+                            : "bg-green-100 text-green-800 border border-green-300"
+                        }`}
+                      >
+                        {item.outcome === "active"
+                          ? `⏳ ${t("सक्रिय समीक्षा (नोडल अपीलीय प्राधिकरण)", "Active Review (Appellate Authority)")}`
+                          : `✓ ${t("संतुष्टि से हल (बंद)", "Resolved Satisfactorily (Closed)")}`}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs mt-3 pt-3 border-t border-gray-200/70">
+                      <div>
+                        <div className="text-gray-500 font-medium">{t("नागरिक असंतोष / कारण:", "Citizen Trigger / Root Cause:")}</div>
+                        <div className="text-gray-800 font-semibold mt-0.5">
+                          "{t(item.reasonHi, item.reason)}"
+                        </div>
+                        <div className="text-gray-500 mt-2 font-medium">
+                          🏛️ {t("किसे एस्केलेट हुआ:", "Escalated To Authority:")}
+                        </div>
+                        <div className="text-indigo-900 font-bold mt-0.5">
+                          {item.escalatedTo}
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="text-gray-500 font-medium">{t("पर्यवेक्षी समाधान / स्थिति:", "Resolution Action & Finding:")}</div>
+                        <div className="text-gray-800 font-semibold mt-0.5">
+                          {t(item.resolutionHi, item.resolution)}
+                        </div>
+                        {item.impact && (
+                          <div className="mt-2 p-2 rounded bg-white border border-gray-200 text-[11px] text-gray-600">
+                            <span className="font-bold text-gray-800">{t("सुधार प्रभाव: ", "Impact: ")}</span>
+                            {t(item.impactHi || item.impact, item.impact)}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="p-4 rounded-lg bg-green-50/60 border border-green-200 text-center text-xs text-green-800">
+                <div className="text-base mb-1">🌟</div>
+                <div className="font-bold">{t("कोई ऐतिहासिक एस्केलेशन दर्ज नहीं है", "Clean Record — Zero Historical Escalations")}</div>
+                <div className="text-[11px] text-green-700 mt-0.5">
+                  {t(
+                    "इस अधिकारी के खिलाफ कभी कोई कागजी खानापूर्ति अथवा असंतोषजनक समाधान का एस्केलेशन नहीं हुआ।",
+                    "This officer has a 100% genuine redress record with zero citizen appeal escalations."
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* The Pressure Chain Explanation */}
+          <div className="mt-4 p-3.5 rounded bg-blue-50/60 border border-blue-200 text-xs text-blue-900 flex items-start gap-2.5">
+            <span className="text-base flex-shrink-0">⚖️</span>
+            <div className="leading-relaxed">
+              <span className="font-bold">
+                {t("पारदर्शिता से जवाबदेही कैसे सुनिश्चित होती है?", "How auto-escalation drives real accountability:")}
+              </span>{" "}
+              {t(
+                "CPGRAMS 2.0 में अधिकारी केवल कागजी जवाब देकर केस बंद नहीं कर सकते। यदि नागरिक 1-2 स्टार देता है, तो सिस्टम 24 घंटे में वरिष्ठ नोडल अधिकारियों को अलर्ट भेजता है। सार्वजनिक एस्केलेशन दर बढ़ने से करियर पर प्रभाव पड़ता है, जिससे वास्तविक समाधान देने का दबाव बना रहता है।",
+                "Officers cannot close grievances on paper. If a citizen rates ≤ 2 stars, CPGRAMS auto-escalates to supervisory Nodal Officers within 24h. Visible public escalation rates create healthy career pressure to provide real remedy."
+              )}
+            </div>
+          </div>
+        </div>
+
         {/* ── VERIFIED CITIZEN REVIEWS ── */}
         <div className="bg-white border border-gray-200 rounded p-5 shadow-sm">
           <div className="flex items-center justify-between mb-4">

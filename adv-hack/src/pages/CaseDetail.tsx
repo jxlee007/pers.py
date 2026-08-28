@@ -97,6 +97,33 @@ export default function CaseDetail() {
               />
             </div>
           </div>
+
+          {/* Auto-Escalation Active Banner */}
+          {caseData.status === "Escalated" && (
+            <div className="mt-5 p-4 rounded-xl bg-red-50 border-2 border-red-300 text-xs text-red-900">
+              <div className="flex items-center justify-between gap-2 mb-1">
+                <span className="font-bold flex items-center gap-1.5 text-red-800">
+                  <span className="w-2 h-2 rounded-full bg-red-600 animate-ping inline-block" />
+                  🚨 {t("स्वतः एस्केलेशन सक्रिय — पर्यवेक्षी नोडल समीक्षा जारी", "Auto-Escalation Active — Under Nodal Supervisory Review")}
+                </span>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-red-200 text-red-900 font-mono">
+                  CPGRAMS SLA: 30 DAYS
+                </span>
+              </div>
+              <p className="leading-relaxed text-red-950 font-medium">
+                {t(
+                  "यह मामला प्रारंभिक समाधान से असंतोष के कारण वरिष्ठ नोडल अपीलीय प्राधिकरण को स्वतः एस्केलेट किया गया है। वैधानिक दिशानिर्देशों के तहत अपीलीय प्राधिकारी द्वारा 30 दिनों में अंतिम निपटान अनिवार्य है।",
+                  "This case was auto-escalated to the senior Nodal Appellate Authority following citizen dissatisfaction. Under statutory CPGRAMS rules, the Appellate Authority is mandated to dispose of appeals within 30 days."
+                )}
+              </p>
+              <div className="mt-2 pt-2 border-t border-red-200 flex items-center justify-between text-[11px] font-semibold text-red-800">
+                <span>🏛️ {t("समीक्षाधीन प्राधिकारी: नोडल अपीलीय प्राधिकरण (Appellate Authority)", "Authority: Nodal Authority for Appeal")}</span>
+                <Link to="/accountability" className="underline hover:text-red-950">
+                  {t("जवाबदेही रडार देखें →", "View Accountability Radar →")}
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Status info */}

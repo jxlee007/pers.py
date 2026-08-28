@@ -116,6 +116,27 @@ export default function WebInformationManager() {
                 </li>
               </ul>
             </div>
+
+            {/* Direct Official Link */}
+            <div className="p-4 rounded-lg bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+              <div>
+                <div className="font-bold text-blue-950 dark:text-blue-200">
+                  {t("आधिकारिक DARPG वेब सूचना प्रबंधक विवरण:", "Official DARPG Web Information Manager Listing:")}
+                </div>
+                <div className="text-gray-600 dark:text-gray-400 mt-0.5">
+                  https://darpg.gov.in/en/web-information-manager
+                </div>
+              </div>
+              <a
+                href="https://darpg.gov.in/en/web-information-manager"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-gov-primary text-xs px-4 py-2 whitespace-nowrap flex-shrink-0 flex items-center gap-1"
+              >
+                <span>{t("आधिकारिक पोर्टल पर देखें", "View on DARPG.gov.in")}</span>
+                <span>↗</span>
+              </a>
+            </div>
           </div>
 
           {/* Footer */}

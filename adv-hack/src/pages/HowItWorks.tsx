@@ -46,12 +46,22 @@ export default function HowItWorks() {
       descriptionHi: "विभागों के बीच कोई उछाल नहीं। हफ्तों में समाधान, महीनों में नहीं।",
       icon: "⚡",
     },
+    {
+      number: 6,
+      title: "Citizen Audit & Auto-Escalation",
+      titleHi: "नागरिक ऑडिट एवं स्वतः एस्केलेशन",
+      description: "If resolution is poor (≤2★) or paper-only, AI auto-escalates to Nodal Officers with 30-day statutory appeal.",
+      descriptionHi: "यदि समाधान खराब (≤2★) या कागजी हो, तो AI स्वतः राज्य नोडल अधिकारी को 24h में एस्केलेट करता है।",
+      icon: "🚨",
+    },
   ];
 
   const compareRows = [
     { aspect: t("इनपुट", "Input"), old: t("15-फ़ील्ड फॉर्म", "15-field form"), new: t("1 बटन — आवाज़ इनपुट", "1 button — voice input") },
     { aspect: t("भाषा", "Language"), old: t("सिर्फ English", "English only"), new: t("22 भारतीय भाषाएं", "All 22 Indian languages") },
     { aspect: t("रूटिंग", "Routing"), old: t("कीवर्ड मिलान", "Keyword matching"), new: t("AI संदर्भ समझ", "AI context understanding") },
+    { aspect: t("कागजी खानापूर्ति पर रोक", "Fake Resolution Handling"), old: t("केस बंद, नागरिक बेबस", "Case closed on paper, citizen helpless"), new: t("स्वतः एस्केलेशन + 30-दिन वैधानिक अपील", "Auto-escalation + 30-day statutory appeal mandate") },
+    { aspect: t("अधिकारी जवाबदेही", "Officer Accountability"), old: t("पर्दे के पीछे बंद", "Hidden behind closed doors"), new: t("सार्वजनिक एस्केलेशन दर एवं ऑडिट", "Public escalation rate & transparent audit") },
     { aspect: t("टेक्स्ट आकार", "Text size"), old: "12px", new: "18px+" },
     { aspect: t("दस्तावेज़", "Documents"), old: t("अनिवार्य", "Required"), new: t("वैकल्पिक", "Optional") },
     { aspect: t("भरने का समय", "Time to file"), old: t("15 मिनट+", "15+ minutes"), new: t("3-5 मिनट", "3-5 minutes") },
@@ -79,19 +89,113 @@ export default function HowItWorks() {
           </h1>
           <p className="text-indigo-200 text-lg max-w-xl mx-auto">
             {t(
-              "AI-सक्षम तकनीक से शिकायतें पहली बार में ही सही विभाग तक पहुंचती हैं।",
-              "AI-enabled complaint routing that gets it right the first time — every time."
+              "AI-सक्षम तकनीक और वैधानिक स्वतः एस्केलेशन: पहली बार में सही रूटिंग और कागजी समाधान पर स्थायी रोक।",
+              "AI-enabled routing and statutory auto-escalation: right department the first time, with zero tolerance for paper compliance."
             )}
           </p>
         </div>
       </section>
 
       {/* Flow diagram */}
-      <section className="py-14 max-w-5xl mx-auto px-4 sm:px-6">
-        <h2 className="text-2xl font-bold text-gray-900 text-center mb-10">
-          {t("शिकायत यात्रा — 5 कदम", "The 5-Step Complaint Journey")}
+      <section className="py-14 max-w-6xl mx-auto px-4 sm:px-6">
+        <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">
+          {t("नागरिक शिकायत एवं जवाबदेही यात्रा — 6 कदम", "The 6-Step Citizen Accountability Journey")}
         </h2>
+        <p className="text-center text-xs text-gray-500 max-w-xl mx-auto mb-10">
+          {t(
+            "इनपुट से लेकर वास्तविक राहत तक — यदि फ्रंटलाइन अधिकारी केवल कागजी खानापूर्ति करते हैं तो नागरिक फीडबैक स्वतः पर्यवेक्षी हस्तक्षेप को सक्रिय करता है।",
+            "From plain-language filing to verified on-the-ground relief — with automatic supervisory escalation if remedies are merely on paper."
+          )}
+        </p>
         <FlowDiagram steps={flowSteps} />
+      </section>
+
+      {/* THE ACCOUNTABILITY PRESSURE CHAIN */}
+      <section className="py-14 bg-gradient-to-b from-red-50/40 via-white to-gray-50 border-y border-red-100">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider bg-red-100 text-red-800 border border-red-200 mb-2">
+              ⚡ {t("जवाबदेही दबाव चक्र", "The Accountability Pressure Chain")}
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900">
+              {t("कागजी खानापूर्ति पर रोक: स्वतः एस्केलेशन कैसे काम करता है?", "How Auto-Escalation Eliminates Fake Resolutions")}
+            </h2>
+            <p className="text-sm text-gray-600 mt-2 max-w-2xl mx-auto">
+              {t(
+                "अधिकारी केवल परिपत्र या औपचारिकता दिखाकर केस बंद नहीं कर सकते। नागरिक का असंतोष सीधे वरिष्ठ अधिकारियों के रडार पर आता है।",
+                "Officers cannot simply close cases with boilerplate circulars. Citizen dissatisfaction directly activates senior supervisory oversight."
+              )}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-2xs relative">
+              <div className="text-xs font-bold text-gray-400 uppercase mb-1">कदम 1 • Step 1</div>
+              <div className="text-lg font-bold text-gray-900 mb-2">⚠️ {t("कागजी समाधान", "Paper-Only Closure")}</div>
+              <p className="text-xs text-gray-600 leading-relaxed">
+                {t(
+                  "फ्रंटलाइन अधिकारी पोर्टल पर 'सुलझाया गया' मार्क करते हैं, लेकिन नागरिक को पेंशन, कार्ड या कार्य जमीन पर नहीं मिलता।",
+                  "Officer marks grievance 'Closed' on portal with an internal circular, but no physical benefit is delivered."
+                )}
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl border border-amber-300 p-5 shadow-2xs relative">
+              <div className="text-xs font-bold text-amber-600 uppercase mb-1">कदम 2 • Step 2</div>
+              <div className="text-lg font-bold text-amber-900 mb-2">⭐ {t("नागरिक 1-2 स्टार देता है", "Citizen Rates ≤ 2 Stars")}</div>
+              <p className="text-xs text-gray-600 leading-relaxed">
+                {t(
+                  "नागरिक 'खराब' रेटिंग दर्ज करता है या 'समस्या ठीक नहीं हुई' चुनता है। CPGRAMS AI तुरंत 3 सिग्नल्स को मॉनिटर करता है।",
+                  "Citizen marks 'Poor' or flags 'problem not fixed'. CPGRAMS AI monitors rating, keywords, and re-filed patterns."
+                )}
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl border border-red-300 p-5 shadow-2xs relative bg-red-50/20">
+              <div className="text-xs font-bold text-red-600 uppercase mb-1">कदम 3 • Step 3</div>
+              <div className="text-lg font-bold text-red-900 mb-2">🚨 {t("स्वतः एस्केलेशन ट्रिगर", "Supervisory Auto-Trigger")}</div>
+              <p className="text-xs text-gray-600 leading-relaxed">
+                {t(
+                  "केस 24h में राज्य नोडल पीजी अधिकारी को जाता है और नोडल अपीलीय प्राधिकरण (30-दिवसीय वैधानिक SLA) पोर्टल पर खुल जाता है।",
+                  "Escalates to State Nodal PG Officer within 24h & directly unlocks Nodal Appellate Authority with a 30-day statutory mandate."
+                )}
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl border border-indigo-200 p-5 shadow-2xs relative">
+              <div className="text-xs font-bold text-indigo-600 uppercase mb-1">कदम 4 • Step 4</div>
+              <div className="text-lg font-bold text-indigo-950 mb-2">📊 {t("सार्वजनिक एस्केलेशन दर", "Public Rate Increases")}</div>
+              <p className="text-xs text-gray-600 leading-relaxed">
+                {t(
+                  "अधिकारी की एस्केलेशन दर (जैसे 3.4%) राष्ट्रीय डैशबोर्ड और अधिकारी प्रोफ़ाइल पर पारदर्शी रूप से दिखती है।",
+                  "Officer's escalation rate publicly rises on the national radar, visible to citizens, peers, and ministries."
+                )}
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl border border-purple-200 p-5 shadow-2xs relative">
+              <div className="text-xs font-bold text-purple-600 uppercase mb-1">कदम 5 • Step 5</div>
+              <div className="text-lg font-bold text-purple-950 mb-2">⚖️ {t("करियर व प्रशासनिक दबाव", "Supervisory Pressure")}</div>
+              <p className="text-xs text-gray-600 leading-relaxed">
+                {t(
+                  "30 दिनों में 3 से अधिक खराब रेटिंग या 5 अपीलों पर नोडल अधिकारी द्वारा प्रशासनिक समीक्षा और रेड फ्लैग जारी होता है।",
+                  "Over 3 poor ratings or 5 appeals flags the officer for administrative inquiry by senior Nodal authorities."
+                )}
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl border border-green-300 p-5 shadow-2xs relative bg-green-50/20">
+              <div className="text-xs font-bold text-green-700 uppercase mb-1">कदम 6 • Step 6</div>
+              <div className="text-lg font-bold text-green-900 mb-2">🎯 {t("वास्तविक राहत की प्राप्ति", "Real Remedy Delivered")}</div>
+              <p className="text-xs text-gray-600 leading-relaxed">
+                {t(
+                  "कागजी बहाने बंद: फ्रंटलाइन अधिकारी तुरंत काम पूरा करते हैं (धन वापसी, भौतिक कार्ड, सड़क मरम्मत) और केस संतोष से बंद होता है।",
+                  "Paper compliance ends: officers deliver true restitution (pension credited, DL issued, road resurfaced)."
+                )}
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* AI routing explanation */}
@@ -126,7 +230,6 @@ export default function HowItWorks() {
               </p>
             </div>
           </div>
-        </div>
       </section>
 
       {/* Comparison table */}

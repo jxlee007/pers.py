@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../context/AppContext";
-import { appeals, dashboardCases } from "../data/mockData";
+import { appeals, dashboardCases, escalations } from "../data/mockData";
 import Card from "../components/Card";
 import Button from "../components/Button";
 
-type Tab = "active" | "approved" | "pending";
+type Tab = "active" | "auto_escalated" | "approved" | "pending";
 
 export default function Appeals() {
   const { t } = useApp();
@@ -16,14 +16,17 @@ export default function Appeals() {
   const [appealReason, setAppealReason] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
+  const autoEscalatedAppeals = escalations.filter((e) => e.escalationLevel === "appeal");
+
   const tabItems = [
     { id: "active" as Tab, label: t("सक्रिय अपील", "Active Appeals"), count: appeals.filter((a) => a.status === "Under Review").length },
+    { id: "auto_escalated" as Tab, label: t("🚨 स्वतः एस्केलेटेड (फीडबैक)", "🚨 Auto-Escalated (Feedback)"), count: autoEscalatedAppeals.length },
     { id: "approved" as Tab, label: t("स्वीकृत", "Approved"), count: appeals.filter((a) => a.status === "Approved").length },
-    { id: "pending" as Tab, label: t("लंबित", "Pending"), count: 0 },
   ];
 
   const filtered = {
     active: appeals.filter((a) => a.status === "Under Review"),
+    auto_escalated: [],
     approved: appeals.filter((a) => a.status === "Approved"),
     pending: [],
   }[tab];
@@ -35,10 +38,26 @@ export default function Appeals() {
   };
 
   const processSteps = [
-    { n: 1, title: t("समाधान से असंतुष्ट", "Dissatisfied with resolution"), desc: t("विभाग का जवाब आया लेकिन संतोषजनक नहीं", "Department responded but unsatisfactorily") },
-    { n: 2, title: t("30 दिन के अंदर अपील करें", "File appeal within 30 days"), desc: t("समाधान बंद होने के 30 दिनों के भीतर", "Within 30 days of resolution closure") },
-    { n: 3, title: t("नोडल प्राधिकरण समीक्षा", "Nodal Authority Review"), desc: t("अपीलीय प्राधिकरण 30 दिनों में सुनवाई करेगा", "Appellate authority hears within 30 days") },
-    { n: 4, title: t("द्वितीय अपील (यदि आवश्यक)", "Second Appeal (if needed)"), desc: t("पहली अपील के बाद भी असंतुष्ट तो दूसरी अपील", "Available if still unsatisfied after first appeal") },
+    {
+      n: 1,
+      title: t("समाधान से असंतुष्ट", "Dissatisfied with resolution"),
+      desc: t("विभाग ने केवल कागजी जवाब दिया या समस्या ठीक नहीं हुई", "Paper compliance or unresolved grievance"),
+    },
+    {
+      n: 2,
+      title: t("स्वतः अपील सक्षमीकरण", "Portal Auto-Trigger"),
+      desc: t("नागरिक द्वारा 'खराब' (≤ 2) रेटिंग देने पर अपील स्वतः सक्रिय", "Auto-enabled when citizen registers 'Poor' rating"),
+    },
+    {
+      n: 3,
+      title: t("नोडल अपीलीय प्राधिकरण", "Nodal Appellate Authority"),
+      desc: t("नोडल अधिकारी से वरिष्ठ अधिकारी द्वारा 30 दिनों में अनिवार्य निस्तारण", "Senior officer in rank disposes within 30 days"),
+    },
+    {
+      n: 4,
+      title: t("द्वितीय अपील (यदि आवश्यक)", "Second Appeal (if needed)"),
+      desc: t("पहली अपील के बाद भी असंतुष्ट तो द्वितीय अपीलीय समीक्षा", "Available if unsatisfied with initial appeal"),
+    },
   ];
 
   function handleSubmitAppeal() {
@@ -104,7 +123,80 @@ export default function Appeals() {
         </div>
 
         {/* Appeal cards */}
-        {filtered.length === 0 ? (
+        {tab === "auto_escalated" ? (
+          <div className="space-y-4">
+            <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-900 flex items-center justify-between">
+              <span className="font-semibold flex items-center gap-1.5">
+                <span>🚨</span>
+                {t(
+                  "नागरिक द्वारा 'खराब' रेटिंग या कागजी खानापूर्ति दर्ज करने पर स्वतः सक्षम अपीलीय मामले।",
+                  "Appeals automatically unlocked when citizens registered 'Poor' (≤ 2 stars) feedback after closure."
+                )}
+              </span>
+              <span className="font-bold text-red-800 uppercase tracking-wider text-[10px]">
+                30-Day SLA Mandate
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {autoEscalatedAppeals.map((item) => (
+                <Card key={item.id} padding="md" hover>
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-red-100 text-red-800">
+                          {item.id}
+                        </span>
+                        <span className="font-mono text-xs text-gray-500">{item.caseId}</span>
+                      </div>
+                      <div className="font-bold text-gray-900 text-sm mt-1">
+                        {item.department} ({item.ministry})
+                      </div>
+                    </div>
+                    <span className="text-xs px-2.5 py-1 rounded-full font-bold bg-amber-100 text-amber-800 border border-amber-300">
+                      ⏳ {item.daysOpen} / 30 {t("दिन", "days")}
+                    </span>
+                  </div>
+
+                  <div className="p-2.5 rounded bg-gray-50 border border-gray-200 text-xs mb-3 italic text-gray-800">
+                    "{t(item.feedbackHi, item.feedback)}"
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 text-xs text-gray-500 mb-3">
+                    <div>
+                      <span className="font-medium text-gray-700">{t("अधिकारी:", "Officer:")}</span>{" "}
+                      <Link to={`/officer/${item.officerId}`} className="text-[#1a237e] underline font-semibold">
+                        {item.officerName}
+                      </Link>
+                    </div>
+                    <div>
+                      <span className="font-medium text-gray-700">{t("राज्य:", "State:")}</span> {item.state}
+                    </div>
+                  </div>
+
+                  <div className="bg-indigo-50 rounded-lg px-3 py-2 text-xs text-indigo-950 font-semibold mb-3">
+                    🏛️ {item.escalatedTo}
+                  </div>
+
+                  <div className="flex gap-2 pt-2 border-t border-gray-100">
+                    <button
+                      onClick={() => navigate(`/case/${item.caseId}`)}
+                      className="flex-1 py-2 text-xs font-semibold text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors"
+                    >
+                      {t("केस देखें", "View Case")}
+                    </button>
+                    <Link
+                      to="/accountability"
+                      className="flex-1 py-2 text-xs font-semibold text-center text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                    >
+                      {t("जवाबदेही रडार", "Accountability")}
+                    </Link>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="text-center py-16 text-gray-400 bg-white rounded-2xl border border-gray-200">
             <div className="text-5xl mb-3">📭</div>
             <div className="font-medium">{t("इस श्रेणी में कोई अपील नहीं", "No appeals in this category")}</div>

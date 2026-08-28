@@ -1,0 +1,20 @@
+In CPGRAMS, Nodal Public Grievance (PG) Officers are designated officials appointed in every Ministry, Department, and State/UT to oversee, categorize, and monitor the resolution of public grievances, while the Nodal Authority for Appeal (Nodal Appellate Authority) is a senior officer appointed to handle and dispose of appeals filed by citizens who are unsatisfied with the initial grievance resolution. [1, 2]  
+Nodal Public Grievance Officers 
+
+• Role: Responsible for supervisory oversight of Grievance Redressal Officers (GROs), root cause analysis, monitoring pendency, and examining citizen feedback on the  Centralised Public Grievance Redress and Monitoring System . 
+• Appointment: Every Central Ministry, Department, and State Government appoints dedicated Nodal PG Officers to ensure fair and time-bound handling of complaints. 
+• Directory: Specific names and designations vary by department and can be checked directly on the CPGRAMS Nodal PG Officers List. [3]  
+
+Nodal Authority for Appeal (Appellate Authority) 
+
+• Role: Empowered to review the processes and guidelines followed by Grievance Resolution Officers and dispose of formal citizen appeals within 30 days. 
+• Appointment: An officer senior in rank to the Nodal Grievance Resolution Officer is designated as the Nodal Appellate Authority. They are also authorized to appoint Sub-Nodal Appellate Authorities when necessary. 
+• Trigger: The appeal option to this authority is enabled on the portal when a citizen registers a "Poor" feedback rating after a grievance is closed. [4]  
+
+AI can make mistakes, so double-check responses
+
+[1] https://www.scribd.com/document/614120880/StrengtheningofMachineryforRedressalofPublicGrievanceCPGRAMS
+[2] https://www.facebook.com/districtadmfbd/posts/nodal-officers-of-all-departments-should-ensure-completion-of-online-grievances-/284588420191323/
+[3] https://pgportal.gov.in/Home/NodalPgOfficers
+[4] https://cga.nic.in/Page/CPGRAMS.aspx
+

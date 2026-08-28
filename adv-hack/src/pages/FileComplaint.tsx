@@ -6,6 +6,46 @@ import { testComplaints } from "../data/mockData";
 
 type Mode = "idle" | "recording" | "processing" | "done";
 
+// Ministry-specific document hints (all optional — DPDP data minimisation principle)
+const DOC_HINTS: Record<string, { icon: string; label: string; labelHi: string; purpose: string; purposeHi: string }[]> = {
+  pension: [
+    { icon: "🪪", label: "UAN Card / EPFO Passbook", labelHi: "UAN कार्ड / EPFO पासबुक", purpose: "Proves membership and contribution history", purposeHi: "सदस्यता और योगदान इतिहास प्रमाणित करता है" },
+    { icon: "🏦", label: "Bank Passbook / Statement", labelHi: "बैंक पासबुक / स्टेटमेंट", purpose: "Confirms payment account and missed credit", purposeHi: "भुगतान खाता और लापता क्रेडिट की पुष्टि" },
+    { icon: "📄", label: "Pension Order / PPO", labelHi: "पेंशन आदेश / PPO", purpose: "Official pension entitlement reference", purposeHi: "आधिकारिक पेंशन पात्रता संदर्भ" },
+  ],
+  tax: [
+    { icon: "📑", label: "ITR Acknowledgment (e-filing)", labelHi: "ITR पावती (ई-फाइलिंग)", purpose: "Proves filing date and refund claim", purposeHi: "दाखिल तिथि और रिफंड दावा प्रमाणित करता है" },
+    { icon: "🧾", label: "Form 16 / TDS Certificate", labelHi: "फॉर्म 16 / TDS प्रमाण पत्र", purpose: "Documents tax deducted at source", purposeHi: "स्रोत पर काटे गए कर का दस्तावेज़" },
+    { icon: "📧", label: "IT Department Notice / Email", labelHi: "आयकर विभाग नोटिस / ईमेल", purpose: "Supports timeline of grievance", purposeHi: "शिकायत की समय-सीमा का समर्थन" },
+  ],
+  license: [
+    { icon: "🚗", label: "Application Receipt / DL Slip", labelHi: "आवेदन पावती / DL पर्ची", purpose: "Proves application submission date", purposeHi: "आवेदन जमा तिथि प्रमाणित करता है" },
+    { icon: "🪪", label: "Aadhaar / Voter ID (Address proof)", labelHi: "आधार / मतदाता पहचान पत्र", purpose: "Address verification for RTO records", purposeHi: "RTO रिकॉर्ड के लिए पता सत्यापन" },
+    { icon: "📄", label: "Challan / Fee Payment Receipt", labelHi: "चालान / शुल्क भुगतान रसीद", purpose: "Confirms fee paid, no pending dues", purposeHi: "शुल्क भुगतान और कोई बकाया नहीं की पुष्टि" },
+  ],
+  aadhaar: [
+    { icon: "🪪", label: "Enrolment / Update Request Slip", labelHi: "नामांकन / अपडेट अनुरोध पर्ची", purpose: "Tracks UIDAI request reference number", purposeHi: "UIDAI अनुरोध संदर्भ संख्या ट्रैक करता है" },
+    { icon: "📷", label: "Photo ID for Name/DOB Proof", labelHi: "नाम/जन्मतिथि प्रमाण फोटो ID", purpose: "Verifies demographic correction request", purposeHi: "जनसांख्यिकीय सुधार अनुरोध की पुष्टि" },
+  ],
+  road: [
+    { icon: "📸", label: "Photograph of Road Damage", labelHi: "सड़क क्षति की फोटो", purpose: "Visual evidence of the defect reported", purposeHi: "रिपोर्ट की गई खराबी का दृश्य प्रमाण" },
+    { icon: "📍", label: "Google Maps Pin / Location Screenshot", labelHi: "गूगल मैप्स पिन / लोकेशन स्क्रीनशॉट", purpose: "Precise geo-location for field inspection", purposeHi: "फील्ड निरीक्षण के लिए सटीक भू-स्थान" },
+    { icon: "🗒️", label: "Previous Complaint Reference (if any)", labelHi: "पूर्व शिकायत संदर्भ (यदि हो)", purpose: "Establishes recurring / unresolved issue", purposeHi: "आवर्ती / अनसुलझी समस्या स्थापित करता है" },
+  ],
+  railway: [
+    { icon: "🎫", label: "PNR / Ticket / Booking Receipt", labelHi: "PNR / टिकट / बुकिंग रसीद", purpose: "Links refund claim to specific journey", purposeHi: "रिफंड दावे को विशिष्ट यात्रा से जोड़ता है" },
+    { icon: "📧", label: "IRCTC Email Confirmation", labelHi: "IRCTC ईमेल पुष्टि", purpose: "Booking / cancellation status record", purposeHi: "बुकिंग / रद्दीकरण स्थिति रिकॉर्ड" },
+  ],
+  gst: [
+    { icon: "🧾", label: "GSTIN Certificate / ARN", labelHi: "GSTIN प्रमाण पत्र / ARN", purpose: "Validates registrant identity on portal", purposeHi: "पोर्टल पर पंजीकरणकर्ता पहचान मान्य करता है" },
+    { icon: "📑", label: "Error Screenshot from GST Portal", labelHi: "GST पोर्टल से त्रुटि स्क्रीनशॉट", purpose: "Technical proof of upload / return failure", purposeHi: "अपलोड / रिटर्न विफलता का तकनीकी प्रमाण" },
+  ],
+  other: [
+    { icon: "📄", label: "Any Relevant Government Communication", labelHi: "कोई भी प्रासंगिक सरकारी पत्राचार", purpose: "Prior correspondence supporting the complaint", purposeHi: "शिकायत का समर्थन करने वाला पूर्व पत्राचार" },
+    { icon: "🪪", label: "Identity Proof (Aadhaar / PAN / Voter ID)", labelHi: "पहचान प्रमाण (आधार / PAN / मतदाता पहचान पत्र)", purpose: "Establishes complainant identity if required", purposeHi: "यदि आवश्यक हो तो शिकायतकर्ता पहचान" },
+  ],
+};
+
 const INDIAN_STATES = [
   "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
   "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand",
@@ -66,7 +106,14 @@ export default function FileComplaint() {
   const [grievanceTitle, setGrievanceTitle] = useState("");
   const [text, setText] = useState("");
   const [incidentDate, setIncidentDate] = useState("");
-  const [fileName, setFileName] = useState("");
+
+  // Document upload state
+  const [uploadedFiles, setUploadedFiles] = useState<{ name: string; size: number; type: string }[]>([]);
+  const [docConsentGiven, setDocConsentGiven] = useState(false);
+  const [docUploadError, setDocUploadError] = useState("");
+  const FILE_SIZE_LIMIT = 5 * 1024 * 1024; // 5 MB per file
+  const TOTAL_SIZE_LIMIT = 10 * 1024 * 1024; // 10 MB total
+  const MAX_FILES = 5;
 
   // AI routing preview
   const [aiPreview, setAiPreview] = useState<{ ministry: string; confidence: number; icon: string } | null>(null);
@@ -131,6 +178,29 @@ export default function FileComplaint() {
 
   function formatTime(s: number) {
     return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+  }
+
+  function handleDocUpload(files: File[]) {
+    setDocUploadError("");
+    const existing = uploadedFiles;
+    const combined = [...existing];
+    for (const file of files) {
+      if (combined.length >= MAX_FILES) {
+        setDocUploadError(t(`अधिकतम ${MAX_FILES} फ़ाइलें अपलोड की जा सकती हैं।`, `Maximum ${MAX_FILES} files allowed.`));
+        break;
+      }
+      if (file.size > FILE_SIZE_LIMIT) {
+        setDocUploadError(t(`"${file.name}" 5MB सीमा से अधिक है। कृपया छोटी फ़ाइल अपलोड करें।`, `"${file.name}" exceeds the 5MB limit. Please upload a smaller file.`));
+        continue;
+      }
+      const totalAfter = combined.reduce((s, f) => s + f.size, 0) + file.size;
+      if (totalAfter > TOTAL_SIZE_LIMIT) {
+        setDocUploadError(t("कुल फ़ाइल आकार 10MB सीमा से अधिक हो जाएगा। कुछ फ़ाइलें हटाएं।", "Total file size would exceed 10MB. Remove some files."));
+        break;
+      }
+      combined.push({ name: file.name, size: file.size, type: file.type });
+    }
+    setUploadedFiles(combined);
   }
 
   function validate() {
@@ -361,32 +431,6 @@ export default function FileComplaint() {
                 />
               </div>
 
-              {/* File upload */}
-              <div className="form-field">
-                <label>{t("दस्तावेज़ संलग्न करें", "Attach Document")} <span className="text-gray-400 font-normal text-xs">({t("वैकल्पिक, PDF/JPG, 2MB", "Optional, PDF/JPG, max 2MB")})</span></label>
-                <div
-                  className="relative border border-dashed border-gray-300 rounded p-3 text-center cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-colors"
-                  onClick={() => document.getElementById("file-upload")?.click()}
-                >
-                  <input
-                    id="file-upload"
-                    type="file"
-                    accept=".pdf,.jpg,.jpeg,.png"
-                    className="hidden"
-                    onChange={(e) => setFileName(e.target.files?.[0]?.name || "")}
-                  />
-                  {fileName ? (
-                    <div className="flex items-center justify-center gap-2 text-sm text-green-700">
-                      <span>📎</span> <span className="truncate max-w-48">{fileName}</span>
-                    </div>
-                  ) : (
-                    <div className="text-xs text-gray-500">
-                      📎 {t("फ़ाइल चुनें या यहाँ खींचें", "Click to choose file or drag & drop")}
-                    </div>
-                  )}
-                </div>
-              </div>
-
               {/* Voice Input */}
               <div className="form-field sm:col-span-2">
                 <label>{t("शिकायत का विवरण", "Grievance Description")} <span className="req">*</span></label>
@@ -460,10 +504,189 @@ export default function FileComplaint() {
           </div>
         </div>
 
-        {/* ── SECTION 3: PREVIEW & SUBMIT ── */}
+        {/* ── SECTION 3: SUPPORTING DOCUMENTS (DPDP-COMPLIANT, OPTIONAL) ── */}
         <div className="form-section">
           <div className="form-section-header">
-            🤖 {t("अनुभाग 3: AI रूटिंग पूर्वावलोकन एवं सबमिट", "Section 3: AI Routing Preview & Submit")}
+            📎 {t("अनुभाग 3: सहायक दस्तावेज़ (वैकल्पिक)", "Section 3: Supporting Documents (Optional)")}
+          </div>
+          <div className="form-section-body">
+
+            {/* DPDP Purpose-of-Collection Notice */}
+            <div className="mb-5 p-4 rounded-xl border border-blue-200 bg-blue-50/60">
+              <div className="flex items-start gap-3">
+                <span className="text-xl mt-0.5 flex-shrink-0">🛡️</span>
+                <div>
+                  <p className="text-xs font-bold text-blue-900 mb-1">
+                    {t(
+                      "DPDP अधिनियम 2023 — डेटा न्यूनतमीकरण सूचना (धारा 5 एवं धारा 6)",
+                      "DPDP Act 2023 — Data Minimisation Notice (Section 5 & Section 6)"
+                    )}
+                  </p>
+                  <p className="text-xs text-blue-800 leading-relaxed">
+                    {t(
+                      "दस्तावेज़ अपलोड पूर्णतः वैकल्पिक है। यदि आप दस्तावेज़ संलग्न करते हैं, तो उनका उपयोग केवल शिकायत सत्यापन एवं संबंधित मंत्रालय/विभाग को रूट करने के लिए किया जाएगा। व्यक्तिगत पहचान दस्तावेज़ (जैसे आधार, PAN) केवल तभी साझा करें जब विशेष रूप से आवश्यक हो।",
+                      "Document upload is entirely optional. If attached, files will be used solely to verify your grievance and route it to the appropriate ministry/department. Personal identity documents (e.g., Aadhaar, PAN) should only be shared when specifically necessary for the complaint."
+                    )}
+                  </p>
+                  <p className="text-[11px] text-blue-600 mt-1.5">
+                    {t(
+                      "📌 उद्देश्य: शिकायत वैधता सत्यापन | आधार: धारा 5 विनिर्दिष्ट उद्देश्य | प्रतिधारण: केस बंद होने के 6 महीने बाद स्वतः हटाए जाएंगे।",
+                      "📌 Purpose: Grievance validity verification | Basis: Section 5 Specified Purpose | Retention: Auto-deleted 6 months after case closure."
+                    )}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Ministry-specific doc hints */}
+            {ministry && DOC_HINTS[ministry] && (
+              <div className="mb-5">
+                <p className="text-xs font-semibold text-gray-600 mb-2.5 uppercase tracking-wider">
+                  {t("आपकी शिकायत के लिए सहायक दस्तावेज़ (वैकल्पिक):", "Helpful documents for this complaint type (all optional):")}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                  {DOC_HINTS[ministry].map((hint) => (
+                    <div
+                      key={hint.label}
+                      className="flex items-start gap-2.5 p-3 rounded-xl border border-gray-200 bg-gray-50 hover:bg-blue-50 hover:border-blue-200 transition-colors"
+                    >
+                      <span className="text-xl flex-shrink-0">{hint.icon}</span>
+                      <div>
+                        <div className="text-xs font-semibold text-gray-800">{t(hint.labelHi, hint.label)}</div>
+                        <div className="text-[11px] text-gray-500 mt-0.5">{t(hint.purposeHi, hint.purpose)}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Multi-file Upload Zone */}
+            <div className="form-field">
+              <label className="flex items-center gap-2">
+                {t("दस्तावेज़ अपलोड करें", "Upload Documents")}
+                <span className="text-gray-400 font-normal text-xs">({t("वैकल्पिक — अधिकतम 5 फ़ाइलें, 5MB प्रति फ़ाइल", "Optional — max 5 files, 5MB each")})</span>
+              </label>
+
+              {/* Drop Zone */}
+              <div
+                className="border-2 border-dashed border-gray-300 rounded-xl p-5 text-center cursor-pointer hover:border-blue-400 hover:bg-blue-50/50 transition-all duration-200"
+                onClick={() => document.getElementById("doc-upload")?.click()}
+                onDragOver={(e) => { e.preventDefault(); e.currentTarget.classList.add("border-blue-400", "bg-blue-50"); }}
+                onDragLeave={(e) => { e.currentTarget.classList.remove("border-blue-400", "bg-blue-50"); }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  e.currentTarget.classList.remove("border-blue-400", "bg-blue-50");
+                  const files = Array.from(e.dataTransfer.files);
+                  handleDocUpload(files);
+                }}
+              >
+                <input
+                  id="doc-upload"
+                  type="file"
+                  accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                  multiple
+                  className="hidden"
+                  onChange={(e) => handleDocUpload(Array.from(e.target.files || []))}
+                />
+                <div className="text-2xl mb-1">📂</div>
+                <p className="text-sm font-semibold text-gray-700">
+                  {t("फ़ाइलें यहाँ खींचें या क्लिक करें", "Drag files here or click to browse")}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  {t("PDF, JPG, PNG, DOC — अधिकतम 5 फ़ाइलें, 5MB प्रत्येक, कुल 10MB", "PDF, JPG, PNG, DOC — max 5 files, 5MB each, 10MB total")}
+                </p>
+              </div>
+
+              {/* Error */}
+              {docUploadError && (
+                <div className="field-error mt-2">⚠️ {docUploadError}</div>
+              )}
+
+              {/* Uploaded File List */}
+              {uploadedFiles.length > 0 && (
+                <div className="mt-3 space-y-2">
+                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    {t(`${uploadedFiles.length} फ़ाइल जोड़ी गई:`, `${uploadedFiles.length} file(s) added:`)}
+                  </p>
+                  {uploadedFiles.map((f, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg border border-green-200 bg-green-50"
+                    >
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="text-base flex-shrink-0">
+                          {f.type.includes("pdf") ? "📕" : f.type.includes("image") ? "🖼️" : "📄"}
+                        </span>
+                        <div className="min-w-0">
+                          <div className="text-xs font-semibold text-gray-800 truncate max-w-52">{f.name}</div>
+                          <div className="text-[10px] text-gray-500">{(f.size / 1024).toFixed(0)} KB</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-100 text-green-700 uppercase">
+                          {f.name.split(".").pop()}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setUploadedFiles((prev) => prev.filter((_, i) => i !== idx))}
+                          className="text-red-400 hover:text-red-600 transition-colors text-sm font-bold"
+                          title={t("हटाएं", "Remove")}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="text-[10px] text-gray-400">
+                    {t(
+                      `कुल: ${(uploadedFiles.reduce((s, f) => s + f.size, 0) / 1024 / 1024).toFixed(2)} MB / 10 MB`,
+                      `Total: ${(uploadedFiles.reduce((s, f) => s + f.size, 0) / 1024 / 1024).toFixed(2)} MB / 10 MB`
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* DPDP Document Consent (only shown when files are uploaded) */}
+              {uploadedFiles.length > 0 && (
+                <div className="mt-4 p-3.5 rounded-xl border border-amber-200 bg-amber-50">
+                  <label className="flex items-start gap-2.5 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={docConsentGiven}
+                      onChange={(e) => setDocConsentGiven(e.target.checked)}
+                      className="mt-0.5 w-4 h-4 accent-[#1a237e] flex-shrink-0"
+                      required={uploadedFiles.length > 0}
+                    />
+                    <span className="text-xs text-amber-900 leading-relaxed">
+                      🛡️ <strong>{t("DPDP सहमति:", "DPDP Consent:")}</strong>{" "}
+                      {t(
+                        "मैं स्वेच्छा से और सूचित सहमति (DPDP अधिनियम 2023, धारा 6) देता/देती हूं कि संलग्न दस्तावेजों में मेरी व्यक्तिगत जानकारी का उपयोग केवल इस शिकायत के सत्यापन और रूटिंग के लिए किया जाएगा। ये दस्तावेज़ केस बंद होने के 6 महीने बाद स्वतः हटा दिए जाएंगे।",
+                        "I freely and informedly consent (DPDP Act 2023, Section 6) that personal information in attached documents will be used solely for grievance verification and routing. These documents will be auto-deleted 6 months after case closure."
+                      )}
+                    </span>
+                  </label>
+                </div>
+              )}
+
+              {/* Privacy tip */}
+              <div className="mt-3 flex items-start gap-2 text-[11px] text-gray-500">
+                <span>💡</span>
+                <span>
+                  {t(
+                    "डेटा न्यूनतमीकरण सुझाव: केवल वही दस्तावेज़ साझा करें जो शिकायत के लिए आवश्यक हों। संपूर्ण आधार कार्ड की जगह आधार की आखिरी 4 अंकों वाली मास्क्ड कॉपी को प्राथमिकता दें।",
+                    "Data minimisation tip: Only share documents directly relevant to your complaint. Prefer a masked copy showing last 4 digits of Aadhaar over the full card."
+                  )}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── SECTION 4: PREVIEW & SUBMIT ── */}
+        <div className="form-section">
+          <div className="form-section-header">
+            🤖 {t("अनुभाग 4: AI रूटिंग पूर्वावलोकन एवं सबमिट", "Section 4: AI Routing Preview & Submit")}
           </div>
           <div className="form-section-body">
             {aiPreview ? (
@@ -488,8 +711,8 @@ export default function FileComplaint() {
               <input type="checkbox" id="declaration" required className="mt-0.5 w-4 h-4 accent-[#1a237e]" />
               <label htmlFor="declaration" className="text-xs text-gray-700 leading-relaxed cursor-pointer">
                 {t(
-                  "मैं घोषणा करता/करती हूं कि उपरोक्त विवरण सत्य और सही है। मैं समझता/समझती हूं कि झूठी शिकायत दर्ज करना दंडनीय है।",
-                  "I hereby declare that the information given above is true and correct to the best of my knowledge and belief. I understand that filing a false grievance is punishable."
+                  "मैं घोषणा करता/करती हूं कि उपरोक्त विवरण सत्य और सही है। मैं समझता/समझती हूं कि झूठी शिकायत दर्ज करना दंडनीय है। मेरी व्यक्तिगत जानकारी का उपयोग DPDP अधिनियम 2023 के अनुसार केवल शिकायत निवारण उद्देश्य के लिए किया जाएगा।",
+                  "I hereby declare that the information given above is true and correct to the best of my knowledge and belief. I understand that filing a false grievance is punishable. My personal data will be processed solely for grievance redressal purposes in accordance with the DPDP Act 2023."
                 )}
               </label>
             </div>

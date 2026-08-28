@@ -1,7 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../context/AppContext";
-import { systemHealth, stateRankings, officerProfiles } from "../data/mockData";
+import {
+  systemHealth,
+  stateRankings,
+  officerProfiles,
+  escalations,
+  escalationRules,
+  officerEscalationMetrics,
+  type EscalationRecord,
+} from "../data/mockData";
 
 export default function Accountability() {
   const { t } = useApp();
@@ -9,6 +17,8 @@ export default function Accountability() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortField, setSortField] = useState<"rank" | "resolutionRate" | "avgResolutionDays" | "satisfaction">("rank");
   const [filterType, setFilterType] = useState<"all" | "states" | "uts">("all");
+  const [escalationTab, setEscalationTab] = useState<"active" | "resolved" | "rules" | "watchlist">("active");
+  const [selectedEscalation, setSelectedEscalation] = useState<EscalationRecord | null>(null);
 
   // Filter and sort state rankings
   const filteredStates = stateRankings
@@ -74,103 +84,137 @@ export default function Accountability() {
         </div>
       </div>
 
-      {/* ── SECTION 1: SYSTEM HEALTH OVERVIEW ── */}
+      {/* ── SECTION 1: SYSTEM HEALTH OVERVIEW (5-CARD RADAR) ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
           {/* Card 1: Total Resolved vs Paper Compliance */}
-          <div className="bg-white rounded border border-gray-200 shadow-sm p-5 border-t-4 border-t-[#2e7d32]">
-            <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
-              <span className="font-semibold uppercase tracking-wider">{t("समाधान दर", "Resolution Quality")}</span>
-              <span className="text-lg">🎯</span>
+          <div className="bg-white rounded border border-gray-200 shadow-sm p-4 border-t-4 border-t-[#2e7d32]">
+            <div className="flex items-center justify-between text-xs text-gray-500 mb-1.5">
+              <span className="font-semibold uppercase tracking-wider">{t("समाधान गुणवत्ता", "Resolution Quality")}</span>
+              <span className="text-base">🎯</span>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-1">
+            <div className="text-2xl font-extrabold text-gray-900 mb-0.5">
               {(systemHealth.totalResolved / 100000).toFixed(1)} {t("लाख", "Lakh")}
             </div>
-            <div className="text-xs text-gray-500 mb-3">
-              {t("कुल निवारित मामले (78% कुल दर)", "Total resolved cases (78% rate)")}
+            <div className="text-[11px] text-gray-500 mb-2">
+              {t("कुल निवारित मामले (78% दर)", "Total resolved cases (78% rate)")}
             </div>
             {/* Split Bar */}
-            <div className="space-y-1.5 pt-2 border-t border-gray-100">
-              <div className="flex justify-between text-xs font-semibold">
-                <span className="text-green-700">✅ {t("वास्तविक समाधान", "Real Solution")}: 78%</span>
-                <span className="text-amber-700">⚠️ {t("कागजी खानापूर्ति", "Paper Only")}: 22%</span>
+            <div className="space-y-1 pt-2 border-t border-gray-100">
+              <div className="flex justify-between text-[11px] font-semibold">
+                <span className="text-green-700">✅ {t("वास्तविक", "Real")}: 78%</span>
+                <span className="text-amber-700">⚠️ {t("कागजी", "Paper")}: 22%</span>
               </div>
               <div className="h-2 w-full bg-amber-100 rounded-full overflow-hidden flex">
                 <div className="bg-green-600 h-full" style={{ width: "78%" }} />
                 <div className="bg-amber-400 h-full" style={{ width: "22%" }} />
               </div>
               <div className="text-[10px] text-gray-400">
-                {t("नागरिक सत्यापन एवं ऑडिट द्वारा प्रमाणित", "Verified via citizen verification & audit")}
+                {t("नागरिक सत्यापन द्वारा प्रमाणित", "Verified via citizen audit")}
               </div>
             </div>
           </div>
 
           {/* Card 2: Central vs State Resolution Time */}
-          <div className="bg-white rounded border border-gray-200 shadow-sm p-5 border-t-4 border-t-[#1a237e]">
-            <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
+          <div className="bg-white rounded border border-gray-200 shadow-sm p-4 border-t-4 border-t-[#1a237e]">
+            <div className="flex items-center justify-between text-xs text-gray-500 mb-1.5">
               <span className="font-semibold uppercase tracking-wider">{t("औसत समाधान समय", "Avg Resolution Time")}</span>
-              <span className="text-lg">⏱️</span>
+              <span className="text-base">⏱️</span>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-1">
+            <div className="text-2xl font-extrabold text-gray-900 mb-0.5">
               18 {t("दिन", "Days")}
             </div>
-            <div className="text-xs text-gray-500 mb-3">
-              {t("राष्ट्रीय औसत (लक्ष्य: 21 दिन)", "National Average (Target: 21 days)")}
+            <div className="text-[11px] text-gray-500 mb-2">
+              {t("राष्ट्रीय औसत (लक्ष्य: 21 दिन)", "National Average (Target: 21d)")}
             </div>
-            <div className="space-y-1.5 pt-2 border-t border-gray-100 text-xs">
+            <div className="space-y-1 pt-2 border-t border-gray-100 text-[11px]">
               <div className="flex justify-between">
-                <span className="text-gray-600 font-medium">🏛️ {t("केंद्र मंत्रालय", "Central Ministries")}:</span>
-                <span className="font-bold text-green-700">13 {t("दिन", "Days")} ✅</span>
+                <span className="text-gray-600 font-medium">🏛️ {t("केंद्र", "Central")}:</span>
+                <span className="font-bold text-green-700">13 {t("दिन", "d")} ✅</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600 font-medium">🗺️ {t("राज्य विभाग", "State Departments")}:</span>
-                <span className="font-bold text-red-600">64 {t("दिन", "Days")} ⚠️</span>
+                <span className="text-gray-600 font-medium">🗺️ {t("राज्य", "State")}:</span>
+                <span className="font-bold text-red-600">64 {t("दिन", "d")} ⚠️</span>
               </div>
               <div className="text-[10px] text-red-500 font-medium pt-0.5">
-                ▲ {t("राज्यों में समाधान गति चिंता का विषय है", "State-level delays remain key bottleneck")}
+                ▲ {t("राज्यों में विलंब मुख्य अड़चन", "State delays remain key bottleneck")}
               </div>
             </div>
           </div>
 
           {/* Card 3: Citizen Satisfaction Score */}
-          <div className="bg-white rounded border border-gray-200 shadow-sm p-5 border-t-4 border-t-[#e65100]">
-            <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
-              <span className="font-semibold uppercase tracking-wider">{t("नागरिक संतुष्टि", "Citizen Satisfaction")}</span>
-              <span className="text-lg">⭐</span>
+          <div className="bg-white rounded border border-gray-200 shadow-sm p-4 border-t-4 border-t-[#e65100]">
+            <div className="flex items-center justify-between text-xs text-gray-500 mb-1.5">
+              <span className="font-semibold uppercase tracking-wider">{t("नागरिक संतुष्टि", "Citizen Rating")}</span>
+              <span className="text-base">⭐</span>
             </div>
-            <div className="flex items-baseline gap-2 mb-1">
-              <span className="text-2xl sm:text-3xl font-extrabold text-gray-900">4.2</span>
-              <span className="text-sm font-semibold text-gray-400">/ 5.0</span>
+            <div className="flex items-baseline gap-1.5 mb-0.5">
+              <span className="text-2xl font-extrabold text-gray-900">4.2</span>
+              <span className="text-xs font-semibold text-gray-400">/ 5.0</span>
             </div>
-            <div className="text-xs text-gray-500 mb-3">
-              {t("3.8 लाख सत्यापित नागरिक फीडबैक", "Based on 3.8 Lakh verified citizen reviews")}
+            <div className="text-[11px] text-gray-500 mb-2">
+              {t("3.8 लाख सत्यापित नागरिक फीडबैक", "Based on 3.8L verified citizen reviews")}
             </div>
             <div className="pt-2 border-t border-gray-100 flex items-center justify-between text-xs">
-              <span className="text-amber-500 text-base">★★★★☆</span>
-              <span className="font-bold text-green-700">+0.4 {t("पिछले वर्ष से", "vs last year")}</span>
+              <span className="text-amber-500 text-sm">★★★★☆</span>
+              <span className="font-bold text-green-700 text-[11px]">+0.4 {t("पिछले वर्ष से", "vs last year")}</span>
             </div>
           </div>
 
-          {/* Card 4: First-time routing & Accountability */}
-          <div className="bg-white rounded border border-gray-200 shadow-sm p-5 border-t-4 border-t-[#006064]">
-            <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
-              <span className="font-semibold uppercase tracking-wider">{t("AI सटीकता एवं जवाबदेही", "AI Precision & Officers")}</span>
-              <span className="text-lg">🤖</span>
+          {/* Card 4: AUTO-ESCALATIONS THIS WEEK (CRITICAL COMPONENT) */}
+          <div className="bg-white rounded border border-gray-200 shadow-sm p-4 border-t-4 border-t-[#c62828] relative overflow-hidden">
+            <div className="flex items-center justify-between text-xs text-gray-500 mb-1.5">
+              <span className="font-semibold uppercase tracking-wider text-red-800 flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-red-600 animate-ping inline-block" />
+                {t("सक्रिय एस्केलेशन", "Active Escalations")}
+              </span>
+              <span className="text-base">🚨</span>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-1">
+            <div className="flex items-baseline gap-2 mb-0.5">
+              <span className="text-2xl font-extrabold text-red-700">{systemHealth.activeEscalations}</span>
+              <span className="text-[11px] font-semibold text-gray-500">
+                ({t("दर:", "Rate:")} {systemHealth.escalationRate}%)
+              </span>
+            </div>
+            <div className="text-[11px] text-gray-500 mb-2">
+              {t("कागजी समाधान पर स्वतः अलर्ट", "Auto-triggered by citizen feedback")}
+            </div>
+            <div className="space-y-1 pt-2 border-t border-gray-100 text-[11px]">
+              <div className="flex justify-between">
+                <span className="text-gray-600">🏛️ {t("राज्य स्तर (नोडल):", "State Level:")}</span>
+                <span className="font-bold text-gray-900">{systemHealth.stateEscalations}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">🏢 {t("मंत्रालय स्तर:", "Ministry Level:")}</span>
+                <span className="font-bold text-gray-900">{systemHealth.ministryEscalations}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">⚖️ {t("अपीलीय प्राधिकरण:", "Appellate Authority:")}</span>
+                <span className="font-bold text-purple-700">{systemHealth.appealEscalations}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 5: AI Precision & Active Officers */}
+          <div className="bg-white rounded border border-gray-200 shadow-sm p-4 border-t-4 border-t-[#006064]">
+            <div className="flex items-center justify-between text-xs text-gray-500 mb-1.5">
+              <span className="font-semibold uppercase tracking-wider">{t("AI सटीकता एवं नोडल", "AI & Officers")}</span>
+              <span className="text-base">🤖</span>
+            </div>
+            <div className="text-2xl font-extrabold text-gray-900 mb-0.5">
               89%
             </div>
-            <div className="text-xs text-gray-500 mb-3">
+            <div className="text-[11px] text-gray-500 mb-2">
               {t("पहली बार सही विभाग को रूटिंग", "First-time correct routing rate")}
             </div>
-            <div className="pt-2 border-t border-gray-100 space-y-1 text-xs">
+            <div className="pt-2 border-t border-gray-100 space-y-1 text-[11px]">
               <div className="flex justify-between">
-                <span className="text-gray-600">{t("सक्रिय नोडल अधिकारी", "Active Nodal Officers")}:</span>
+                <span className="text-gray-600">{t("सक्रिय नोडल अधिकारी:", "Active PG Officers:")}</span>
                 <span className="font-bold text-gray-900">91,420</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">{t("बाउंस रोकथाम दर", "Bounce Avoidance")}:</span>
-                <span className="font-bold text-green-700">94.2%</span>
+                <span className="text-gray-600">{t("माह में हल एस्केलेशन:", "Redressed This Mo:")}</span>
+                <span className="font-bold text-green-700">134 ✅</span>
               </div>
             </div>
           </div>
@@ -264,6 +308,626 @@ export default function Accountability() {
           ))}
         </div>
       </div>
+
+      {/* ── SECTION 2.5: PUBLIC AUTO-ESCALATION RADAR & CPGRAMS STATUTORY OVERSIGHT ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-10">
+        <div className="bg-white border border-gray-200 rounded shadow-sm overflow-hidden border-t-4 border-t-[#c62828]">
+          {/* Section Header */}
+          <div className="p-5 border-b border-gray-200 bg-gradient-to-r from-red-50/40 via-white to-amber-50/30">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+              <div>
+                <div className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-0.5 rounded uppercase tracking-wider bg-red-100 text-red-800 border border-red-200 mb-1.5">
+                  🚨 {t("CPGRAMS वैधानिक स्वतः एस्केलेशन रडार", "CPGRAMS Statutory Auto-Escalation Radar")}
+                </div>
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900 flex items-center gap-2">
+                  <span>{t("कागजी खानापूर्ति पर रोक: स्वतः एस्केलेशन प्रणाली", "Ending Paper Compliance: The Auto-Escalation Loop")}</span>
+                </h2>
+                <p className="text-xs text-gray-600 mt-1 max-w-3xl leading-relaxed">
+                  {t(
+                    "जब कोई नागरिक शिकायत बंद होने के बाद 1-2 स्टार (खराब) रेटिंग देता है या 'समस्या ठीक नहीं हुई' दर्ज करता है, तो मामला स्वतः राज्य नोडल पीजी अधिकारी एवं नोडल अपीलीय प्राधिकरण को 24-48 घंटे में एस्केलेट होता है।",
+                    "When a citizen rates ≤ 2 stars ('Poor') or reports 'problem not fixed', CPGRAMS auto-escalates to State Nodal PG Officers & the Nodal Appellate Authority within 24-48h."
+                  )}
+                </p>
+              </div>
+
+              {/* Status Summary Pills */}
+              <div className="flex flex-wrap items-center gap-2 self-start lg:self-auto">
+                <div className="bg-white border border-red-200 shadow-2xs rounded px-3 py-1.5 text-center">
+                  <div className="text-[10px] uppercase tracking-wider text-red-600 font-bold">{t("सक्रिय एस्केलेशन", "Active Escalations")}</div>
+                  <div className="text-lg font-black text-red-700">{systemHealth.activeEscalations}</div>
+                </div>
+                <div className="bg-white border border-green-200 shadow-2xs rounded px-3 py-1.5 text-center">
+                  <div className="text-[10px] uppercase tracking-wider text-green-600 font-bold">{t("इस माह निवारित", "Redressed (Month)")}</div>
+                  <div className="text-lg font-black text-green-700">{systemHealth.escalationsResolvedThisMonth}</div>
+                </div>
+                <div className="bg-white border border-blue-200 shadow-2xs rounded px-3 py-1.5 text-center">
+                  <div className="text-[10px] uppercase tracking-wider text-blue-600 font-bold">{t("राष्ट्रीय एस्केलेशन दर", "National Rate")}</div>
+                  <div className="text-lg font-black text-[#1a237e]">{systemHealth.escalationRate}%</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Radar Navigation Tabs */}
+            <div className="flex gap-2 mt-5 overflow-x-auto pb-1 border-t border-gray-200/80 pt-4">
+              <button
+                onClick={() => setEscalationTab("active")}
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded text-xs font-bold transition-all ${
+                  escalationTab === "active"
+                    ? "bg-[#c62828] text-white shadow-xs"
+                    : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"
+                }`}
+              >
+                <span>🚨 {t("सक्रिय एस्केलेशन", "Active Escalations")}</span>
+                <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${escalationTab === "active" ? "bg-white/30 text-white" : "bg-red-100 text-red-800"}`}>
+                  {escalations.filter((e) => e.status === "active").length}
+                </span>
+              </button>
+
+              <button
+                onClick={() => setEscalationTab("resolved")}
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded text-xs font-bold transition-all ${
+                  escalationTab === "resolved"
+                    ? "bg-[#2e7d32] text-white shadow-xs"
+                    : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"
+                }`}
+              >
+                <span>✅ {t("नोडल अधिकारियों द्वारा हल", "Resolved by Nodal Officers")}</span>
+                <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${escalationTab === "resolved" ? "bg-white/30 text-white" : "bg-green-100 text-green-800"}`}>
+                  {escalations.filter((e) => e.status === "closed").length}
+                </span>
+              </button>
+
+              <button
+                onClick={() => setEscalationTab("rules")}
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded text-xs font-bold transition-all ${
+                  escalationTab === "rules"
+                    ? "bg-[#1a237e] text-white shadow-xs"
+                    : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"
+                }`}
+              >
+                <span>⚖️ {t("CPGRAMS पदानुक्रम एवं नियम", "CPGRAMS Hierarchy & Rules")}</span>
+                <span className="text-[10px] px-1.5 py-0.2 rounded bg-indigo-100 text-indigo-900 font-semibold">
+                  3 {t("नियम", "Rules")}
+                </span>
+              </button>
+
+              <button
+                onClick={() => setEscalationTab("watchlist")}
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded text-xs font-bold transition-all ${
+                  escalationTab === "watchlist"
+                    ? "bg-amber-600 text-white shadow-xs"
+                    : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"
+                }`}
+              >
+                <span>⚠️ {t("अधिकारी जोखिम वॉचलिस्ट", "Officer Risk Watchlist")}</span>
+                <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-100 text-amber-900 font-semibold">
+                  {Object.values(officerEscalationMetrics).filter((m) => m.red_flag).length} {t("फ्लैग", "Flags")}
+                </span>
+              </button>
+            </div>
+          </div>
+
+          {/* TAB 1: ACTIVE ESCALATIONS */}
+          {escalationTab === "active" && (
+            <div className="p-5 space-y-4">
+              <div className="flex items-center justify-between text-xs text-gray-500 pb-1">
+                <span>{t("सक्रिय समीक्षा के तहत लंबित एस्केलेशन केस (30-दिवसीय वैधानिक अपीलीय सीमा में)", "Active cases under supervisory review (tracked against 30-day statutory appeal mandate)")}</span>
+                <span className="font-semibold text-red-600">● {t("लाइव डेटा", "Live Data")}</span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {escalations
+                  .filter((e) => e.status === "active")
+                  .map((item) => (
+                    <div
+                      key={item.id}
+                      className="border border-red-200 rounded-lg p-4 bg-red-50/20 hover:border-red-400 transition-all flex flex-col justify-between"
+                    >
+                      <div>
+                        {/* Header */}
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-mono text-xs font-extrabold px-2 py-0.5 rounded bg-red-100 text-red-900 border border-red-200">
+                            {item.id} 🚨
+                          </span>
+                          <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-300">
+                            ⏳ {item.daysOpen} {t("दिन खुले", "days open")}
+                          </span>
+                        </div>
+
+                        <div className="mb-2">
+                          <Link
+                            to={`/case/${item.caseId}`}
+                            className="font-mono text-xs font-bold text-[#1a237e] hover:underline"
+                          >
+                            {item.caseId}
+                          </Link>
+                          <div className="text-[11px] text-gray-600 mt-0.5">
+                            {t("अधिकारी:", "Officer:")}{" "}
+                            <Link
+                              to={`/officer/${item.officerId}`}
+                              className="font-semibold text-gray-900 hover:text-[#1a237e] underline"
+                            >
+                              {item.officerName}
+                            </Link>{" "}
+                            ({item.department})
+                          </div>
+                          <div className="text-[10px] text-gray-400">
+                            📍 {item.state} • {item.ministry}
+                          </div>
+                        </div>
+
+                        {/* Citizen feedback */}
+                        <div className="p-2.5 rounded bg-white border border-gray-200 text-xs mb-3">
+                          <div className="text-[10px] text-amber-700 font-bold flex items-center gap-1 mb-0.5">
+                            <span>{"★".repeat(item.citizenRating)}</span>
+                            <span>{t("नागरिक असंतोष रिपोर्ट:", "Citizen Dissatisfaction:")}</span>
+                          </div>
+                          <p className="text-gray-800 italic leading-relaxed">
+                            "{t(item.feedbackHi, item.feedback)}"
+                          </p>
+                        </div>
+
+                        {/* Escalated to authority */}
+                        <div className="text-xs space-y-1 mb-3">
+                          <div className="text-gray-500 font-medium text-[11px]">
+                            {t("किसे एस्केलेट हुआ:", "Escalated to Authority:")}
+                          </div>
+                          <div className="font-bold text-indigo-900 flex items-center gap-1">
+                            <span>🏛️</span>
+                            <span>{item.escalatedTo}</span>
+                          </div>
+                          <div className="text-[10px] text-gray-500 font-mono">
+                            {t("ट्रिगर नियम: ", "Rule: ")} {t(item.triggerRuleHi, item.triggerRule)}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="pt-3 border-t border-red-100 flex items-center justify-between text-xs">
+                        <button
+                          onClick={() => setSelectedEscalation(item)}
+                          className="font-bold text-[#1a237e] hover:underline flex items-center gap-1"
+                        >
+                          <span>► {t("पूर्ण विवरण एवं ऑडिट", "View Audit Details")}</span>
+                        </button>
+                        <Link
+                          to={`/officer/${item.officerId}`}
+                          className="text-[11px] text-gray-500 hover:text-gray-800"
+                        >
+                          {t("प्रोफ़ाइल देखें →", "Officer Profile →")}
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 2: RESOLVED ESCALATIONS */}
+          {escalationTab === "resolved" && (
+            <div className="p-5 space-y-4">
+              <div className="flex items-center justify-between text-xs text-gray-500 pb-1">
+                <span>{t("वरिष्ठ नोडल अधिकारियों के पर्यवेक्षी हस्तक्षेप से सफलतापूर्वक हल हुए मामले", "Cases where supervisory Nodal intervention compelled genuine remedy over paper compliance")}</span>
+                <span className="font-semibold text-green-700">✓ {t("सत्यापित समाधान", "Remedy Verified")}</span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {escalations
+                  .filter((e) => e.status === "closed")
+                  .map((item) => (
+                    <div
+                      key={item.id}
+                      className="border border-green-200 rounded-lg p-4 bg-green-50/20 hover:border-green-400 transition-all"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-xs font-extrabold px-2 py-0.5 rounded bg-green-100 text-green-900 border border-green-300">
+                            {item.id} ✅
+                          </span>
+                          <Link
+                            to={`/case/${item.caseId}`}
+                            className="font-mono text-xs font-bold text-[#1a237e] hover:underline"
+                          >
+                            {item.caseId}
+                          </Link>
+                        </div>
+                        <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-green-100 text-green-800 border border-green-300 flex items-center gap-1">
+                          ✓ {t("हल हुआ (अवधि: 2-3 दिन)", "Resolved in 2-3 days")}
+                        </span>
+                      </div>
+
+                      <div className="text-xs text-gray-600 mb-2">
+                        {t("अधिकारी:", "Officer:")}{" "}
+                        <Link
+                          to={`/officer/${item.officerId}`}
+                          className="font-semibold text-gray-900 hover:text-[#1a237e] underline"
+                        >
+                          {item.officerName}
+                        </Link>{" "}
+                        ({item.department}, {item.state})
+                      </div>
+
+                      <div className="p-2.5 rounded bg-white border border-gray-200 text-xs mb-2.5">
+                        <div className="text-[10px] text-gray-500 font-semibold mb-0.5">{t("प्रारंभिक समस्या:", "Citizen Problem:")}</div>
+                        <p className="text-gray-800 italic">"{t(item.feedbackHi, item.feedback)}"</p>
+                      </div>
+
+                      <div className="p-2.5 rounded bg-green-50 border border-green-200 text-xs mb-3">
+                        <div className="text-[10px] text-green-800 font-bold uppercase tracking-wider mb-0.5">
+                          🎯 {t("नोडल अधिकारी द्वारा प्रदत्त वास्तविक समाधान:", "Nodal Supervisory Remedy:")}
+                        </div>
+                        <p className="text-green-950 font-semibold">{t(item.resolutionHi, item.resolution)}</p>
+                        <div className="text-[11px] text-green-800 mt-1">
+                          <span className="font-bold">{t("दीर्घकालिक प्रभाव: ", "Systemic Impact: ")}</span>
+                          {t(item.impactHi, item.impact)}
+                        </div>
+                      </div>
+
+                      <div className="pt-2 border-t border-green-100 flex items-center justify-between text-xs text-gray-500">
+                        <span>🏛️ {item.escalatedTo}</span>
+                        <button
+                          onClick={() => setSelectedEscalation(item)}
+                          className="font-bold text-[#1a237e] hover:underline"
+                        >
+                          {t("विवरण देखें →", "Audit Log →")}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 3: CPGRAMS HIERARCHY & STATUTORY RULES */}
+          {escalationTab === "rules" && (
+            <div className="p-5 space-y-6">
+              {/* Hierarchy Blueprint */}
+              <div className="bg-indigo-50/70 border border-indigo-200 rounded-lg p-4">
+                <h3 className="text-xs font-bold text-indigo-950 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                  <span>🏛️</span>
+                  <span>{t("CPGRAMS त्रि-स्तरीय जवाबदेही पदानुक्रम (वैधानिक ढांचा)", "CPGRAMS 3-Tier Accountability Hierarchy (Statutory Framework)")}</span>
+                </h3>
+                <p className="text-xs text-indigo-900 mb-4 leading-relaxed">
+                  {t(
+                    "CPGRAMS में प्रत्येक मंत्रालय, विभाग और राज्य में नोडल लोक शिकायत अधिकारी (निगरानी व मूल कारण विश्लेषण) तथा एक वरिष्ठ नोडल अपीलीय प्राधिकरण (30 दिनों में औपचारिक अपीलों का निपटारा) नियुक्त होते हैं।",
+                    "Under CPGRAMS statutory rules, Nodal PG Officers supervise GROs & analyze root-causes, while the Nodal Authority for Appeal (senior in rank) disposes formal citizen appeals within 30 days."
+                  )}
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+                  <div className="bg-white rounded p-3 border border-indigo-100 shadow-2xs">
+                    <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-900 font-bold flex items-center justify-center text-xs mb-1.5">1</div>
+                    <div className="font-bold text-gray-900">{t("फ्रंटलाइन अधिकारी (GRO)", "Front-line GRO")}</div>
+                    <div className="text-[11px] text-gray-500 mt-1 leading-tight">
+                      {t("प्राथमिक शिकायत निवारण अधिकारी। 21 दिनों में वास्तविक समाधान आवश्यक।", "Grievance Redressal Officer. Must deliver real remedy within 21 days.")}
+                    </div>
+                    <div className="mt-2 text-[10px] text-red-600 font-semibold">
+                      ⚡ {t("ट्रिगर: रेटिंग ≤ 2 स्टार", "Trigger: Rating ≤ 2 stars")}
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded p-3 border border-indigo-100 shadow-2xs border-l-4 border-l-amber-500">
+                    <div className="w-6 h-6 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center text-xs mb-1.5">2</div>
+                    <div className="font-bold text-gray-900">{t("नोडल PG अधिकारी (राज्य/केंद्र)", "Nodal PG Officer")}</div>
+                    <div className="text-[11px] text-gray-500 mt-1 leading-tight">
+                      {t("पर्यवेक्षी निगरानी, मूल कारण विश्लेषण और पेंडेंसी की समीक्षा।", "Supervisory oversight of GROs, root cause analysis & pendency audits.")}
+                    </div>
+                    <div className="mt-2 text-[10px] text-amber-700 font-semibold">
+                      ⚡ {t("कार्रवाई: 24-48 घंटे में हस्तक्षेप", "Action: 24-48h intervention")}
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded p-3 border border-indigo-100 shadow-2xs border-l-4 border-l-purple-600">
+                    <div className="w-6 h-6 rounded-full bg-purple-100 text-purple-900 font-bold flex items-center justify-center text-xs mb-1.5">3</div>
+                    <div className="font-bold text-gray-900">{t("नोडल अपीलीय प्राधिकरण", "Appellate Authority")}</div>
+                    <div className="text-[11px] text-gray-500 mt-1 leading-tight">
+                      {t("नोडल अधिकारी से वरिष्ठ पद के अधिकारी। 30 दिनों में अपीलों का अनिवार्य निस्तारण।", "Senior in rank to Nodal GRO. Disposes formal citizen appeals in 30 days.")}
+                    </div>
+                    <div className="mt-2 text-[10px] text-purple-700 font-semibold">
+                      ⚡ {t("सक्षम: 'खराब' फीडबैक मिलने पर", "Enabled on: 'Poor' feedback")}
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded p-3 border border-indigo-100 shadow-2xs border-l-4 border-l-green-600">
+                    <div className="w-6 h-6 rounded-full bg-green-100 text-green-900 font-bold flex items-center justify-center text-xs mb-1.5">4</div>
+                    <div className="font-bold text-gray-900">{t("CGA / PMO / DARPG", "CGA / PMO Oversight")}</div>
+                    <div className="text-[11px] text-gray-500 mt-1 leading-tight">
+                      {t("राष्ट्रीय जवाबदेही डैशबोर्ड, राज्य रैंकिंग और प्रणालीगत अड़चनों का ऑडिट।", "National public radar, state performance rankings & systemic delay audit.")}
+                    </div>
+                    <div className="mt-2 text-[10px] text-green-700 font-semibold">
+                      ⚡ {t("प्रभाव: करियर जवाबदेही", "Impact: Career accountability")}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 3 Explicit Rules Table */}
+              <div className="space-y-3">
+                <h3 className="text-xs font-bold text-gray-800 uppercase tracking-wider">
+                  📜 {t("स्वतः एस्केलेशन के 3 वैधानिक नियम", "The 3 Statutory Auto-Escalation Rules")}
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {escalationRules.map((rule) => (
+                    <div key={rule.id} className="border border-gray-200 rounded-lg p-4 bg-gray-50/50 flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-gray-200 text-gray-800">
+                            {rule.id}
+                          </span>
+                          <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-red-100 text-red-800 border border-red-200">
+                            ⏱️ {t(rule.timelineHi, rule.timeline)}
+                          </span>
+                        </div>
+
+                        <h4 className="font-bold text-sm text-gray-900 mb-1">
+                          {t(rule.nameHi, rule.name)}
+                        </h4>
+
+                        <div className="mt-2 space-y-2 text-xs">
+                          <div>
+                            <span className="text-gray-500 font-medium">{t("ट्रिगर संकेत:", "Trigger Signal:")}</span>
+                            <div className="font-semibold text-red-700 mt-0.5">
+                              {t(rule.triggerHi, rule.trigger)}
+                            </div>
+                          </div>
+
+                          <div>
+                            <span className="text-gray-500 font-medium">{t("स्वतः कार्रवाई:", "Automated Action:")}</span>
+                            <div className="font-semibold text-gray-800 mt-0.5">
+                              {t(rule.actionHi, rule.action)}
+                            </div>
+                          </div>
+
+                          <div>
+                            <span className="text-gray-500 font-medium">{t("संबद्ध प्राधिकारी:", "Target Role:")}</span>
+                            <div className="font-bold text-indigo-900 mt-0.5">
+                              {t(rule.targetRoleHi, rule.targetRole)}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-3 pt-3 border-t border-gray-200 text-[11px] text-gray-500">
+                        <span className="font-bold text-gray-700">{t("कानूनी आधार: ", "Statutory Basis: ")}</span>
+                        {t(rule.legalBasisHi, rule.legalBasis)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: OFFICER RISK WATCHLIST */}
+          {escalationTab === "watchlist" && (
+            <div className="p-5 space-y-4">
+              <div className="flex items-center justify-between text-xs text-gray-500 pb-1">
+                <span>{t("उच्च एस्केलेशन अथवा आवर्ती कागजी खानापूर्ति वाले अधिकारी (सार्वजनिक पारदर्शिता निगरानी सूची)", "Officers flagged for elevated escalation rates or repeat paper solutions (Public Watchlist)")}</span>
+                <span className="font-semibold text-amber-700">⚠️ {t("सार्वजनिक निगरानी", "Public Scrutiny")}</span>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-gray-100 text-gray-700 font-bold border-b border-gray-200">
+                      <th className="py-2.5 px-3">{t("अधिकारी का नाम", "Officer Name")}</th>
+                      <th className="py-2.5 px-3">{t("विभाग / राज्य", "Department / State")}</th>
+                      <th className="py-2.5 px-3 text-center">{t("एस्केलेशन दर", "Escalation Rate")}</th>
+                      <th className="py-2.5 px-3 text-center">{t("सक्रिय एस्केलेशन", "Active Escalations")}</th>
+                      <th className="py-2.5 px-3 text-center">{t("जोखिम स्तर", "Risk Level")}</th>
+                      <th className="py-2.5 px-3 text-center">{t("प्रशासनिक स्थिति", "Status")}</th>
+                      <th className="py-2.5 px-3 text-right">{t("कार्रवाई", "Action")}</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {Object.entries(officerEscalationMetrics).map(([officerId, metrics]) => {
+                      const officer = officerProfiles.find((o) => o.id === officerId);
+                      if (!officer) return null;
+
+                      return (
+                        <tr key={officerId} className="hover:bg-red-50/30 transition-colors">
+                          <td className="py-2.5 px-3 font-semibold text-gray-900">
+                            <div className="flex items-center gap-2">
+                              <span
+                                className="w-6 h-6 rounded-full flex items-center justify-center text-white font-bold text-[10px]"
+                                style={{ background: officer.avatarColor }}
+                              >
+                                {officer.initials}
+                              </span>
+                              <Link to={`/officer/${officer.id}`} className="hover:text-[#1a237e] hover:underline">
+                                {t(officer.nameHi, officer.name)}
+                              </Link>
+                            </div>
+                          </td>
+
+                          <td className="py-2.5 px-3 text-gray-600">
+                            <div>{officer.ministry}</div>
+                            <div className="text-[10px] text-gray-400">📍 {officer.state}</div>
+                          </td>
+
+                          <td className="py-2.5 px-3 text-center font-bold text-gray-900">
+                            <span className={metrics.escalation_rate > 2.0 ? "text-red-700 font-extrabold" : "text-gray-800"}>
+                              {metrics.escalation_rate}%
+                            </span>
+                            <span className="text-[10px] text-gray-400 block">
+                              ({metrics.escalations_total} {t("कुल", "total")})
+                            </span>
+                          </td>
+
+                          <td className="py-2.5 px-3 text-center font-bold">
+                            {metrics.current_escalations > 0 ? (
+                              <span className="px-2 py-0.5 rounded bg-red-100 text-red-800 text-[11px]">
+                                {metrics.current_escalations} {t("सक्रिय", "Active")}
+                              </span>
+                            ) : (
+                              <span className="text-gray-400 text-xs">0</span>
+                            )}
+                          </td>
+
+                          <td className="py-2.5 px-3 text-center">
+                            <span
+                              className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                                metrics.risk_level === "high"
+                                  ? "bg-red-100 text-red-800 border border-red-300"
+                                  : metrics.risk_level === "medium"
+                                  ? "bg-amber-100 text-amber-800 border border-amber-300"
+                                  : "bg-green-100 text-green-800 border border-green-300"
+                              }`}
+                            >
+                              {metrics.risk_level === "high"
+                                ? `🔴 ${t("उच्च जोखिम", "High Risk")}`
+                                : metrics.risk_level === "medium"
+                                ? `🟡 ${t("मध्यम", "Moderate")}`
+                                : `🟢 ${t("निम्न", "Low")}`}
+                            </span>
+                          </td>
+
+                          <td className="py-2.5 px-3 text-center text-xs">
+                            {metrics.red_flag ? (
+                              <span className="text-red-700 font-bold flex items-center justify-center gap-1">
+                                <span>🚩</span> {t("समीक्षाधीन", "Under Audit")}
+                              </span>
+                            ) : (
+                              <span className="text-green-700 font-medium">✓ {t("सामान्य", "Standard")}</span>
+                            )}
+                          </td>
+
+                          <td className="py-2.5 px-3 text-right">
+                            <button
+                              onClick={() => navigate(`/officer/${officer.id}`)}
+                              className="btn-gov-secondary text-xs px-2.5 py-1"
+                            >
+                              {t("ऑडिट देखें", "Audit")} →
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="p-3 rounded bg-amber-50 border border-amber-200 text-xs text-amber-900 flex items-start gap-2">
+                <span className="text-base flex-shrink-0">⚠️</span>
+                <div>
+                  <span className="font-bold">{t("नागरिक अधिकार सूचना:", "Citizen Advisory:")}</span>{" "}
+                  {t(
+                    "नागरिक शिकायत दर्ज करते समय अधिकारी की एस्केलेशन दर देखकर बेहतर प्रदर्शन करने वाले नोडल अधिकारी का अनुरोध कर सकते हैं। इससे अधिकारियों पर निष्पक्ष और समयबद्ध काम करने का दबाव बनता है।",
+                    "Citizens can view officer escalation rates when lodging complaints and request high-performing nodal officers. This public transparency drives genuine redress across departments."
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ── ESCALATION DETAILS MODAL ── */}
+      {selectedEscalation && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+          <div className="bg-white rounded-xl max-w-2xl w-full border border-gray-200 shadow-xl overflow-hidden animate-in fade-in zoom-in-95">
+            <div className="p-4 bg-[#1a237e] text-white flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">🚨</span>
+                <h3 className="font-bold text-sm">
+                  {t("स्वतः एस्केलेशन केस ऑडिट लॉग", "Auto-Escalation Case Audit Log")} — {selectedEscalation.id}
+                </h3>
+              </div>
+              <button
+                onClick={() => setSelectedEscalation(null)}
+                className="text-white/80 hover:text-white text-lg font-bold px-2 py-0.5 rounded hover:bg-white/10"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="p-5 space-y-4 text-xs max-h-[80vh] overflow-y-auto">
+              <div className="flex items-center justify-between pb-3 border-b border-gray-200">
+                <div>
+                  <div className="text-gray-400 font-mono text-[11px]">{selectedEscalation.caseId}</div>
+                  <div className="font-bold text-sm text-gray-900">{selectedEscalation.department} ({selectedEscalation.ministry})</div>
+                  <div className="text-gray-500">📍 {selectedEscalation.state} • {t("एस्केलेशन तिथि:", "Escalated on:")} {selectedEscalation.escalatedDate}</div>
+                </div>
+                <span
+                  className={`font-bold px-2.5 py-1 rounded text-xs ${
+                    selectedEscalation.status === "active"
+                      ? "bg-red-100 text-red-800 border border-red-300"
+                      : "bg-green-100 text-green-800 border border-green-300"
+                  }`}
+                >
+                  {selectedEscalation.status === "active"
+                    ? `⏳ ${t("सक्रिय समीक्षा (खुले दिन: ", "Active (Days open: ")}${selectedEscalation.daysOpen})`
+                    : `✓ ${t("संतुष्टि से बंद", "Closed Satisfactorily")}`}
+                </span>
+              </div>
+
+              <div className="bg-gray-50 rounded p-3 border border-gray-200">
+                <div className="text-[11px] text-gray-500 font-bold mb-1">
+                  {t("नागरिक असंतोष रेटिंग एवं फीडबैक:", "Citizen Rating & Feedback Trigger:")}
+                </div>
+                <div className="text-amber-600 font-bold mb-1">
+                  {"★".repeat(selectedEscalation.citizenRating)} ({selectedEscalation.citizenRating}/5.0 — {t("असंतोषजनक", "Poor")})
+                </div>
+                <p className="italic text-gray-800 leading-relaxed">
+                  "{t(selectedEscalation.feedbackHi, selectedEscalation.feedback)}"
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="p-3 rounded border border-gray-200 bg-white">
+                  <div className="text-[11px] text-gray-500 font-semibold">{t("मूल फ्रंटलाइन अधिकारी:", "Assigned Frontline GRO:")}</div>
+                  <div className="font-bold text-gray-900 mt-0.5">{selectedEscalation.officerName}</div>
+                  <div className="text-[11px] text-gray-500">{selectedEscalation.officerDesignation}</div>
+                </div>
+
+                <div className="p-3 rounded border border-indigo-200 bg-indigo-50/50">
+                  <div className="text-[11px] text-indigo-700 font-semibold">{t("पर्यवेक्षी नोडल प्राधिकारी:", "Supervisory Nodal Authority:")}</div>
+                  <div className="font-bold text-indigo-950 mt-0.5">🏛️ {selectedEscalation.escalatedTo}</div>
+                  <div className="text-[11px] text-indigo-800 font-mono mt-0.5">{selectedEscalation.triggerRule}</div>
+                </div>
+              </div>
+
+              <div className="p-3 rounded border border-gray-200 bg-white">
+                <div className="text-[11px] text-gray-500 font-bold uppercase tracking-wider mb-1">
+                  🎯 {t("पर्यवेक्षी कार्रवाई एवं निस्तारण स्थिति:", "Supervisory Finding & Remedial Action:")}
+                </div>
+                <p className="text-gray-900 leading-relaxed">
+                  {t(selectedEscalation.resolutionHi, selectedEscalation.resolution)}
+                </p>
+                <div className="mt-2 pt-2 border-t border-gray-100 text-[11px] text-gray-600">
+                  <span className="font-bold text-gray-800">{t("सुधार प्रभाव: ", "Systemic Impact: ")}</span>
+                  {t(selectedEscalation.impactHi, selectedEscalation.impact)}
+                </div>
+              </div>
+
+              <div className="p-3 rounded bg-blue-50 border border-blue-200 text-[11px] text-blue-900 leading-relaxed">
+                <span className="font-bold">⚖️ {t("CPGRAMS 30-दिवसीय वैधानिक गारंटी:", "CPGRAMS Statutory 30-Day Disposal Guarantee:")}</span>{" "}
+                {t(
+                  "नोडल अपीलीय प्राधिकरण को पहली अपील प्राप्त होने के 30 दिनों के भीतर शिकायतकर्ता की सुनवाई कर अंतिम निर्णय देना अनिवार्य है।",
+                  "The Nodal Appellate Authority is statutorily mandated to dispose of appeals within 30 days of filing."
+                )}
+              </div>
+            </div>
+
+            <div className="p-3.5 bg-gray-50 border-t border-gray-200 flex items-center justify-between">
+              <Link
+                to={`/case/${selectedEscalation.caseId}`}
+                onClick={() => setSelectedEscalation(null)}
+                className="btn-gov-secondary text-xs px-3 py-1.5"
+              >
+                {t("केस टाइमलाइन देखें", "View Case Timeline")}
+              </Link>
+
+              <button
+                onClick={() => setSelectedEscalation(null)}
+                className="btn-gov-primary text-xs px-4 py-1.5"
+              >
+                {t("बंद करें", "Close Log")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── SECTION 3: ALL 36 STATES & UTS RANKINGS ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-10 mb-12">

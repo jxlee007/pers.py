@@ -334,9 +334,14 @@ export default function Footer() {
               {t("वेबसाइट नीतियां", "Website Policies")}
             </Link>
             <span className="text-gray-600">|</span>
-            <Link to="/web-information-manager" className="hover:text-white hover:underline transition-colors">
+            <a
+              href="https://darpg.gov.in/en/web-information-manager"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white hover:underline transition-colors"
+            >
               {t("वेब सूचना प्रबंधक", "Web Information Manager")}
-            </Link>
+            </a>
           </div>
 
           <div className="text-center sm:text-right text-xs">
