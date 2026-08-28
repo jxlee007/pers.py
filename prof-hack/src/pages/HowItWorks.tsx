@@ -53,7 +53,6 @@ export default function HowItWorks() {
     { aspect: t("भाषा", "Language"), old: t("सिर्फ English", "English only"), new: t("22 भारतीय भाषाएं", "All 22 Indian languages") },
     { aspect: t("रूटिंग", "Routing"), old: t("कीवर्ड मिलान", "Keyword matching"), new: t("AI संदर्भ समझ", "AI context understanding") },
     { aspect: t("टेक्स्ट आकार", "Text size"), old: "12px", new: "18px+" },
-    { aspect: t("दस्तावेज़", "Documents"), old: t("अनिवार्य", "Required"), new: t("वैकल्पिक", "Optional") },
     { aspect: t("भरने का समय", "Time to file"), old: t("15 मिनट+", "15+ minutes"), new: t("3-5 मिनट", "3-5 minutes") },
     { aspect: t("समाधान", "Resolution"), old: t("3 महीने+ (अक्सर असफल)", "3 months+ (often fails)"), new: t("18 दिन औसत", "18 days average") },
     { aspect: t("मोबाइल", "Mobile"), old: t("डेस्कटॉप-पहले", "Desktop-first"), new: t("मोबाइल-पहले (2G)", "Mobile-first (2G ready)") },
