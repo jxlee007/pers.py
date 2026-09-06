@@ -79,11 +79,6 @@ def array_shuffle(nums,n):
     print(new)
 
 
-
-
-
-
-
 def array_concat(nums): 
 
     num1 = nums
@@ -92,7 +87,6 @@ def array_concat(nums):
     print(num1+num2)
 
 
-        
-
+# ----------------------------
 if __name__ == "__main__":
     main()
