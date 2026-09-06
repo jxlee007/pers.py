@@ -7,7 +7,7 @@
 
 def main():
     # array_concat([1,2,1])
-    array_shuffle([1,2,3,4,4,3,2,1], 4)
+    array_shuffle([7,5,9,7,5,8,10,4,3,3,2,5,9,10], 7)
 
     pass
 
@@ -16,8 +16,9 @@ def main():
     # arrays
 def array_shuffle(nums,n): 
 
-    # my initial aapproach was to find number in list to split
+    # my initial approach was to find number in list to split
     # correct approch is to find index in list to to split
+
 
     """
     make left half
@@ -32,16 +33,20 @@ def array_shuffle(nums,n):
     return result
     """
 
-    shuffle_index = n 
     # original list
     num1 = nums
 
+    # shuffle_index = n
+    length = len(num1)
+    shuffle_index = length // 2
+
+
+
 # split list from nth term
     # find shuffle number in list
-    position = num1[shuffle_index]
+    position = shuffle_index
 
     # create 2 list using slice
-    
     left = num1[:position] # before
     right = num1[position:] # after
 
@@ -51,14 +56,7 @@ def array_shuffle(nums,n):
     element = 0
     new = []
 
-    #to avoid extra elem 
-    if len(left) > len(right):
-        big_list = left
-    else:
-        big_list = right
-        
-    
-    for i in range(len(big_list)):
+    for i in range(len(num1)):
 
         # expected shuffle pattern
 
