@@ -1,0 +1,48 @@
+TODAY TASK - review and improve
+
+Q1 - Remove duplicate keep order. Why use SET + LIST, not just SET alone?
+A1 - SET is use for fast lookup using its unique val property and LIST is for maintain the order
+
+Q - Why tracker SET needed? Why not just: What wrong with this? Why YOUR approach better?
+A - SET is needed to remove duplicate values. i cannot identify what wrong with this approach as it is also giving right output in order
+
+Q2 - You say "modern way use dict". Show me code. Explain WHY dict better than set + list.
+A2 - return list(dict.fromkeys(input_list))  # dict.fromkeys() forces unique keys while preserving order
+
+
+FIX 1 - UNDERSTAND DICT.FROMKEYS - Write TC
+FIX 2 - UNDERSTAND O(1) vs O(n)  
+
+T8
+Find two number in list that add up to target
+
+input: nums = [2, 7, 11, 15], target = 9
+output: [0, 1]  # index of 2 and 7
+
+Edge case:
+- Negative numbers
+- No solution
+- Duplicate number
+- List size 0, 1, 2
+
+Before code: (no ai help)
+
+
+Brute force way: O(n²) → check every pair
+Better way: O(n) → what data structure?
+Pseudocode:
+
+Step 1?
+Step 2?
+Step 3?
+
+
+Edge case:
+
+What if no answer?
+What if duplicate number?
+What if list size 1, 2?
+
+
+THEN code
+

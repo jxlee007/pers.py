@@ -1,0 +1,160 @@
+TODAY TASK - HOW TO GET INPUT 
+
+- DO SETUP IN THE HTML FILE 
+    - always have your all html files in the templates folder 
+    - to form action add - {% url 'submit_data' %} - when you want to render result on another route
+    - in form add - {% csrf_token %} - to protect and verify your req 
+    - to process output on the same page 
+        - remove action or keep it empty 
+        - add conditional templates using context dict
+        - to format output  use pre tag 
+
+- In urls.py
+    - best approach is to use - from app_name import views as something
+    - the single Route handles GET(view) and POST(submit) - when you show output on the same page  
+
+- goto views.py in app folder
+    - request is for handling incoming browser request with info
+    - it result in output on submit Route - new page
+        - as we use HttpResponse - 
+    - But to show the output on the same page were input was taken 
+        - need to use context dict
+            - pass output through context dict from py to html
+
+
+- ## Strict OOP steps for the `arcade_pass` app
+
+### 1. Separate responsibilities
+Right now, `arcade_pass/views.py` does:
+- read request data
+- validate/convert input
+- do all calculations
+- build output
+- render the template
+
+Strict OOP says: one thing per class/module.
+
+So split it into:
+- input data container
+- calculation service
+- optional result object
+- view adapter
+
+---
+
+### 2. Create a data object for the purchase
+Make a simple class or dataclass to represent the user’s purchase.
+
+Example concept:
+- `Purchase`
+- fields: `customer_name`, `passes_bought`
+
+This is your domain data. It should be immutable if possible:
+- `@dataclass(frozen=True)`
+
+Why:
+- keeps the raw form data in one place
+- avoids passing loose variables around
+
+---
+
+### 3. Create an arcade service class
+Put all business rules in one class, not the view.
+
+Example concept:
+- `ArcadeService`
+- constants inside the class: `PASS_PRICE`, `TOKENS_PER_PASS`, `TOKENS_PER_GAME`
+- methods:
+  - `calculate_total_tokens(purchase)`
+  - `calculate_total_cost(purchase)`
+  - `calculate_games_available(purchase)`
+  - `build_receipt_text(purchase)`
+
+Why:
+- the view no longer contains calculation logic
+- the service becomes reusable and testable
+- constants are centralized
+
+---
+
+### 4. Use a result/receipt object
+Instead of a raw string, return a small object from the service.
+
+Example:
+- `Receipt`
+- fields: `customer_name`, `total_cost`, `total_tokens`, `games_available`, `text`
+
+Why:
+- stronger typing
+- easier to render in template
+- easier to test each value separately
+
+---
+
+### 5. Keep the view as an adapter only
+In `arcade_pass/views.py`, the view should:
+- read `request.POST`
+- build a `Purchase`
+- call `ArcadeService`
+- put the returned `Receipt` or text into `context`
+- render `arcade-tracker.html`
+
+This is the strictest OOP pattern for Django:
+- view = adapter/controller
+- service = domain logic
+- data classes = domain models
+- template = presentation
+
+---
+
+### 6. Validate and convert input in one place
+Inside the data object or service, handle:
+- converting `passes_bought` from string to int
+- checking missing or invalid values
+
+Better:
+- `Purchase.from_request(request.POST)` factory method
+- or a small validator class
+
+This keeps the view clean and enforces data correctness.
+
+---
+
+### 7. Test the service, not the view
+Write tests for `ArcadeService` and `Purchase`:
+- `test_total_cost_is_correct`
+- `test_games_available_calculation`
+- `test_receipt_text_format`
+
+Why:
+- strict OOP means business logic lives in classes
+- testing becomes easier because you don’t need HTTP requests
+
+---
+
+### Practical file structure
+Use this structure:
+- `arcade_pass/models.py` or `arcade_pass/dto.py` → `Purchase`, `Receipt`
+- `arcade_pass/services.py` → `ArcadeService`
+- `arcade_pass/views.py` → thin Django view
+- `arcade_pass/templates/arcade-tracker.html` → display `receipt.text`
+
+---
+
+### Example flow
+1. `templates/arcade-tracker.html` form submits POST
+2. `urls.py` routes to `arcade_pass.views.arcade`
+3. `arcade_pass/views.py` builds `Purchase`
+4. `ArcadeService.process(purchase)` returns `Receipt`
+5. view sends `receipt` into `context`
+6. template renders the result
+
+---
+
+### Why this helps you learn
+- you see clear boundaries
+- each class has one job
+- the app becomes easier to change
+- you can unit test core logic without Django
+
+If you want, I can next show a tiny class sketch using your exact values (`2.50`, `40`, `10`) so the pattern is easier to follow.

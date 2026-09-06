@@ -1,0 +1,275 @@
+TODAY TASK - give odoo test and improve over that
+
+ODOO TEST
+
+MCQs - 20 - JS, CSS, HTML(AJAX)
+CODE Q - 3  (for hint/support they also given browse resources feature and chose python3 for solving questions )
+- Equivalent keypresses
+- String calculations
+- 
+TIME - 1HR 30MINS
+
+my answer = @
+
+
+Q1 - What will the following JavaScript code output?
+
+async function getData() {
+    return await Promise. resolve( 'Hello! ' ) ;
+}
+
+const data = getData();
+console. log(data) ;
+
+@ Hello!      
+O undefined
+O Promise {<pending>}
+O Promise {<rejected>l 'Hello!}
+
+Q2 - What should FUNCTION be replaced with below to get it to work?
+
+function resolveAfter10Seconds() {
+    return new Promise (resolve => {
+        setTimeout(() => {
+            <FUNCTION>('resolved');
+        }, 10000);
+    });
+}
+
+O resolve
+O return
+O callback
+@ resolve().return      
+
+Q3 - What will the following JavaScript code output?
+
+for (var i = 0; i < 3; i++){
+    setTimeout(function() { alert(i); } , 1000 + i);
+}
+
+O Number 3 alerted three times
+@ Number 0 alerted 3 times       
+O undefined
+O Numbers 1, 2, 3 alerted
+
+Q4 - What does the 'H' in  'XHR' stand for in the context of Ajax?
+
+O HTML
+@ HTTP (XMLHttpRequest)        
+O Hyperlink
+O Header
+
+Q5 - In CSS, what does the 'ch' unit represent?
+
+@ The width of the zero ('0') character of the current font        
+O The width of a character of text
+O The width of the container
+O The height of a line of text
+
+Q6 - In a Node.js application, how would you securely store passwords?
+
+O By encrypting them with a public key
+@ By encoding them in Base64         
+O By hashing and salting them before storage
+O By storing them in plain text in a secure database
+
+Q7 - In SQL. what is a 'self join'?
+
+O A join in which a table is joined with itself
+O A join in which every row of a table is joined with every other row
+O A join in which a table is joined with another copy of itself
+@ A join in which a table is joined with a different table on the same database          
+
+Q8 - In Python's Django framework, what is 'middleware'?
+
+@ Components that process request/response globally before views handle them          
+O The layer that handles communication with the database
+O The layer that handles URL routing
+O A way to store temporary data between requests
+
+Q9 - In JavaScript, how can you copy an object by value, not by reference?
+
+O Using Object.assign() or the spread operator          
+@ Using the copy() method
+O Using the JSON_parse() and JSON.stringify() methods
+O Using the assignment operator (=)
+
+Q10 - What does the • V • stand for in 'MVC'?
+
+O Vector
+@ View
+O Value
+O Variable
+
+Q11 -  In CSS. what does 'specificity' refer to?
+
+O The rules that determine which CSS property values are the most relevant to an element
+@ The order in which CSS rules are applied 
+O The precision with which CSS rules target an element
+O The specific set of styles applied to an element
+
+Q12 - In JavaScript, what does the 'this' keyword refer to inside an arrow function?
+
+O The object that the arrow function is a method of
+@ The context in which the arrow function was defined
+O The first argument passed to the function
+O The global object
+
+Q13 - What does CSS stand for?
+
+@ Cascading Style Sheets
+O Computer Simple Sheets
+O Cascading Simple Sheets
+O Computer Style Sheets
+
+Q14 - What is the correct CSS syntax?
+
+@ body {color: blue;}
+O body (color: blue;)
+O body: color-blue;
+O {body: color-blue;}
+
+Q15 - How do you add a border to an element in CSS?
+
+O line: lpx solid blue;
+O outline: 1 px solid blue;
+@ border: I px solid blue;
+O border-line: lpx solid blue;
+
+Q16 - Which CSS property is used to change the text size?
+
+O text-size
+O font-style
+O size
+@ font-size
+
+Q17 - How do you make each word in a text start with a capital letter?
+
+O font-transform: capitalize;
+O text-transform: capitalize;
+O transform: capitalize;
+@ text-style: capitalize;
+
+Q18 - How do you select an element with the id 'demo- in CSS?
+
+O demo
+@ #demo
+O @demo
+O .demo
+
+Q19 - How do you select elements with the class name 'intro' in CSS?
+
+O @intro
+@ .intro
+O intro
+O #intro
+
+Q20 - What does the CSS property 'display: none' do?
+
+O It changes the text color of the element
+@ It hides the element
+O It shows the element
+O It changes the background color of the element
+
+
+CHALLENGES
+
+1. Equivalent Keypresses
+
+Have the function
+Equivalent Keypresses (strArr)
+read the array of strings stored in
+strArr which will contain 2 strings
+representing two comma separated
+lists of keypresses. Your goal is to
+return the string true if the keypresses
+produce the same printable string and
+the string false if they do not. A
+keypress can be either a printable
+character or a backspace represented
+by -B. You can produce a printable
+string from such a string of keypresses
+by having backspaces erase one
+preceding character.
+
+Input: ["a,b,c,d", "a,b,c,d,-B,d"]
+Output: true
+
+Input: ["c,a,r,d", "c,a,-B,r,d"]
+Output: false
+
+my solution
+
+def EquivalentKeypresses( strArr) :
+    # code goes here
+    return strArr
+
+# there are 2 list separated by comma
+# goal return str true
+# my approach is to to compare both index values separated by conma
+# backspace should be at the end of list
+# result should be a boolean value
+
+
+# keep this function call here
+print ( EquivalentKeypresses ( input ( ) ) )
+
+
+2. String Calculate
+Have the function
+StringCa1cu1ate (str) take
+the str parameter being passed and evaluate the
+mathematical expression within in. The double
+asterisks (**) represent exponentiation.
+For example, if str were "(2+(3-1)*3)**3" the output
+should be 512. Another example: if str is "(2-0)
+(6/2)- the output should be 6. There can be
+parenthesis within the string so you must evaluate it
+properly according to the rules of arithmetic. The
+string will contain the op>rators: +, l, *, (, ), and **.
+If you have a string like this: #/#*# or #+#(#)/#, then
+evaluate from left to right. So divide then multiply,
+and for the second one multiply, divide, then add.
+The evaluations will be such that there will not be
+any decimal operations, so you do not need to
+account for rounding.
+
+Input: "6*(4/2)+3*1"
+Output: 15
+
+Input: "100*2**4"
+Output: 1600
+
+my solution
+def StringCalculate(strParam) :
+    # code goes here
+    return strParam
+# my approach would be to convert str to list
+
+# keep this function call here
+print (StringCalculate(input()))
+
+3. SQL User Logins
+Your table: maintable_R7LTN
+MySQL version: 8.0.23
+
+In this MySQL challenge, the table
+provided shows all new users signing
+up on a specific date in the format
+YYYY-MM-DD. Your query should output
+the change from one month to the next.
+Because the first month has no
+preceding month, your output should
+skip that row. Your output should look
+like the following table.
+
++----------+--------------------+
+| Month    | MonthToMonthChange |
++----------+--------------------+
+| February |                 -1 |
+| March    |                  6 |
+| April    |                 -6 |
+| May      |                  4 |
++----------+--------------------+
+
+not answered
