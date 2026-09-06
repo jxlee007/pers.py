@@ -236,16 +236,3 @@ You can write *simple* functions, but have you:
 - [ ] Personal brand content published
 
 ---
-
-
-# YOUR IMMEDIATE DECISION
-
-**Do you have Jeavio-specific job description/criteria, or should I assume:**
-- Python backend developer role
-- Requires: DSA + SQL optimization + system thinking
-- Interview format: Timed technical rounds (logic + coding + SQL)
-- Portfolio matters (your projects + how you explain them)
-
-**Answer this, and I'll give you your exact Day 1 schedule (tomorrow, Sept 7).**
-
-What's your move?
