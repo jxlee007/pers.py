@@ -8,75 +8,11 @@ def main(): # for code org
     # print(firstLast())
     # elem_search()
     # sololearn_py
-    induction()
-    # recursion()
     
     pass
 
 
-def recusion(): 
-    def cache_coins(n):
-        if n == 1:
-            return 1
-        return 2 * cache_coins(n — 1)
-    total = cache_coins(5)
-    # print(f"CacheCoins Day 5: {total}" )
 
-    def stack_coins(n):
-        if n == 1:
-            return 1
-        return n + stack_coins(n — 1)
-    total = stack_coins(5)
-    # print(f"stackCoins Day 5: {total}" )
-
-    def queue_coins(n):
-        # if block = constant
-        if n == 1:
-            return 5
-        # logic = formula = base case * fnc(yesterday)
-        return 2 * stack_coins(n — 1) + 5
-    total = stack_coins(5)
-    print(f"stackCoins Day 5: {total}" )
-
-
-def induction():
-
-    def cache_coins(final_day): 
-        # an geometric/exponent pattern
-        # doubles everyday
-        day = 1
-        total= 1
-        while day < final_day :
-            print(f"Day {day}: {total}")
-            day += 1
-            total *= 2
-        return  total
-
-    print(f"Day 10: {cache_coins(10)}")
-
-    def stack_coins(final_day): # a constant 2nd difference/ quadratic pattern 
-        day = 1
-        total= 1
-        while day < final_day :
-            print(f"Day {day}: {total}")
-            day += 1
-            total += day
-        return  total
-
-    # print(f"Day 10: {stack_coins(10)}")
-
-    def queue_coins(final_day):
-        day = 1
-        total = 5
-        while day < final_day :
-            print(f"Day {day}: {total}")
-            day += 1
-            total = 2 * total + 5
-        return total
-
-    # print(f"Day 10: {queue_coins(10)}")
-
-        
 
 def sololearn_py():
     c = ['$', '£', '€', '¥']
