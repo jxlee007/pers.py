@@ -153,4 +153,27 @@ Breaking data - use LIMIT cmd
 - do 3rd ballwork in hand 
 - eventually made miss - previous 2 set routine disciplines
 
+250826
 
+260826
+
+270826
+
+
+280826-290826-300826
+hackthon submited but failed 
+
+310826
+
+010926-020926-030926-040926
+wifi problem no code progress
+
+050926
+
+060926
+- remember there is SQL to progress upon - little bit SQL
+    - learn abt offset and multiply operators
+
+070926
+080926
+090926

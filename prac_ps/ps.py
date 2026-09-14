@@ -15,7 +15,9 @@ def main():
 # paterns
 # sliding window
     # fix_window_slider([])
-    frame_scanner()
+    # frame_scanner([7,5,9,7,5,8,10,4,3,3,2,5,9,10],1)
+    # print(palindrome('coding'))
+    compare_temps([10])
 
 
 # BRILLIANT RECURSION
@@ -33,13 +35,156 @@ def main():
 def max_consecutive_ones():
     # we have a binary array
 
-    pass
-
-def
 
 
-def fix_window_slider(nums):
-    # Calculate the sum of every adjacent pair of numbers in a list
+# Problem 3.1: State tracking that can support window calculations
+#  The Peak and Valley Tracker
+def compare_temps(temp):
+
+    # previous_day 
+    # left = i-1
+
+
+
+    # between 14°C to 32°C
+    avg_temp = 25
+
+    # next_day 
+    # right =+ 1
+
+    if len(temp) == 0:
+        print([])
+
+    day = 1
+    for i in range(len(temp)):
+
+        current = temp[i]
+        previous_day = temp[i - 1]
+
+        status = ""
+
+        if len(temp) == 1:
+            print("There is no previous day to compare with")
+        elif previous_day < current:
+            status = "Higher"
+        elif previous_day > current:
+            status = "Lower"
+        elif previous_day == current:
+            status = "equal"
+
+        print(f"Day: {day} {current} {status}")
+        
+
+        day += 1
+    
+    """ hints
+    Input-Scenario       Sample-stdin       Expected-stdout       Reason
+    Higher Temperature   20 25 30            Higher Higher         Each temperature is higher than the previous day's temperature.
+    Lower Temperature    30 25 20            Lower Lower           Each temperature is lower than the previous day's temperature.
+    Equal Temperature    25 25 30            Equal Higher          The first comparison is equal, then the temperature increases.
+    Only 1 item          25                  (Empty output)         There is no previous day to compare with.
+    Empty Input          (Blank)             (Empty output)         No temperatures are available to compare.
+
+    TC 1
+        stdin  - 20 25 30 28 28
+        stdout - Higher Higher Lower Equal
+
+    TC 2
+        stdin  - 30 25 20 22 18
+        stdout - Lower Lower Higher Lower
+
+    TC 3
+        stdin  - 15 15 15 20 10
+        stdout - Equal Equal Equal Higher Lower
+    """
+
+
+# Checkif a list of chars forms a palindrome 
+# using the Two-Pointer Collapsing Boundary
+def palindrome(text):
+    """  hints 
+    Input-Scenario   Sample-stdin Expected-stdout Reason 
+    Single Character  a           True            left=0 and right=0. They start at the same place, so the loop terminates immediately.
+    Empty Input       (Blank)     True            An empty sequence technically reads the same forward and backward. left=0, right=-1. They start crossed.
+    Case Sensitivity  Radar       False           R (uppercase) does not match r (lowercase) unless your code explicitly converts everything to lowercase first.'
+
+    TC 1 
+        stdin  - racecar
+        stdout - True
+
+    TC 2
+        stdin  - coding
+        stdout - False
+
+    TC 3 
+        stdin  - n o o n
+        stdout - True
+
+    """
+
+    input_list = text
+
+    left = 0
+    right = len(input_list) - 1
+
+    while left < right:
+        
+        if input_list[right] != input_list[left]:
+            print(input_list,"is not a palindrome")
+            return False
+
+        
+        left += 1
+        right -= 1
+
+    print(input_list,"is a palindrome")
+    return True
+
+
+def frame_scanner(nums, k):
+
+    input_list = nums
+    input_size = k # window k
+
+    if input_size == 0 or len(input_list) == 0 or input_size > len(input_list):
+        print("Empty output",[])
+        return
+
+    start = 0
+    end  = input_size
+        
+    for i_count in range(len(input_list)):
+        # stores input list elems
+        print(input_list[start:end])
+
+        start += 1
+        end += 1
+
+
+    """  hints
+    Input-Scenario          Sample-stdin  Expected-stdout Reason 
+    Window K = list length  3 - 10 20 30  [10, 20, 30]    The loop runs exactly once since end immediately equals the list length.
+    Window K > list length  5 - 1 2 3     (Empty output)  end starts at 5, which is already past the total length (3), so the loop never executes.
+    Window K is 1           1 - 5 6        [5]  [6]       The frame size is exactly one item wide.
+
+    TC 1 
+        stdin  - 3 - 10 20 30 40 50
+        stdout - [10, 20, 30] [20, 30, 40] [30, 40, 50]
+
+    TC 2
+        stdin  - 2 - 1 2 3 4
+        stdout - [1, 2] [2, 3] [3, 4]
+
+
+    TC 3 
+        stdin  - 4 - a b c d e f
+        stdout - ['a', 'b', 'c', 'd'] ['b', 'c', 'd', 'e'] ['c', 'd', 'e', 'f']
+
+    """
+
+
+# Calculate the sum of every adjacent pair of numbers in a list
+def fix_window_slider(nums): 
 
     print("fix_window_slider")
 
