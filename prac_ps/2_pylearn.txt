@@ -177,3 +177,204 @@ wifi problem no code progress
 070926
 080926
 090926
+
+
+170926
+- sql 
+    - SELECT field_name, field_name FROM table_name 
+
+    - DISTINCT - unique records
+    eg SELECT DISTINCT field_name FROM table_name
+ 
+
+    - COUNT - give counts of records 
+    eg SELECT COUNT(*) FROM users_table
+
+    - GROUP BY - 
+    eg SELECT country_field, COUNT(*) FROM users GROUP BY country
+
+    - ORDER BY - sort the data by default ASC
+    eg 2. SELECT name, age FROM users ORDER BY age DESC
+
+    - WHERE is used to filter data based on specific conditions
+    eg 1. SELECT * FROM users WHERE age > 25
+    - Comparison operations are needed to create different conditions
+    - str values in SQL code need to be surrounded by quotes.
+    - first ORDER BY, then LIMIT
+
+- PATTERN MATCHING
+    - to automate task - find specific patterns in data to speed up tasks and free up time.
+    eg SELECT title FROM comics WHERE title LIKE 'The Avengers%'
+       SELECT email FROM users WHERE email LIKE '%gmail.com'
+       SELECT * FROM comics WHERE title '%Avengers%'
+       'Package%1%' = Package 10E: Business Plan, Package ADI: Intermediate Plan
+
+    - % - symbol is known as wildcard covers characters start and end
+    - LIKE is a case-sensetive operator = only outputs values matching case
+        - used on str fields
+    - LIKE is used to search for patterns in string fields
+    - LIKE patterns are case-sensitive
+    - When a str field contains numbers, they are treated as characters
+
+    Advance
+        - SELECT * FROM tweets WHERE content '%#DigitalMarketing%'
+        - hotel names will match the pattern 'A%S%' - Alpine Summit Lodge
+        - SELECT * FROM products WHERE product_code LIKE 'A%B%'
+        
+    - _ - symbol is also a wildcard cover a single character in between - no whitespace or blank
+
+    - Patterns are case-sensitive. 
+    - LOWER() and UPPER() commands are used to convert strings to lower or uppercase.
+    eg SELECT LOWER(title) FROM movies;
+    SELECT title FROM books WHERE LOWER(title) LIKE '%cooking%'
+
+
+- FILTER records
+    -  Retrieve the age and country of customers whose age is not Equal to 22.    
+    eg SELECT age, country FROM Customers WHERE age <> 22;
+
+
+220926
+    - semicolon is use separate multiple querys
+    
+    - You can use both UPPER() and LOWER() operations for case-insensitive pattern matching.
+    - The characters in your pattern then just need to match your operation.
+    eg - SELECT name FROM employees WHERE UPPER(name) LIKE 'DAN%'
+    
+    - the underscore _ wildcard represents any single character in a pattern
+    - UPPER() and LOWER() commands to perform case-insensitive pattern searches.
+
+    SQL conditions
+    - not equal to  <>
+    - you can use different comparison operators to define conditions
+    - conditions are needed to filter data.
+
+    Data aggregation = operates on multiple values to produce 1 single value
+    - MAX(year), MIN(year), COUNT(year), SUM(year), AVG(year)
+    - wecan generate result tables with more than one column. 
+    - You just need to separate the columns with commas ,
+    eg SELECT MIN(year), MAX(year) FROM movies
+
+    COMBO
+    - result in min val after 2000
+    eg SELECT MIN(year) FROM movies WHERE year > 2000
+
+    - filter happen 1st and aggregation happens later
+    eg  SELECT MAX(year), MIN(year)           FROM movies WHERE studio_id = 3
+        SELECT SUM(price+detivery) AS revenue FROM sales  WHERE status = ' completed '
+
+    - aggregation and filtering operations can be combined in queries
+    - filtering operations are executed before aggregations 
+
+    - aggregation operations are also referred to as functions
+
+    DATA ANALYSIS
+    - Raw (or untreated) data needs to be processed and analyzed so it can be used to make decisions.
+    - 1. Question, 2. Collect, 3. Clean, 4. Insights, 5. Communicate
+
+    1. Question
+        - data analysis process, starting with questions on database.
+
+        - The schema/visualization of database 
+        helps us check if the question can be answered with the data.
+        - schema has field names, keys, table names
+
+        Some questions can be answered with a filtering query
+
+    2. Collect
+        - Raw data requires analysis
+        - The first step in data analysis is defining your question
+        - Data can come from different sources 
+        - you can use different techniques to collect your data
+
+        - Data grouping is a powerful tool when working with large datasets. 
+        - Grouping allows you to collect and see data in a new way, to answer more complex questions.
+
+        - GROUP BY allows you to organize similar data into categories. 
+        - It's combined with aggregations to compute key metrics for a group of records.
+        eg 4. SELECT country, COUNT(*) FROM users GROUP BY country
+        
+        - GROUP BY organizes data into categories
+        - GROUP BY is frequently combined with aggregation
+
+    GROUP & FILTER
+        - You can combine GROUP BY with WHERE filters. 
+        - Data is filtered first, then grouped and at last aggregation.
+            SELECT AVG(budget) -> 3
+            FROM movies
+            WHERE budget > 50  -> 1
+            GROUP BY genre     -> 2
+
+        - HAVING allows you to filter data that has been grouped.
+        - if we need to group first, then filter
+            SELECT class, AVG(score) -> 3
+            FROM students
+            GROUP BY class           -> 1
+            HAVING AVG(score) > 85;  -> 2
+
+        - You can combine WHERE with GROUP BY to filter data first, then group
+        - You can use HAVING to group data first, then filter
+
+
+    3. Clean
+        - use to fix errors in the data that has been collected
+
+        - Duplicated data is a very common issue. It refers to additional copies of the same data.
+        - use GROUP BY in combination with HAVING to check for duplicates
+
+        eg SELECT title , COUNT(title)  FROM movies  GROUP BY title     HAVING COUNT(tit1e) > 1;
+           SELECT id, title             FROM movies  GROUP BY id, title HAVING COUNT(id) > 1
+
+        - You can group data by multiple fields separating them with a comma. 
+        - You can use this to check for duplicates in multiple fields at once
+        
+        - Use DISTINCT to eliminate duplicate values
+        SELECT DISTINCT genre FROM novies
+
+        - Another issue is missing data
+        - NULL is used to indicate that a data value is missing and does not exist in the database
+        SELECT * FROM movies WHERE genre IS NULL
+
+        - Data quality issues can affect the accuracy of your data analysis
+        - You can use DISTINCT to fix data duplication
+        - NULL stands for missing data values
+
+        fix data type
+        - Boolean is used for filtering data
+        eg SELECT  id, title, is_oscar_winner FROM movies WHERE is_oscar_winner = False;
+
+        - Data values can be classified into different data types
+        - The boolean data type has two possible values: True or False
+
+    4. Insights
+        -  Operations involving boolean values are known as logical operations.
+        -  AND - TTT , OR - TTT,TFT, FTT
+
+        - Data visualization helps you spot trends and patterns in your data. 
+        Python lets you create powerful visual aids to communicate your findings! 
+        The perfect next step to complement your new SQL skills!
+
+    5. Communicate
+        - The last step of the data analysis process is communicating your findings. 
+         This is where your communication skills will come in handy.
+         At this stage, data visualization and data storytelling 
+         will help you turn data insights into actions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
