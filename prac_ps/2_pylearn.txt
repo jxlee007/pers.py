@@ -361,20 +361,177 @@ wifi problem no code progress
          will help you turn data insights into actions.
 
 
+230926
+
+SQL Intermediate
+
+Data manipulation
+    To recap:
+     - A SELECT statement is used to select data from a table.
+     - You can use the ORDER BY clause to order the results of the query by a specified column or columns.
+     - The LIMIT keyword allows you to select only a subset of the data, by specifying the start index and the number of rows with OFFSET.
+
+    STR fncs
+    - CONCAT
+    eg SELECT CONCAT(firstname, lastname) AS name FROM Customers 
+    - LOWER , UPPER
+
+    - SUBSTRING
+        - The SUBSTRING function allows you to extract part of the text in a column.
+        - It takes the starting position and the number of characters we want to extract.
+        - SUBSTRING(string, start_position, length)
+        eg SELECT SUBSTRING(firstname, 1, 3) FROM Customers 
+
+    - REPLACE
+        - replaces all occurrences of the given string with another one.
+        eg 
+        SELECT firstname, lastname, REPLACE(city, 'New York', 'NY') FROM Customers 
+        SELECT REPLACE(description, '!', '.') FROM Books 
+
+    - We can combine multiple functions into a single query.
+    eg SELECT CONCAT( SUBSTRING(firstname, 1, 1) ,   '. ',  UPPER(lastname)) AS name FROM Customers 
 
 
+    MATH and AGGREGATE fncs
+    - to select all columns of the company with the maximum revenue number.
+    eg 
+    SELECT * FROM Companies WHERE revenue = (SELECT MAX(revenue) FROM Companies)
+
+    SELECT city, COUNT(*) AS ct FROM Customers GROUP BY city ORDER BY ct DESC 
 
 
+    CASE
+     - The CASE statement is used to set a value for a column based on conditions.
+     - The conditions are set in WHEN clauses.
+     - The first WHEN clause that satisfies the condition is set as the value. 
+     - The CASE statement should close with the END keyword. 
+    eg
+        SELECT firstname, lastname,
+        CASE
+            WHEN age >= 65 THEN 'Senior' 
+            WHEN age >= 25 AND age < 65 THEN 'Adult'
+        END AS category
+        FROM Customers;
+
+        CASE
+            WHEN rating >= 8  THEN "Great"
+        END;
+
+        SELECT CASE
+            WHEN rating < 3 THEN 'Bad'
+            WHEN rating >= 3 OR rating < 8 THEN 'OK'
+        ELSE 'Great'
+        END AS experience
+        FROM Hotels;
+
+        SELECT name,
+        CASE
+            WHEN transmission = 1 THEN 'Manual'
+        ELSE 'Automatic'
+        END AS 'transmission'
+        FROM Cars;
+
+    
+    SELECT CONCAT ('#', REPLACE('text', ' ', '_')) AS tag FROM Posts
 
 
+TABLE Constraints
 
+    IDENTITY = id
+    - AUTO_INCREMENT in SQL, 
+    a feature that automatically generates unique integer IDs for database rows.
+    Key points:
+        - IDs are typically integers that increase with each new row
+        - The `AUTO_INCREMENT` keyword automatically assigns the next sequential value
+        - You don't need to manually specify an ID when inserting new rows—the database handles it automatically
 
+        It's a convenient way to ensure each record has a unique identifier without extra effort.
 
+    eg 
+        CREATE TABLE Customers (
+            id int NOT NULL AUTO_INCREMENT,
+            firstname varchar(255),
+            lastname varchar(255)
+        );
 
+        CREATE TABLE Products (
+            number int AUTO_INCREMENT
+        );
 
+        CREATE TABLE table_name(
+            column_name int NOT NULL AUTO_INCREMENT
+        )
+    
+    -  Now when inserting a new row, 
+    we do not need to specify the value of the id column, 
+    as it will automatically be set. 
 
+    eg
+        INSERT INTO Customers (firstname, lastname, city, age)
+        VALUES 
+        ('demo', 'demo', 'Paris', 52),
+        ('test', 'test', 'London', 21);  
 
+        SELECT * FROM Customers;
 
+    - By default, the AUTO_INCREMENT column starts with the value 1. 
+    This can be changed if needed, using the following:
 
+    eg 
+        ALTER TABLE Customers
+            AUTO_INCREMENT=555
 
+    
+    PRIMARY & FOREIGN KEYS
+        To store the phone numbers, 
+        we need to create another table. 
+        Let's call it PhoneNumbers:
+        Each row in the PhoneNumbers table represents a phone number of the given type for a customer.
+        The customer_id column is used to link the row with the corresponding company in the Customers table. 
+
+        PRIMARY KEY
+        The primary key constraint is used to uniquely identify rows of a table.
+        In most cases, the primary key is the auto_increment column.
+        So, for our Customers and PhoneNumbers tables, it's the id column.
+
+        CREATE TABLE Customers (
+            id int NOT NULL AUTO_INCREMENT,
+        firstname varchar(255),
+        lastname varchar(255),
+            PRIMARY KEY (id)
+        );
+
+        - A primary key must contain unique values.
+        - A primary key column cannot have NULL values.
+        - A table can have only one primary key.
+
+250926
+        FOREIGN KEY
+        - the key that refers to primary key
+        eg 
+        CREATE TABLE PhoneNumbers (
+            id int NOT NULL AUTO_INCREMENT,
+            customer_id int NOT NULL,
+            number varchar(55),
+        type varchar(55),
+            PRIMARY KEY (id),
+            FOREIGN KEY (customer_id) REFERENCES 
+        Customers(id)
+        );
+
+        ADD FOREIGN KEY (current_column) 
+        REFERENCES other_table_name(other_column);
+
+        FOREIGN KEY (number)
+        REFERENCES Prices (id)
+
+        - A table can have multiple foreign keys.
+        - how to create keys in tables, linking the data.
+
+The primary key is used to uniquely identify each row of a table. It is usually the identity column.
+
+The foreign key is used to reference an identity column in another table. 
+This allows you to link the data between multiple tables 
+and prevent actions that would break the relationship.
+        
 

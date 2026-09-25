@@ -77,11 +77,11 @@
 4. ✅ SELECT country, COUNT(*) FROM users GROUP BY country
 6. ✅ SELECT DISTINCT country FROM users
 19.✅ SELECT * FROM users WHERE email IS NOT NULL
-5. SELECT * FROM users WHERE city = 'Mumbai' AND age > 30
+5. ✅ SELECT * FROM users WHERE city = 'Mumbai' AND age > 30
+16. SELECT name FROM users WHERE age BETWEEN 25 AND 35
 9. SELECT u.name, o.amount FROM users u INNER JOIN orders o ON u.id = o.user_id
 10. SELECT u.name, COUNT(o.id) FROM users u LEFT JOIN orders o ON u.id = o.user_id GROUP BY u.id
 11. SELECT * FROM users u1 WHERE u1.id IN (SELECT user_id FROM orders WHERE amount > 100)
-16. SELECT name FROM users WHERE age BETWEEN 25 AND 35
 17. SELECT u.name FROM users u INNER JOIN orders o ON u.id = o.user_id GROUP BY u.id HAVING COUNT(o.id) > 2
 18. Self-join: Find users in same city as another user
 ```
