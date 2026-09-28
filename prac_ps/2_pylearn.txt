@@ -506,7 +506,7 @@ TABLE Constraints
         - A table can have only one primary key.
 
 250926
-        FOREIGN KEY
+    FOREIGN KEY
         - the key that refers to primary key
         eg 
         CREATE TABLE PhoneNumbers (
@@ -525,6 +525,15 @@ TABLE Constraints
         FOREIGN KEY (number)
         REFERENCES Prices (id)
 
+        CREATE TABLE Users (
+        id int NOT NULL AUTO_INCREMENT,
+        name varchar(255) NOT NULL,
+        account_id int NOT NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY (account_id)
+        REFERENCES Accounts (id)
+        );
+
         - A table can have multiple foreign keys.
         - how to create keys in tables, linking the data.
 
@@ -533,5 +542,29 @@ The primary key is used to uniquely identify each row of a table. It is usually 
 The foreign key is used to reference an identity column in another table. 
 This allows you to link the data between multiple tables 
 and prevent actions that would break the relationship.
+
+    UNIQUE
+        - The UNIQUE constraint ensures that all values in a column are different.
+        - A PRIMARY KEY constraint automatically has a UNIQUE constraint.
+
+        - However, you can have many UNIQUE constraints per table, 
+        but only one PRIMARY KEY constraint per table. 
+
+        eg 
+        ALTER TABLE Customers
+        ADD UNIQUE (lastname)
+
+        You can make multiple columns UNIQUE.
+
+        You can have multiple NULL values in a unique column - True
+
+        
+The Primary key uniquely identifies each record of a table. It is usually set as an auto increment integer.
+Foreign keys are used to create relationships between tables. They refer to the primary key in other tables.
+A table can have multiple foreign keys, but only one single primary key.
+The UNIQUE constraint is used to make values in a column unique.
+
+
+    Multiple tables
         
 

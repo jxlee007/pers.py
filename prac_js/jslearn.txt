@@ -1,0 +1,46 @@
+250926
+
+ - private obj literal
+    function fncname() {
+        let variablename = val;
+
+        return {
+            methodname: () => {
+                
+            }
+        };
+    };
+
+    closures 
+
+    lvl 1 - by isolating state inside a private block using a createVault container, 
+
+    lvl 2 - created dynamic, custom behavior blueprints with a createScraper factory, 
+    
+    lvl 3 - deployed a completely protected task-tracking API with a createTaskManager module 
+    using shallow array copies via .slice(), 
+    
+    lvl 4 - solved execution timing traps using block-scoped loop variables in a createTriggers structure; 
+    
+    lvl 5 - diagnosed this context binding via an agent object setup, 
+    proving how reference extraction into a looseFunction strips methods 
+    of their execution target and forces a fallback to the global namespace.
+
+    bind(context)
+    eg
+        const boundedTrack = track.bind(agent); 
+        console.log(boundedTrack("London", "Moneypenny")); // Runs LATER
+
+    call(context, arg1, arg2)
+    eg
+        track.call(agent, "Paris", "Le Chiffre"); // Runs NOW
+
+    apply(context, [args])
+    eg
+        track.apply(agent, ["Tokyo", "Silva"]); // Runs NOW
+
+
+    Weapon  Execution Timing        Arguments Format     Primary UseCase
+    bind()  Later (returns a copy)  Standard comma list  Fixing callbacks or event handlers
+    call()  Immediately             Standard comma list  Borrowing a method on the spot
+    apply() Immediately             Inside an Array []   Passing bulk array data to a method

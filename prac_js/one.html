@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vault System</title>
+</head>
+<body>
+
+  <h2>Vault System</h2>
+  <p>Play around with the code and click on the buttons to test the vault methods.</p>
+
+  <!-- Interactive buttons to trigger the vault methods -->
+  <button onclick="handleSteal()">Steal Gold</button>
+  <button onclick="handleCheck()">Check Vault</button>
+
+  <p id="demo">Vault balance: Click a button to check.</p>
+
+  <script>
+    // Private object factory using a closure
+    function createVault() {
+      let secretGold = 100; 
+      
+      return {
+        // 2. "stealGold" takes an (amount) parameter and deducts it from secretGold
+        stealGold: (amount) => {
+          const parsedAmount = Number(amount);
+          if (!isNaN(parsedAmount)) {
+            secretGold -= parsedAmount;
+          }
+          return secretGold;
+        },
+        
+        // 3. "checkVault" simply returns the current secretGold
+        checkVault: () => {
+          return secretGold;
+        }
+      };
+    }
+
+    // Instantiate the vault instance
+    const myVault = createVault();
+
+    // UI Handler functions to connect the vault logic to the HTML page
+    const demoElement = document.getElementById("demo");
+
+    function handleSteal() {
+      const userInput = prompt("How much gold do you want to steal?");
+      if (userInput !== null) {
+        const remainingGold = myVault.stealGold(userInput);
+        demoElement.innerText = `You stole some gold! Remaining vault balance: ${remainingGold}`;
+      }
+    }
+
+    function handleCheck() {
+      const currentGold = myVault.checkVault();
+      demoElement.innerText = `Current vault balance: ${currentGold}`;
+    }
+  </script>
+
+</body>
+</html>
