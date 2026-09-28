@@ -1,0 +1,570 @@
+AUG 26
+
+030826
+    - solved 4 basic problems - 1 to n, reverse num, sum of num, swap without temp - in 4 hrs
+    -  now scrimba - 
+
+
+050825
+Str are immutable char sequence 
+String slice → Always outputs a string.
+List slice → Always outputs a list containing the specified values.
+Slicing is a powerful technique used to select data in the python sequence
+
+Advance idx and slice
+- use indexing and slicing on lists and strings because they are ordered sequences
+
+
+Comment in sql = --
+Multiline comment= /*.   . */
+Sorting is done by using cmd = ORDER BY 
+Eg ORDER BY field ASC/DESC
+You can sort extracted data with the ORDER BY command
+⭐ DESC sorts data in descending order (from highest to lowest, or Z to A)
+⭐ ASC sorts data in ascending order (from smallest to largest, or A to Z)
+
+Breaking data - use LIMIT cmd 
+
+100826
+- tuple () - faster list you can't change 
+- set { }- blazing fast unordered list and unique vals
+- .intersection, . difference, . union 
+- set1.method(set_2)
+- set() - empty set can be only created by set construct
+
+
+120826
+- till date i have learn abt random lib is 
+    - random.choice( 1 arg ) 
+    - random.sample( 2 args ) -> range(), no. of vals 
+    - random.randint( 2 args ) -> start val , end val
+- str are immutable - ordered sequence
+- list are mutable - ordered sequence
+- branching = if-elif-else
+
+130826
+- boolean flag
+    - set behaviour of control flowchart
+    - combining bool expression
+        - Boolean operators are crucial for expressing complex logic. 
+    - storing bool val 
+        - give more meaning to code making it highly readable
+        - and usage
+    - negetive bool vals =  not
+    - organizing logic
+        - or usage
+    - complex logic
+
+150826
+    - mental sandbox
+        Step 1 (Trace One Step): 
+            Manually calculate exactly one time cycle on paper using fake, 
+            simple numbers like $100 to easily figure out the math formulas you need to code.
+        Step 2 (Engine & Fuel): 
+            Identify the real-world condition that stops the process to build your while loop, 
+            and track the changing elements to write the logic inside the loop body.
+        Step 3 (Static vs Dynamic): 
+            Separate fixed constants that stay outside the loop 
+            from variables that change with every single time-step inside the loop.
+
+170826
+    - structuring loops
+        - eg - 30 sec expire time on 2FA code - brilliant
+
+180826
+    - oops Vid
+    - commence oops transfer
+    - FCC opps email done
+    - loop variable dependency - counter concept in loops
+
+190826
+    - free day
+    -  think of doing st ep 1
+
+200826
+    - ep 1 - done feel good need improvements
+    - moving forward to email into opps sandbox
+        - models.py -> handle data and ops layer 
+            = were all the data fields stay
+            = AND Business Math Methods
+        - main.py -> loop switches, input() and print()
+
+    - by dropping below file we are following 
+        - "FAT MODELS, THIN CONTROLLERS" pattern used by Odoo 
+        
+        - biz_logic -> ops layer = modifies state data and returns variable
+        - Breaks the Core Rule of OOP (Encapsulation)
+        - Prevents Circular Import Bugs
+
+    - params/nouns/datafields
+    - as print statments are not allowed in models
+        - will covert it into a fstr
+    
+210826
+    - done with the 1st core imply of FCC email class
+    - GTK the feel abt that i need more focus on problem solving
+    - oops is a sturcture but skill is PS 
+    - OOP is a problem-solving tool, not a separate skill
+
+    - brilliant - recusion - ../personal.py/prac_ps/help/outcome/260821.txt
+        - induction -> describes how to start and how to get each next step.
+            - code
+                - geometric expression - exponentiation pattern
+                - quadratic expression - constant 2n differ pattern
+                - linear expression - constant single differ pattern
+            - even though PS is with while loop
+            - but we will later try with for as its an odoo pref
+        
+        - In this course we're going to learn inductive thinking with recursion 
+
+
+
+        - recusion - needs more effort
+        - A recursive function expresses induction:
+            The base case describes how to start.
+            The recursive step describes how each step depends on a previous step.
+
+        - day n = Today 
+        - day n - 1 = Yesterday 
+        
+        - exponent pattern statment = geometric
+        - On TODAY, the number of CacheCoins equals 2 TIMES 
+        the number of CacheCoins on YESTERDAY.
+    
+        - constant 2nd differ pattern = quadratic
+        - on TODAY, the no. of stack coins equals N PLUS 
+        the no. of stack coins on YESTERDAY 
+
+        - constant single differ = linear 
+        - on TODAY, the no. of queue coins equals 2 TIMES 
+        the no. of stack coins on YESTERDAY, PLUS 5 
+
+        - A recursive function calls itself 
+        — it expresses a problem in terms of a smaller version of the same problem.
+
+
+220826-230826
+- ✅brilliant for loop 
+
+240826 - brilliant
+- ✅algo thinking psuedocode
+
+
+- do 3rd ballwork in hand 
+- eventually made miss - previous 2 set routine disciplines
+
+250826
+
+260826
+
+270826
+
+
+280826-290826-300826
+hackthon submited but failed 
+
+310826
+
+010926-020926-030926-040926
+wifi problem no code progress
+
+050926
+
+060926
+- remember there is SQL to progress upon - little bit SQL
+    - learn abt offset and multiply operators
+
+070926
+080926
+090926
+
+
+170926
+- sql 
+    - SELECT field_name, field_name FROM table_name 
+
+    - DISTINCT - unique records
+    eg SELECT DISTINCT field_name FROM table_name
+ 
+
+    - COUNT - give counts of records 
+    eg SELECT COUNT(*) FROM users_table
+
+    - GROUP BY - 
+    eg SELECT country_field, COUNT(*) FROM users GROUP BY country
+
+    - ORDER BY - sort the data by default ASC
+    eg 2. SELECT name, age FROM users ORDER BY age DESC
+
+    - WHERE is used to filter data based on specific conditions
+    eg 1. SELECT * FROM users WHERE age > 25
+    - Comparison operations are needed to create different conditions
+    - str values in SQL code need to be surrounded by quotes.
+    - first ORDER BY, then LIMIT
+
+- PATTERN MATCHING
+    - to automate task - find specific patterns in data to speed up tasks and free up time.
+    eg SELECT title FROM comics WHERE title LIKE 'The Avengers%'
+       SELECT email FROM users WHERE email LIKE '%gmail.com'
+       SELECT * FROM comics WHERE title '%Avengers%'
+       'Package%1%' = Package 10E: Business Plan, Package ADI: Intermediate Plan
+
+    - % - symbol is known as wildcard covers characters start and end
+    - LIKE is a case-sensetive operator = only outputs values matching case
+        - used on str fields
+    - LIKE is used to search for patterns in string fields
+    - LIKE patterns are case-sensitive
+    - When a str field contains numbers, they are treated as characters
+
+    Advance
+        - SELECT * FROM tweets WHERE content '%#DigitalMarketing%'
+        - hotel names will match the pattern 'A%S%' - Alpine Summit Lodge
+        - SELECT * FROM products WHERE product_code LIKE 'A%B%'
+        
+    - _ - symbol is also a wildcard cover a single character in between - no whitespace or blank
+
+    - Patterns are case-sensitive. 
+    - LOWER() and UPPER() commands are used to convert strings to lower or uppercase.
+    eg SELECT LOWER(title) FROM movies;
+    SELECT title FROM books WHERE LOWER(title) LIKE '%cooking%'
+
+
+- FILTER records
+    -  Retrieve the age and country of customers whose age is not Equal to 22.    
+    eg SELECT age, country FROM Customers WHERE age <> 22;
+
+
+220926
+    - semicolon is use separate multiple querys
+    
+    - You can use both UPPER() and LOWER() operations for case-insensitive pattern matching.
+    - The characters in your pattern then just need to match your operation.
+    eg - SELECT name FROM employees WHERE UPPER(name) LIKE 'DAN%'
+    
+    - the underscore _ wildcard represents any single character in a pattern
+    - UPPER() and LOWER() commands to perform case-insensitive pattern searches.
+
+    SQL conditions
+    - not equal to  <>
+    - you can use different comparison operators to define conditions
+    - conditions are needed to filter data.
+
+    Data aggregation = operates on multiple values to produce 1 single value
+    - MAX(year), MIN(year), COUNT(year), SUM(year), AVG(year)
+    - wecan generate result tables with more than one column. 
+    - You just need to separate the columns with commas ,
+    eg SELECT MIN(year), MAX(year) FROM movies
+
+    COMBO
+    - result in min val after 2000
+    eg SELECT MIN(year) FROM movies WHERE year > 2000
+
+    - filter happen 1st and aggregation happens later
+    eg  SELECT MAX(year), MIN(year)           FROM movies WHERE studio_id = 3
+        SELECT SUM(price+detivery) AS revenue FROM sales  WHERE status = ' completed '
+
+    - aggregation and filtering operations can be combined in queries
+    - filtering operations are executed before aggregations 
+
+    - aggregation operations are also referred to as functions
+
+    DATA ANALYSIS
+    - Raw (or untreated) data needs to be processed and analyzed so it can be used to make decisions.
+    - 1. Question, 2. Collect, 3. Clean, 4. Insights, 5. Communicate
+
+    1. Question
+        - data analysis process, starting with questions on database.
+
+        - The schema/visualization of database 
+        helps us check if the question can be answered with the data.
+        - schema has field names, keys, table names
+
+        Some questions can be answered with a filtering query
+
+    2. Collect
+        - Raw data requires analysis
+        - The first step in data analysis is defining your question
+        - Data can come from different sources 
+        - you can use different techniques to collect your data
+
+        - Data grouping is a powerful tool when working with large datasets. 
+        - Grouping allows you to collect and see data in a new way, to answer more complex questions.
+
+        - GROUP BY allows you to organize similar data into categories. 
+        - It's combined with aggregations to compute key metrics for a group of records.
+        eg 4. SELECT country, COUNT(*) FROM users GROUP BY country
+        
+        - GROUP BY organizes data into categories
+        - GROUP BY is frequently combined with aggregation
+
+    GROUP & FILTER
+        - You can combine GROUP BY with WHERE filters. 
+        - Data is filtered first, then grouped and at last aggregation.
+            SELECT AVG(budget) -> 3
+            FROM movies
+            WHERE budget > 50  -> 1
+            GROUP BY genre     -> 2
+
+        - HAVING allows you to filter data that has been grouped.
+        - if we need to group first, then filter
+            SELECT class, AVG(score) -> 3
+            FROM students
+            GROUP BY class           -> 1
+            HAVING AVG(score) > 85;  -> 2
+
+        - You can combine WHERE with GROUP BY to filter data first, then group
+        - You can use HAVING to group data first, then filter
+
+
+    3. Clean
+        - use to fix errors in the data that has been collected
+
+        - Duplicated data is a very common issue. It refers to additional copies of the same data.
+        - use GROUP BY in combination with HAVING to check for duplicates
+
+        eg SELECT title , COUNT(title)  FROM movies  GROUP BY title     HAVING COUNT(tit1e) > 1;
+           SELECT id, title             FROM movies  GROUP BY id, title HAVING COUNT(id) > 1
+
+        - You can group data by multiple fields separating them with a comma. 
+        - You can use this to check for duplicates in multiple fields at once
+        
+        - Use DISTINCT to eliminate duplicate values
+        SELECT DISTINCT genre FROM novies
+
+        - Another issue is missing data
+        - NULL is used to indicate that a data value is missing and does not exist in the database
+        SELECT * FROM movies WHERE genre IS NULL
+
+        - Data quality issues can affect the accuracy of your data analysis
+        - You can use DISTINCT to fix data duplication
+        - NULL stands for missing data values
+
+        fix data type
+        - Boolean is used for filtering data
+        eg SELECT  id, title, is_oscar_winner FROM movies WHERE is_oscar_winner = False;
+
+        - Data values can be classified into different data types
+        - The boolean data type has two possible values: True or False
+
+    4. Insights
+        -  Operations involving boolean values are known as logical operations.
+        -  AND - TTT , OR - TTT,TFT, FTT
+
+        - Data visualization helps you spot trends and patterns in your data. 
+        Python lets you create powerful visual aids to communicate your findings! 
+        The perfect next step to complement your new SQL skills!
+
+    5. Communicate
+        - The last step of the data analysis process is communicating your findings. 
+         This is where your communication skills will come in handy.
+         At this stage, data visualization and data storytelling 
+         will help you turn data insights into actions.
+
+
+230926
+
+SQL Intermediate
+
+Data manipulation
+    To recap:
+     - A SELECT statement is used to select data from a table.
+     - You can use the ORDER BY clause to order the results of the query by a specified column or columns.
+     - The LIMIT keyword allows you to select only a subset of the data, by specifying the start index and the number of rows with OFFSET.
+
+    STR fncs
+    - CONCAT
+    eg SELECT CONCAT(firstname, lastname) AS name FROM Customers 
+    - LOWER , UPPER
+
+    - SUBSTRING
+        - The SUBSTRING function allows you to extract part of the text in a column.
+        - It takes the starting position and the number of characters we want to extract.
+        - SUBSTRING(string, start_position, length)
+        eg SELECT SUBSTRING(firstname, 1, 3) FROM Customers 
+
+    - REPLACE
+        - replaces all occurrences of the given string with another one.
+        eg 
+        SELECT firstname, lastname, REPLACE(city, 'New York', 'NY') FROM Customers 
+        SELECT REPLACE(description, '!', '.') FROM Books 
+
+    - We can combine multiple functions into a single query.
+    eg SELECT CONCAT( SUBSTRING(firstname, 1, 1) ,   '. ',  UPPER(lastname)) AS name FROM Customers 
+
+
+    MATH and AGGREGATE fncs
+    - to select all columns of the company with the maximum revenue number.
+    eg 
+    SELECT * FROM Companies WHERE revenue = (SELECT MAX(revenue) FROM Companies)
+
+    SELECT city, COUNT(*) AS ct FROM Customers GROUP BY city ORDER BY ct DESC 
+
+
+    CASE
+     - The CASE statement is used to set a value for a column based on conditions.
+     - The conditions are set in WHEN clauses.
+     - The first WHEN clause that satisfies the condition is set as the value. 
+     - The CASE statement should close with the END keyword. 
+    eg
+        SELECT firstname, lastname,
+        CASE
+            WHEN age >= 65 THEN 'Senior' 
+            WHEN age >= 25 AND age < 65 THEN 'Adult'
+        END AS category
+        FROM Customers;
+
+        CASE
+            WHEN rating >= 8  THEN "Great"
+        END;
+
+        SELECT CASE
+            WHEN rating < 3 THEN 'Bad'
+            WHEN rating >= 3 OR rating < 8 THEN 'OK'
+        ELSE 'Great'
+        END AS experience
+        FROM Hotels;
+
+        SELECT name,
+        CASE
+            WHEN transmission = 1 THEN 'Manual'
+        ELSE 'Automatic'
+        END AS 'transmission'
+        FROM Cars;
+
+    
+    SELECT CONCAT ('#', REPLACE('text', ' ', '_')) AS tag FROM Posts
+
+
+TABLE Constraints
+
+    IDENTITY = id
+    - AUTO_INCREMENT in SQL, 
+    a feature that automatically generates unique integer IDs for database rows.
+    Key points:
+        - IDs are typically integers that increase with each new row
+        - The `AUTO_INCREMENT` keyword automatically assigns the next sequential value
+        - You don't need to manually specify an ID when inserting new rows—the database handles it automatically
+
+        It's a convenient way to ensure each record has a unique identifier without extra effort.
+
+    eg 
+        CREATE TABLE Customers (
+            id int NOT NULL AUTO_INCREMENT,
+            firstname varchar(255),
+            lastname varchar(255)
+        );
+
+        CREATE TABLE Products (
+            number int AUTO_INCREMENT
+        );
+
+        CREATE TABLE table_name(
+            column_name int NOT NULL AUTO_INCREMENT
+        )
+    
+    -  Now when inserting a new row, 
+    we do not need to specify the value of the id column, 
+    as it will automatically be set. 
+
+    eg
+        INSERT INTO Customers (firstname, lastname, city, age)
+        VALUES 
+        ('demo', 'demo', 'Paris', 52),
+        ('test', 'test', 'London', 21);  
+
+        SELECT * FROM Customers;
+
+    - By default, the AUTO_INCREMENT column starts with the value 1. 
+    This can be changed if needed, using the following:
+
+    eg 
+        ALTER TABLE Customers
+            AUTO_INCREMENT=555
+
+    
+    PRIMARY & FOREIGN KEYS
+        To store the phone numbers, 
+        we need to create another table. 
+        Let's call it PhoneNumbers:
+        Each row in the PhoneNumbers table represents a phone number of the given type for a customer.
+        The customer_id column is used to link the row with the corresponding company in the Customers table. 
+
+        PRIMARY KEY
+        The primary key constraint is used to uniquely identify rows of a table.
+        In most cases, the primary key is the auto_increment column.
+        So, for our Customers and PhoneNumbers tables, it's the id column.
+
+        CREATE TABLE Customers (
+            id int NOT NULL AUTO_INCREMENT,
+        firstname varchar(255),
+        lastname varchar(255),
+            PRIMARY KEY (id)
+        );
+
+        - A primary key must contain unique values.
+        - A primary key column cannot have NULL values.
+        - A table can have only one primary key.
+
+250926
+    FOREIGN KEY
+        - the key that refers to primary key
+        eg 
+        CREATE TABLE PhoneNumbers (
+            id int NOT NULL AUTO_INCREMENT,
+            customer_id int NOT NULL,
+            number varchar(55),
+        type varchar(55),
+            PRIMARY KEY (id),
+            FOREIGN KEY (customer_id) REFERENCES 
+        Customers(id)
+        );
+
+        ADD FOREIGN KEY (current_column) 
+        REFERENCES other_table_name(other_column);
+
+        FOREIGN KEY (number)
+        REFERENCES Prices (id)
+
+        CREATE TABLE Users (
+        id int NOT NULL AUTO_INCREMENT,
+        name varchar(255) NOT NULL,
+        account_id int NOT NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY (account_id)
+        REFERENCES Accounts (id)
+        );
+
+        - A table can have multiple foreign keys.
+        - how to create keys in tables, linking the data.
+
+The primary key is used to uniquely identify each row of a table. It is usually the identity column.
+
+The foreign key is used to reference an identity column in another table. 
+This allows you to link the data between multiple tables 
+and prevent actions that would break the relationship.
+
+    UNIQUE
+        - The UNIQUE constraint ensures that all values in a column are different.
+        - A PRIMARY KEY constraint automatically has a UNIQUE constraint.
+
+        - However, you can have many UNIQUE constraints per table, 
+        but only one PRIMARY KEY constraint per table. 
+
+        eg 
+        ALTER TABLE Customers
+        ADD UNIQUE (lastname)
+
+        You can make multiple columns UNIQUE.
+
+        You can have multiple NULL values in a unique column - True
+
+        
+The Primary key uniquely identifies each record of a table. It is usually set as an auto increment integer.
+Foreign keys are used to create relationships between tables. They refer to the primary key in other tables.
+A table can have multiple foreign keys, but only one single primary key.
+The UNIQUE constraint is used to make values in a column unique.
+
+
+    Multiple tables
+        
+
