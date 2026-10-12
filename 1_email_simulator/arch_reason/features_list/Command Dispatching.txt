@@ -1,0 +1,54 @@
+Feature Implementation 
+
+
+🕹️ Routing & Interface Features (cli/)
+Dictionary-Driven Command Routing (MenuSystem): Replaces heavy, nested, procedural if/elif logic with a clean hashmap dispatch index that handles user keystrokes in constant O(1) lookup speed [1, cite: 1].
+
+    9. What is the happy path?
+
+        The Happy Path Workflow: Command Dispatching
+
+
+        1. 📥 Input (The Interface Layer)
+
+        • Action: The system displays the menu layout and waits for user interaction in an active session loop.
+        • User Keystroke: The user types exactly "1" into the terminal prompt and hits Enter.
+        • Data Payload: choice = "1" (A raw string primitive captured from the console input).
+
+        2. ⚙️ Process (The MenuSystem Routing Execution)
+
+        • Action: The dispatcher intercepts the input and instantly evaluates the target destination without running sequential conditional scans.
+        • Execution Flow:
+            1. The code runs a trailing/leading space strip (choice.strip()) to sanitize the input.
+            2. The system checks the internal routing table—a pre-configured hashmap dictionary (self.dispatch) where keys are strings ("1", "2") and values are function pointers (handle_send_email, handle_check_inbox).
+            3. The engine performs a dictionary lookup using the constant-time operation: handler = self.dispatch.get(choice).
+            4. The dictionary immediately locates the key "1" and fetches the exact function reference pointer (handle_send_email) in O(1) Constant Time Complexity, bypassing any step-by-step evaluation of choices.
+            5. The condition evaluates to True (the handler function pointer is non-null).
+            6. The Routing Invocation: The engine executes the isolated function pointer directly by appending parentheses to the pointer variable: handler().
+
+        3. 📤 Output (The Domain / Service Redirection)
+
+        • Action: Execution cleanly branches away from the menu manager loop and directly opens the chosen workflow.
+        • Result State: The console screen clears or shifts focus instantly to display the 📧 SEND EMAIL application screen. The menu routing has successfully handed over execution without bloating the application codebase with heavy conditional blocks.
+
+
+    10. What can go wrong ??
+
+        ⚡ Edge Case 1: Unregistered Command Selection (The Ghost Choice)
+
+        • What can go wrong: The user inputs a key that does not exist in your pre-configured mapping dictionary (e.g., typing "9" or a typo like "s"). If your code performs a direct dictionary lookup via self.dispatch[choice], Python will throw a fatal KeyError crash [1, cite: 1]. If you use .get(choice) but do not check for a null return, the engine will attempt to invoke a NoneType object (None()), throwing an unhandled TypeError that crashes your runtime loop.
+        • How to handle it: Implement a Presence Guard Clause on the lookup result [1, cite: 1]. Use the safe .get() dictionary accessor pattern [1, cite: 1]:python
+        handler = self.dispatch.get(choice)
+        if handler:
+            handler()  # Safely invoke the function pointer
+        else:
+            print("❌ Invalid choice. Try again.")  # Graceful fallback notice
+        Use code with caution.
+
+        ⚡ Edge Case 2: Hidden Side Effects from Loose Whitespace or Case Mismatches
+
+        • What can go wrong: A user types "1 " (with a trailing space) or enters an alphabet choice using lowercase when your dictionary expects uppercase (e.g., entering "exit" vs "EXIT"). Even though the intention matches a valid menu item, a strict hashmap treats these variants as completely distinct keys, routing them straight to your error fallback block.
+        • How to handle it: Standardize and sanitize the raw input string at the application layer entry boundary [1, cite: 1]. Always chain string cleaning utilities directly onto your console capture statement (e.g., choice = input(...).strip().lower()) before executing your dictionary hashmap lookup [1, cite: 1].
+
+    11. 
+

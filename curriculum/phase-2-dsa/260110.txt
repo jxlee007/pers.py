@@ -1,0 +1,141 @@
+DSA = https://youtu.be/Z_c4byLrNBU
+
+Array 
+    - used for read through indexing
+    - access/append = O(1) = constant time
+    - insert/delete = O(n) = linear time
+
+    used in
+    - traverse a structure in order
+    - Sliding window, prefix sum
+    - access on specific indices
+    - compare elems from both ends
+
+    str - in most langs immutable = array/list of chars
+
+    - every time creates a new copy
+        eg  original = "apple"
+            modified = original + "s"
+
+        solution
+        O(n) = linear                      O(n2) = quadratic
+        result = ""                        result = ""
+        for char in chars                  for char in chars
+            result.append(char)                 result += char
+        return "".join(result)
+
+    - used in
+        -  find the longest substrwithout repeating char
+        - check if 2 str ar anagrams
+        - return all substr's that match a pattern
+
+    - str problems are all abt - sw,et,fal
+        - smart windowing
+        - efficient traversal
+        - fast lookups
+
+
+Set - collect of unique elems
+
+    used for
+    - check duplicates
+    - find an elem
+    - fast membership check
+    - Sliding window were all elems are unique 
+
+    set is for tracking any thing is there or not 
+
+
+Note/fact = all problems boil down to 
+                - a loop 
+                - some conditions
+                - a few vars being updated
+
+We should have good understanding of looping and control flow
+    - Control Flow & Looping
+        -for i in range(n)
+        -for val in arr
+        -while start < end
+        -if, else, elif
+        - break. continue
+
+good habit 
+to have is walking through your code with an actual example input
+        Mentally run it, 
+        where the pointers would move
+        what changes on iteration
+
+        this will save us from dozen of bugs
+
+Big O notation gives us 
+the idea about the efficiency of how much our code performance would be with n input size   
+        
+rank by fast
+    1. O(1) = constant time
+        no matter how big input size is
+        eg  
+        - accessing an specific index in an arr
+        - check if elem exist in set
+    
+    2. O(log n) = logarithmic time
+        where we divide the problem in half each time
+        eg 
+        - binary search
+
+    3. O(n) = linear time
+        going through each item once using loop
+        eg
+        - traversing through list
+    
+    4. O(n log n)
+        it relate to sorting with sort methods
+
+    5. O(n2) = IMP
+        not a viable solution for large input as it too slow 
+        almost always related to nested loop
+        eg
+        - brute force comparison
+
+Note/Thumb-rule 
+    for input   10 5 - O(n log n)
+                10 4 - O(n2)
+
+    
+
+Hash maps = empty dict - fast even on mil-items on search
+
+    lookups/insertion = O(1)
+
+    - hashmap dont depend on inputdata size
+     
+    - used to find val using key
+    eg input = key , output = val
+
+    - think it like arr with custom index 
+
+     - str, numbers, tuple - are hashable
+     - list, dist - are not hashable
+
+     hashmap is used when brute force is to slow
+     eg find that val exists
+        no hash map = O(n)
+        with hashmap = O(1)
+
+    when used in code
+        - u store somthing
+        - lookups
+        - updating and intializing val
+
+    hashmap used while you loop not afterwards
+
+    we use for - str/arr problems, recusion, dynamic progrramming, graaph traversel 
+
+
+
+
+        
+
+
+
+
+

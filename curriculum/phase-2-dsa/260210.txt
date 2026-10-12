@@ -1,0 +1,40 @@
+Here is a curated list of 20 essential HashMap and String problems commonly asked in technical interviews. They are categorized by pattern and difficulty to help you systematically master how HashMaps optimize string manipulations.
+## 🌟 Beginner & Frequency Mapping
+These core problems focus on building basic frequency tables (Map<Character, Integer>) to count and track character occurrences.
+
+* 1. [First Unique Character in a String](https://interviewing.io/hash-tables-interview-questions): Find the first character in a string that does not repeat and return its index. [1] 
+* 2. [Frequency of Each Character](https://internshala.com/blog/string-programming-interview-questions-in-java/): Given a string, count and print the exact occurrence of each character. [2] 
+* 3. [Valid Anagram](https://medium.com/@vivek-srivastava/hashing-problems-in-data-structures-c41b77a5119a): Given two strings, determine if one is a permutation of the other by checking if their character counts match. [3] 
+* 4. [Ransom Note](https://www.youtube.com/watch?v=amptIX7amjU): Determine if a story/ransom note string can be fully constructed using letters from a given magazine string. [4] 
+* 5. [Word Frequency Counter](https://www.finalroundai.com/blog/hashmap-interview-questions): Given a paragraph or sentence, count the frequency of each unique word (ignoring punctuation and casing). [5] 
+
+## 🔄 Grouping & Mapping Categories
+These problems utilize specialized HashMap values—such as Map<String, List<String>>—to bucket strings with shared properties. [6] 
+
+* 6. [Group Anagrams](https://javaconceptoftheday.com/java-hashmap-programs-and-examples/): Given an array of strings, group all anagrams together into sub-lists. [7] 
+* 7. Isomorphic Strings: Determine if two strings are isomorphic by establishing a reliable one-to-one character mapping between them. [3] 
+* 8. Word Pattern: Given a pattern string and a string of words, check if the words follow the exact structural layout of the pattern. [7] 
+* 9. [Custom T9 Keyboard Mapping](https://github.com/RodneyShag/Cracking-the-Coding-Interview_solutions/blob/master/Chp.%2016%20-%20More%20Problems%20%28Moderate%29/_16_20_T9__HashMap_Solution/T9.java): Map digits to corresponding phone keypad letters to match numeric sequences to valid words. [8] 
+
+## 🪟 Sliding Window & Substrings
+Advanced combinations where a HashMap keeps track of the active elements inside a dynamically resizing window constraint. [6] 
+
+* 10. [Longest Substring Without Repeating Characters](https://medium.com/@bajajsahib3/mastering-hashmap-patterns-20-leetcode-questions-you-shouldnt-skip-for-interviews-3ced9f2ad28b): Find the length of the longest substring that contains entirely unique characters.
+* 11. Find All Anagrams in a String: Locate the starting indices of all substrings in a target string that form an exact anagram of a pattern string.
+* 12. Minimum Window Substring: Find the minimum length substring containing all characters of another target string.
+* 13. Longest Substring with At Most K Distinct Characters: Track character counts dynamically to compute the largest valid substring containing K or fewer unique characters. [1, 6] 
+
+## 📊 Top K & Frequency Filtering
+These challenges ask you to isolate specific elements based on their ranking or occurrence rules.
+
+* 14. Top K Frequent Words: Count word frequencies with a map, then use a heap or bucket sorting to find the K most frequent words.
+* 15. Sort Characters By Frequency: Sort a string in decreasing order based on the frequency of its characters.
+* 16. Determine if Two Strings Are Close: Check if two strings can be made equal by swapping operations or transforming character frequencies into one another. [1, 6, 7] 
+
+## 🧩 Advanced Structures & Prefixes
+These focus on design choices, unique encodings, or tricky data structure setups.
+
+* 17. [Encode and Decode Strings](https://www.linkedin.com/posts/akashsinnghh_50-most-asked-string-dsa-problems-sorted-activity-7341294914359455745-11zE): Design an algorithm to encode a list of strings into a single string and decode it back.
+* 18. Design Underground System: Use multiple maps to track passenger check-ins, check-outs, and travel times between stations.
+* 19. [Longest Palindrome](https://www.geeksforgeeks.org/dsa/top-50-problems-on-hash-data-structure-asked-in-sde-interviews/): Calculate the maximum length of a palindrome that can be built using the characters of a given string.
+* 20. Repeated DNA Sequences: Find all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule string. [6, 9, 10] 
