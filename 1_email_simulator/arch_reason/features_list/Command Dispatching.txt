@@ -50,5 +50,19 @@ Dictionary-Driven Command Routing (MenuSystem): Replaces heavy, nested, procedur
         • What can go wrong: A user types "1 " (with a trailing space) or enters an alphabet choice using lowercase when your dictionary expects uppercase (e.g., entering "exit" vs "EXIT"). Even though the intention matches a valid menu item, a strict hashmap treats these variants as completely distinct keys, routing them straight to your error fallback block.
         • How to handle it: Standardize and sanitize the raw input string at the application layer entry boundary [1, cite: 1]. Always chain string cleaning utilities directly onto your console capture statement (e.g., choice = input(...).strip().lower()) before executing your dictionary hashmap lookup [1, cite: 1].
 
-    11. 
+    11. Which layer does each piece live in?
+
+        The Adapter Layer (Interface / Infrastructure Gates)
+
+        The Dictionary-Driven Command Routing (MenuSystem) lives completely within the Adapter Layer [1, cite: 1].
+        • Why? The command routing dispatcher’s sole responsibility is translating messy, external human behaviors (keyboard keypresses, terminal strings like "1", "2", or "exit") into clear execution intents [1, cite: 1].
+        • It serves as a Primary/Driving Adapter. It wraps the user interface environment, sanitizes input strings (.strip()), maps those inputs via the hashmap dictionary, and dispatches the execution path [1, cite: 1].
+        • It contains zero core business logic and knows nothing about what an "Email" or a "User validation rule" actually means [1, cite: 1]. It only knows how to route execution pointers when a specific button is clicked [1, cite: 1].
+
+
+    12. Can I test this without the full app?
+
+        YES. You can test the MenuSystem dispatcher in isolation 
+        without booting up the full application, 
+        proving that your interface routing layer is cleanly designed
 

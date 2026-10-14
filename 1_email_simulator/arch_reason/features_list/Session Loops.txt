@@ -1,0 +1,93 @@
+Feature Implementation
+
+🕹️ Routing & Interface Features (cli/)
+Persistent Session View Loops: 
+Orchestrates infinite runtime application execution blocks (while True) 
+that display structured menus, safely sanitize trailing string whitespace from console entries, 
+and await explicit exit triggers before tearing down the active memory session.
+
+
+    9. What is the happy path ?
+
+            1. Input (The Interface Entry Boundary)
+
+            • Action: The user is presented with the application interface menu and interacts with the terminal prompt.
+            • Data Payload:
+                • The user types a specific command option followed by an accidental trailing space (e.g., "1   ") and hits Enter.
+
+            ⚙️ 2. Process (The Loop Orchestration & Execution)
+
+            The MenuSystem engine processes the entry step-by-step within the active while True loop:
+            1. Capture & Cleanse: The terminal reader intercepts the raw string primitive and immediately executes string cleaning:python
+            choice = input(...).strip()
+            Use code with caution.
+            The trailing spaces are stripped, transforming the messy "1   " input into a clean string primitive: "1".
+            2. Termination Check: The controller evaluates if the sanitized string matches the explicit exit token (if choice == "exit":). The condition evaluates to False, bypassing the shutdown sequence.
+            3. Constant-Time Lookup: The router queries its internal dispatcher hashmap mapping table in O(1) Constant Time Complexity:python
+            handler = self.dispatch.get(choice)
+            Use code with caution.
+            The dictionary flags a valid key match for "1" and successfully extracts the function reference pointer (e.g., handle_send_email).
+            4. Isolated Invocation: The execution block evaluates that the handler is non-null and safely invokes the operation directly via its memory pointer:python
+            handler()
+            Use code with caution.
+
+            📤 3. Output (The State Transition)
+
+            • Action: Execution cleanly branches away from the menu orchestrator loop to open the targeted workflow screen.
+            • Result State: The console view clears or shifts focus instantly to display the sub-menu layout (e.g., 📧 SEND EMAIL). The master session loop remains open, sitting steadily in memory, waiting to catch subsequent menu selections once the sub-workflow terminates.
+
+
+        10. What can go wrong ??
+
+            ⚡ Edge Case 1: The Whitespace-Only / Empty Return Bypass (The Dead Input)
+
+            • What can go wrong: The user hits Enter blindly without typing anything, or inputs spacebar-only characters (e.g., "    "). Your string sanitization (choice.strip()) cleanses this input down to a completely empty string primitive: "". While this avoids a spacing mismatch, an empty string "" is a completely unregistered key in your self.dispatch hashmap.
+            • The Fallout: If your routing block doesn't explicitly intercept this, it passes a blank key to .get(""), which returns a None pointer. It will hit your generic "❌ Invalid choice" printing fallback block, cluttering the user's terminal view with error text for a completely accidental keypress.
+            • How to handle it: Implement an Empty Entry Guard Clause immediately on line 1 after capturing the input. Check if the string is empty before attempting any dictionary lookups:python
+            choice = input("Select option: ").strip()
+            if not choice:
+                continue  # Instantly skips further evaluation, re-rendering the clean menu layout safely
+            Use code with caution.
+
+            ⚡ Edge Case 2: Unhandled Sub-Handler Exceptions (The App-Killing Crash)
+
+            • What can go wrong: The dispatcher successfully locates a valid key match (e.g., option "1" for handle_send_email) and invokes the function pointer via handler(). However, inside that sub-handler, a user inputs bad data that causes a core business logic failure (e.g., typing a name without an @ sign, triggering a ValueError from your User dataclass).
+            • The Fallout: Because the sub-handler is running directly inline within the master while True loop thread, an unhandled exception inside any sub-menu crashes the execution context completely, causing the entire terminal process to terminate unexpectedly.
+            • How to handle it: Implement a Global Interface Exception Boundary Wrap directly around your handler invocation block. This intercepts failures gracefully and maintains loop continuity:python
+            try:
+                handler()
+            except ValueError as error:
+                print(f"⚠️ Validation Error: {error}")  # Prints a clean message to the end-user
+            except Exception as e:
+                print(f"🚨 System Error encountered: {e}")  # Prevents app-kill, loops safely back to menu
+            Use code with caution.
+
+            ⚡ Edge Case 3: Keyboard Interrupt Signals (The Fractured State Trap)
+
+            • What can go wrong: While sitting at the active input() prompt waiting for a choice, the user presses Ctrl + C or Ctrl + D to abruptly exit the application.
+            • The Fallout: Python intercepts these hardware-level terminal keyboard inputs as explicit interrupt signals, raising a raw KeyboardInterrupt or EOFError exception. If unhandled, this throws a massive, messy stack trace directly into the user's terminal interface and leaves data caches or unsaved in-memory records in a fractured, half-written state without running proper application exit cleanup routines.
+            • How to handle it: Wrap the inner prompt cycle inside a structured Signal Capture Block to catch system exit commands elegantly:python
+            try:
+                choice = input("Select option (or 'exit' to quit): ").strip()
+            except (KeyboardInterrupt, EOFError):
+                print("\n\n👋 Terminal interrupt detected. Shutting down email engine cleanly. Goodbye!")
+                break 
+
+        11. which layer does each piece live in ?
+            
+            The Adapter Layer (Presentation / User Interface Gate)
+
+            The Persistent Session View Loops feature lives 100% inside the Adapter Layer (specifically, the Presentation Adapter) [1, cite: 1].
+            Here is the precise architectural reasoning for this placement [1, cite: 1]:
+            • Infrastructure Boundary: Managing an infinite runtime execution loop (while True), refreshing the screen layout, printing decorative headings (like {'='*50}), catching terminal hardware interrupt signals (Ctrl+C), and executing string cleansing operations like .strip() are actions that belong completely to the terminal environment [1, cite: 1].
+            • No Business Relevance: Your core business logic doesn't care how a string primitive was collected or how many times the screen was drawn [1, cite: 1]. It only cares about processing valid data objects [1, cite: 1]. The while True loop is just the delivery vehicle used by this specific user interface adapter to keep the program alive [1, cite: 1].
+ 
+        12. Can i test this without the full app ?
+
+            NO. You cannot cleanly test the Persistent Session View Loops feature in absolute isolation using traditional automated unit tests, 
+            and in this specific case, that is actually a sign of proper architectural design 
+            rather than a code smell [1, cite: 1].
+
+            Because it is an orchestration boundary wrapping the entire shell application, 
+            it is designed for Manual Integration Testing / End-to-End Testing,
+             not micro-isolated unit testing.
